@@ -1,5 +1,45 @@
 {
   "dependencies": {
+    "com.actionfit.addressables": {
+      "version": "https://github.com/ActionFitGames/ActFit-Framework-Addressable.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.addressables": "1.21.21",
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+      },
+      "hash": "83751e5d95d989ab1cc87c5bb48569335438a5db"
+    },
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e4082ecd7507a45b444a064745afd576d796cbb2"
+    },
+    "com.hibzz.dependencyresolver": {
+      "version": "https://github.com/hibzzgames/Hibzz.DependencyResolver.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.0"
+      },
+      "hash": "ba720c2469967531274f1fde81e68ede4b59fbb6"
+    },
+    "com.unity.addressables": {
+      "version": "1.21.21",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.assetbundle": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.scriptablebuildpipeline": "1.21.23",
+        "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.collab-proxy": {
       "version": "2.5.1",
       "depth": 0,
@@ -69,9 +109,23 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.performance.profile-analyzer": {
       "version": "1.2.2",
       "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.scriptablebuildpipeline": {
+      "version": "1.21.23",
+      "depth": 2,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
