@@ -1,18 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EventManager_Main : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static event Action OnFindGameClicked;
+    public static event Action OnCustomGameClicked;
+    public static event Action OnSelectClicked;
+    public static event Action OnOptionClicked;
+    public static event Action OnQuitClicked;
 
-    // Update is called once per frame
-    void Update()
-    {
+     public void OnClickFindGame() {
+        OnFindGameClicked?.Invoke();
+    }
+    public void OnClickCustomGame(){
+        OnCustomGameClicked?.Invoke();
+    }
+    public void OnClickselect(){
+        OnSelectClicked?.Invoke();
+    }
+    public void OnClickOption(){
+        OnOptionClicked?.Invoke();
+    }
+    public void OnClickQuit(){
+        OnQuitClicked?.Invoke();
         
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 }
