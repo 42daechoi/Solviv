@@ -1,8 +1,5 @@
 {
   "dependencies": {
-    "com.actionfit.addressables": "https://github.com/ActionFitGames/ActFit-Framework-Addressable.git",
-    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
-    "com.hibzz.dependencyresolver": "https://github.com/hibzzgames/Hibzz.DependencyResolver.git",
     "com.unity.collab-proxy": "2.5.1",
     "com.unity.feature.development": "1.0.1",
     "com.unity.inputsystem": "1.7.0",
