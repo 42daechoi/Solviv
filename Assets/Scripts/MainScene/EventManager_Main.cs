@@ -15,8 +15,8 @@ public class EventManager_Main : MonoBehaviour
     public static event Action OnMultiModeClicked;
 
      public void OnClickFindGame() {
-        OnFindGameClicked?.Invoke();
-        
+        OnFindGameClicked?.Invoke();   
+        Debug.Log("OnClickFindGame 호출됨");
     }
     public void OnClickCustomGame(){
         OnCustomGameClicked?.Invoke();
