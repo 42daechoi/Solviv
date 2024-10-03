@@ -5,14 +5,18 @@ using UnityEngine;
 
 public class EventManager_Main : MonoBehaviour
 {
+   
     public static event Action OnFindGameClicked;
     public static event Action OnCustomGameClicked;
     public static event Action OnSelectClicked;
     public static event Action OnOptionClicked;
     public static event Action OnQuitClicked;
+    public static event Action OnSoloModeClicked;
+    public static event Action OnMultiModeClicked;
 
      public void OnClickFindGame() {
         OnFindGameClicked?.Invoke();
+        
     }
     public void OnClickCustomGame(){
         OnCustomGameClicked?.Invoke();
@@ -31,5 +35,14 @@ public class EventManager_Main : MonoBehaviour
         #else
             Application.Quit();
         #endif
+    }
+    public void OnClickSoloMode() {
+        OnSoloModeClicked?.Invoke();
+        
+    }
+    
+    public void OnClickMultiMode() {
+        OnMultiModeClicked?.Invoke();
+        
     }
 }
