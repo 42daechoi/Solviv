@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-
     public GameObject GameModeSelect;
-    void OnEnable()
+
+    void Awake() // Use Awake instead of OnEnable
     {
         EventManager_Main.OnFindGameClicked += FindGame;
         EventManager_Main.OnCustomGameClicked += CustomGame;
@@ -17,8 +17,9 @@ public class UIManager : MonoBehaviour
         EventManager_Main.OnMultiModeClicked += Multi;
     }
 
-    void OnDisable()
+    void OnDestroy() // Use OnDestroy instead of OnDisable
     {
+        Debug.Log("해제");
         EventManager_Main.OnFindGameClicked -= FindGame;
         EventManager_Main.OnCustomGameClicked -= CustomGame;
         EventManager_Main.OnSelectClicked -= SelectCharacter;
@@ -33,11 +34,11 @@ public class UIManager : MonoBehaviour
         Debug.Log("FindGame 버튼 누름");
         // 새 게임 찾기 로직 구현 필요
         if (GameModeSelect != null)
-            {
-        GameModeSelect.SetActive(true);
-        Debug.Log("있음");
-            }
-        else 
+        {
+            GameModeSelect.SetActive(true);
+            Debug.Log("있음");
+        }
+        else
         {
             Debug.Log("없음");
         }
@@ -65,18 +66,22 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Quit 버튼 누름");
     }
-    void Solo(){
+
+    void Solo()
+    {
         Debug.Log("솔로 모드 선택");
-        if(GameModeSelect != null)
+        if (GameModeSelect != null)
         {
-        GameModeSelect.SetActive(false);
+            GameModeSelect.SetActive(false);
         }
     }
-    void Multi(){
+
+    void Multi()
+    {
         Debug.Log("멀티 모드 선택");
-        if(GameModeSelect != null)
+        if (GameModeSelect != null)
         {
-        GameModeSelect.SetActive(false);
+            GameModeSelect.SetActive(false);
         }
     }
 }
