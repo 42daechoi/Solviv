@@ -185,11 +185,11 @@ namespace Photon.Pun
    
             EditorApplication.playModeStateChanged += PlayModeStateChanged;
 
-            CompilationPipeline.assemblyCompilationStarted -= OnCompileStarted;
-            CompilationPipeline.assemblyCompilationStarted += OnCompileStarted;
+            CompilationPipeline.assemblyCompilationFinished -= OnCompileStarted;
+            CompilationPipeline.assemblyCompilationFinished += (assemblyName, messages) => OnCompileStarted(assemblyName, messages);
 
 
-            #if (UNITY_2018 || UNITY_2018_1_OR_NEWER)
+#if (UNITY_2018 || UNITY_2018_1_OR_NEWER)
             EditorApplication.projectChanged -= OnProjectChanged;
             EditorApplication.projectChanged += OnProjectChanged;
             #else
@@ -230,7 +230,7 @@ namespace Photon.Pun
             }
         }
 
-        private static void OnCompileStarted(string obj)
+        private static void OnCompileStarted(string obj,CompilerMessage[] messages)
         {
             if (PhotonNetwork.IsConnected)
             {
