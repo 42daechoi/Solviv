@@ -27,13 +27,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b20544f659c502d4d9ef3e34d725fd74
-    m_Address: MainScene
+  - m_GUID: 0298b45d72b7c7d4ea109e539b087dec
+    m_Address: DockThing
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0298b45d72b7c7d4ea109e539b087dec
-    m_Address: DockThing
+  - m_GUID: b20544f659c502d4d9ef3e34d725fd74
+    m_Address: MainScene
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
