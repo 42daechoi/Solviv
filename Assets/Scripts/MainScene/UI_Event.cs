@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("없음");
         }
+        
     }
 
     void CustomGame()
