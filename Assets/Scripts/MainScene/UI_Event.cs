@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("없음");
         }
+        
     }
 
     void CustomGame()
@@ -73,6 +74,7 @@ public class UIManager : MonoBehaviour
         if (GameModeSelect != null)
         {
             GameModeSelect.SetActive(false);
+            // SceneManager.Instance.LoadScene("GameScene");
         }
     }
 
