@@ -17,26 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 58ec3539975f8c34dbf753ea79714b3b
   m_SerializeEntries:
-  - m_GUID: fea8ab6303a833a48b579542843fd5d9
-    m_Address: CustomGameScene
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d363b9b487464b6408a22d0dd9a70d85
-    m_Address: GameScene
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0298b45d72b7c7d4ea109e539b087dec
-    m_Address: DockThing
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b20544f659c502d4d9ef3e34d725fd74
-    m_Address: MainScene
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 83628a2e699576147adabb30587f44d4
     m_Address: PicoChan
     m_ReadOnly: 0
