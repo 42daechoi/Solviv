@@ -6,6 +6,10 @@ public class UIManager : MonoBehaviour
 {
 
     public GameObject GameModeSelect;
+    public GameObject OptionUI;
+    public GameObject ControlPanel;
+    public GameObject resolutionPanel;
+    public GameObject AudioPanel;
     void OnEnable()
     {
         EventManager_Main.OnFindGameClicked += FindGame;
@@ -15,6 +19,10 @@ public class UIManager : MonoBehaviour
         EventManager_Main.OnQuitClicked += Quit;
         EventManager_Main.OnSoloModeClicked += Solo;
         EventManager_Main.OnMultiModeClicked += Multi;
+        EventManager_Main.OnControlPanelButtonClicked += Control_P;
+        EventManager_Main.OnResolutionPanelButtonClicked += Resolution_P;
+        EventManager_Main.OnAudioPanelButtonClicked += Audio_P;
+        EventManager_Main.OnOptionConfirmButtonClicked += Option_confirm;
     }
 
     void OnDisable()
@@ -27,6 +35,10 @@ public class UIManager : MonoBehaviour
         EventManager_Main.OnQuitClicked -= Quit;
         EventManager_Main.OnSoloModeClicked -= Solo;
         EventManager_Main.OnMultiModeClicked -= Multi;
+        EventManager_Main.OnControlPanelButtonClicked -= Control_P;
+        EventManager_Main.OnResolutionPanelButtonClicked -= Resolution_P;
+        EventManager_Main.OnAudioPanelButtonClicked -= Audio_P;
+        EventManager_Main.OnOptionConfirmButtonClicked += Option_confirm;
     }
 
     void FindGame()
@@ -80,5 +92,26 @@ public class UIManager : MonoBehaviour
         {
         GameModeSelect.SetActive(false);
         }
+    }
+    void Control_P(){
+        Debug.Log("컨트롤");
+        ControlPanel.SetActive(true);
+        resolutionPanel.SetActive(false);
+        AudioPanel.SetActive(false);
+    }
+    void Resolution_P(){
+        Debug.Log("해상도");
+        ControlPanel.SetActive(false);
+        resolutionPanel.SetActive(true);
+        AudioPanel.SetActive(false);
+    }
+    void Audio_P(){
+        Debug.Log("오디오");
+        ControlPanel.SetActive(false);
+        resolutionPanel.SetActive(false);
+        AudioPanel.SetActive(true);
+    }
+    void Option_confirm(){
+        OptionUI.SetActive(false);
     }
 }
