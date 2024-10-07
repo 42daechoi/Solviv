@@ -35,6 +35,6 @@ public class LoadingScreen : MonoBehaviour
             loadingSlider.value = Mathf.Clamp01(elapsedTime / duration);
             yield return null;
         }
-        SceneManager.Instance.LoadScene("MainScene");
+        SceneController.Instance.LoadScene("MainScene");
     }
 }
