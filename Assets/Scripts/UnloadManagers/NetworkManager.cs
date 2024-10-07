@@ -6,9 +6,18 @@ using Photon.Realtime;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
+    public static NetworkManager Instance { get; private set; }
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
     void Start()
     {
@@ -55,5 +64,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     //{
     //    Debug.Log(otherPlayer.NickName + "님이 퇴장하셨습니다.");
     //}
+    [PunRPC]
+    public void YourRpcMethod(string message)
+    {
+        Debug.Log("Received RPC message: " + message);
+    }
 
+    // 다른 메서드에서 RPC 호출
+    public void CallRpc()
+    {
+        photonView.RPC("YourRpcMethod", RpcTarget.All, "Hello, everyone!");
+    }
 }

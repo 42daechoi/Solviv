@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Photon.Pun;
+using Photon.Realtime;
+using System.Linq;
 
 public class PlayerSpawn : MonoBehaviour
 {
@@ -10,6 +13,8 @@ public class PlayerSpawn : MonoBehaviour
     public Transform blueSpawnPoint;
     public string prefabAddress = "PicoChan";
     private bool isSpawning = false;
+    private PhotonView pv;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,12 +37,18 @@ public class PlayerSpawn : MonoBehaviour
 
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            GameObject redPlayer = Instantiate(handle.Result, redSpawnPoint.position, redSpawnPoint.rotation);
-            
-            GameObject bluePlayer = Instantiate(handle.Result, blueSpawnPoint.position, blueSpawnPoint.rotation);
-            
+            GameObject redPlayer = PhotonNetwork.Instantiate(prefabAddress, redSpawnPoint.position, redSpawnPoint.rotation);
+            //GameObject bluePlayer = Instantiate(handle.Result, blueSpawnPoint.position, blueSpawnPoint.rotation);
+
+            PhotonView redPhotonView = redPlayer.GetComponent<PhotonView>();
+            //PhotonView bluePhotonView = bluePlayer.GetComponent<PhotonView>();
+
+            if (redPhotonView != null)
+            {
+                redPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer); // 현재 플레이어에게 소유권 부여
+            }
             redPlayer.GetComponent<PlayerMovement>();
-            bluePlayer.GetComponent<PlayerMovement>();
+            // bluePlayer.GetComponent<PlayerMovement>();
         }
         else
         {
@@ -46,4 +57,5 @@ public class PlayerSpawn : MonoBehaviour
 
         isSpawning = false;
     }
+
 }
