@@ -6,9 +6,9 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-public class SceneManager : MonoBehaviour
+public class SceneController : MonoBehaviour
 {
-    public static SceneManager Instance;
+    public static SceneController Instance;
 
     private void Awake()
     {
