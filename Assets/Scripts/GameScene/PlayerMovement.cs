@@ -2,17 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
-
+using Cinemachine;
 public class PlayerMovement : MonoBehaviour
 {
     private PhotonView photonView;
 
     [SerializeField] 
-    private float _speed = 10.0f;
+    private float _speed = 2.0f;
+    
+    [SerializeField] 
+    private CinemachineVirtualCamera virtualCamera;
     // Start is called before the first frame update
     void Start()
     {
         photonView = GetComponent<PhotonView>();
+        
+        if (photonView.IsMine)
+        {
+            virtualCamera.Follow = transform;
+            virtualCamera.LookAt = transform;
+            virtualCamera.gameObject.SetActive(true);
+        }
+        else
+        {
+            virtualCamera.gameObject.SetActive(false);
+        }
     }
 
     void Update()
