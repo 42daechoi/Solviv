@@ -1,27 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using Cinemachine;
+
 public class PlayerMovement : MonoBehaviour
 {
     private PhotonView photonView;
 
-    [SerializeField] 
-    private float _speed = 2.0f;
-    
-    [SerializeField] 
+    [SerializeField]
+    private float speed = 4.0f;
+
+    [SerializeField]
     private CinemachineVirtualCamera virtualCamera;
-    // Start is called before the first frame update
-    void Start()
+
+    private Vector3 _moveDirection;
+    private Quaternion _targetRotation;
+
+    private void Start()
     {
         photonView = GetComponent<PhotonView>();
-        
+
         if (photonView.IsMine)
         {
             virtualCamera.Follow = transform;
             virtualCamera.LookAt = transform;
             virtualCamera.gameObject.SetActive(true);
+            
+            EventManager.Instance.PlayerMove += OnPlayerMove;
         }
         else
         {
@@ -29,46 +33,37 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void Update()
+    private void OnDestroy()
     {
         if (photonView.IsMine)
         {
-            Vector3 newPosition = transform.position;
-            Quaternion newRotation = transform.rotation;
-
-            if (Input.GetKey(KeyCode.W))
-            {
-                newRotation = Quaternion.Slerp(newRotation, Quaternion.LookRotation(Vector3.forward), 0.2f);
-                newPosition += Vector3.forward * Time.deltaTime * _speed;
-            }
-
-            if (Input.GetKey(KeyCode.S))
-            {
-                newRotation = Quaternion.Slerp(newRotation, Quaternion.LookRotation(Vector3.back), 0.2f);
-                newPosition += Vector3.back * Time.deltaTime * _speed;
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                newRotation = Quaternion.Slerp(newRotation, Quaternion.LookRotation(Vector3.left), 0.2f);
-                newPosition += Vector3.left * Time.deltaTime * _speed;
-            }
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                newRotation = Quaternion.Slerp(newRotation, Quaternion.LookRotation(Vector3.right), 0.2f);
-                newPosition += Vector3.right * Time.deltaTime * _speed;
-            }
-
-            // 자신의 움직임이 발생했을 때만 RPC 호출
-            if (newPosition != transform.position || newRotation != transform.rotation)
-            {
-                // RPC 호출
-                photonView.RPC("Move", RpcTarget.All, newPosition, newRotation);
-            }
+            EventManager.Instance.PlayerMove -= OnPlayerMove;
         }
     }
 
+    private void OnPlayerMove(Vector3 moveDirection)
+    {
+        _moveDirection = moveDirection;
+        
+        if (moveDirection != Vector3.zero)
+        {
+            _targetRotation = Quaternion.LookRotation(moveDirection);
+            MoveAndRotatePlayer();
+        }
+    }
+    
+    private void MoveAndRotatePlayer()
+    {
+        Vector3 newPosition = transform.position + _moveDirection * speed * Time.deltaTime;
+        Quaternion newRotation = Quaternion.Slerp(transform.rotation, _targetRotation, 0.2f);
+
+        // 자신의 움직임이 발생했을 때만 RPC 호출
+        if (newPosition != transform.position || newRotation != transform.rotation)
+        {
+            // RPC 호출
+            photonView.RPC("Move", RpcTarget.All, newPosition, newRotation);
+        }
+    }
 
     [PunRPC]
     public void Move(Vector3 newPosition, Quaternion newRotation)
@@ -76,5 +71,4 @@ public class PlayerMovement : MonoBehaviour
         transform.position = newPosition;
         transform.rotation = newRotation;
     }
-
 }
