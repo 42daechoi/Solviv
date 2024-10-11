@@ -74,7 +74,7 @@ public class UIManager : MonoBehaviour
     void Option()
     {
         Debug.Log("Option 버튼 누름");
-        // 환경 설정 로직 구현 필요
+        OptionUI.SetActive(true);
     }
 
     void Quit()
