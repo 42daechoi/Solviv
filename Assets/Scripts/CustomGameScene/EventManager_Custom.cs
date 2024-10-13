@@ -1,18 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EventManager_Custom : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public static event Action OnCreateButtonClicked;
+
+    public static event Action OnJoinButonClicked;
+
+    public static event Action OnSearchButtonClicked;
+
+    public static event Action OnPreviousButtonClicked;
+
+    public void OnClickCreateButton() {
+        OnCreateButtonClicked?.Invoke();   
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void OnClickJoinButton(){
+        OnJoinButonClicked?.Invoke();
+    }
+
+    public void OnClickSearchButton(){
+        OnSearchButtonClicked?.Invoke();
+    }
+    public void OnPreviousButton(){
+        OnPreviousButtonClicked?.Invoke();
     }
 }
