@@ -68,7 +68,7 @@ public class UIManager : MonoBehaviour
         Debug.Log("Select 버튼 누름");
         // 캐릭터 설정 로직 구현 필요
         NetworkManager.Instance.CreateRoom();
-        SceneController.Instance.LoadScene("GameScene");
+        SceneController.Instance.LoadScene("LobbyScene");
     }
 
     void Option()
@@ -85,7 +85,7 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("솔로 모드 선택");
         NetworkManager.Instance.JoinRoom();
-        SceneController.Instance.LoadScene("GameScene");
+        SceneController.Instance.LoadScene("LobbyScene");
         if (GameModeSelect != null)
         {
         GameModeSelect.SetActive(false);
