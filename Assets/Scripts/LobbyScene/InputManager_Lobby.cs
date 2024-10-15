@@ -12,7 +12,12 @@ public class InputManager_Lobby : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            OnPlayerReady?.Invoke();
+            UpdatePlayerReady();
         }
+    }
+
+    private void UpdatePlayerReady()
+    {
+        OnPlayerReady?.Invoke();
     }
 }
