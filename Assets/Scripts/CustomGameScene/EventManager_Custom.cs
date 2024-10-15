@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EventManager_Custom : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class EventManager_Custom : MonoBehaviour
     public static event Action OnSearchButtonClicked;
 
     public static event Action OnPreviousButtonClicked;
+    public static event Action OnIncreaseButtonClicked;
+    public static event Action OnDecreaseButtonClicked;
+    public static event Action OnCancleButtonClicked;
+    public static event Action OnCreateComfirmButtonClicked;
 
     public void OnClickCreateButton() {
         OnCreateButtonClicked?.Invoke();   
@@ -26,5 +31,17 @@ public class EventManager_Custom : MonoBehaviour
     }
     public void OnPreviousButton(){
         OnPreviousButtonClicked?.Invoke();
+    }
+    public void OnClickIncreaseButton(){
+        OnIncreaseButtonClicked?.Invoke();
+    }
+    public void OnClickDecreaseButton(){
+        OnDecreaseButtonClicked?.Invoke();
+    }
+    public void OnClickCancleButton(){
+        OnCancleButtonClicked?.Invoke();
+    }
+    public void OnCreateComfirmButton(){
+        OnCreateComfirmButtonClicked?.Invoke();
     }
 }
