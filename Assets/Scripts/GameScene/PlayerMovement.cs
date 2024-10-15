@@ -1,74 +1,73 @@
-using Photon.Pun;
+using System.Collections;
 using UnityEngine;
-using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private PhotonView photonView;
+    public float moveSpeed = 3f;
 
-    [SerializeField]
-    private float speed = 4.0f;
+    [HideInInspector] public Vector3 dir;
+    private float hzInput, vInput;  // hzInput = 좌/우, vInput은 앞/뒤
+    public CharacterController _characterController;
 
-    [SerializeField]
-    private CinemachineVirtualCamera virtualCamera;
-
-    private Vector3 _moveDirection;
-    private Quaternion _targetRotation;
+    [SerializeField] private float groundyOffset = 0.1f;
+    [SerializeField] private LayerMask groundMask;
+    [SerializeField] private float gravity = -9.81f;
+    private Vector3 charPos;
+    private Vector3 velocity;
 
     private void Start()
     {
-        photonView = GetComponent<PhotonView>();
-
-        if (photonView.IsMine)
-        {
-            virtualCamera.Follow = transform;
-            virtualCamera.LookAt = transform;
-            virtualCamera.gameObject.SetActive(true);
-            
-            EventManager.Instance.PlayerMove += OnPlayerMove;
-        }
-        else
-        {
-            virtualCamera.gameObject.SetActive(false);
-        }
+        _characterController = GetComponent<CharacterController>();
     }
 
-    private void OnDestroy()
+    private void Update()
     {
-        if (photonView.IsMine)
-        {
-            EventManager.Instance.PlayerMove -= OnPlayerMove;
-        }
+        GetDirectionAndMove();
+        ApplyGravity();
     }
-
-    private void OnPlayerMove(Vector3 moveDirection)
+    
+    private void GetDirectionAndMove()
     {
-        _moveDirection = moveDirection;
+        hzInput = Input.GetAxis("Horizontal");
+        vInput = Input.GetAxis("Vertical");
         
-        if (moveDirection != Vector3.zero)
+        dir = transform.forward * vInput + transform.right * hzInput;
+        
+        if (_characterController != null)
         {
-            _targetRotation = Quaternion.LookRotation(moveDirection);
-            MoveAndRotatePlayer();
+            _characterController.Move(dir * Time.deltaTime * moveSpeed);
+        }
+    }
+    private bool IsGrounded()
+    {
+        charPos = new Vector3(transform.position.x, transform.position.y - groundyOffset, transform.position.z);
+
+        return Physics.CheckSphere(charPos, _characterController.radius - 0.05f, groundMask);
+    }
+    
+    private void ApplyGravity()
+    {
+        if (!IsGrounded())
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
+        else if (velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+        
+        if (_characterController != null)
+        {
+            _characterController.Move(velocity * Time.deltaTime);
         }
     }
     
-    private void MoveAndRotatePlayer()
+    private void OnDrawGizmos()
     {
-        Vector3 newPosition = transform.position + _moveDirection * speed * Time.deltaTime;
-        Quaternion newRotation = Quaternion.Slerp(transform.rotation, _targetRotation, 0.2f);
-
-        // 자신의 움직임이 발생했을 때만 RPC 호출
-        if (newPosition != transform.position || newRotation != transform.rotation)
+        if (_characterController != null)
         {
-            // RPC 호출
-            photonView.RPC("Move", RpcTarget.All, newPosition, newRotation);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(charPos, _characterController.radius - 0.05f);
         }
-    }
-
-    [PunRPC]
-    public void Move(Vector3 newPosition, Quaternion newRotation)
-    {
-        transform.position = newPosition;
-        transform.rotation = newRotation;
     }
 }
