@@ -56,23 +56,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("방 입장 완료");
-        // 플레이어 캐릭터 인스턴스화 과정 필요
-        // PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity, 0);
+        PhotonNetwork.LoadLevel("LobbyScene");
     }
 
     //public override void OnPlayerLeftRoom(Player otherPlayer)
     //{
     //    Debug.Log(otherPlayer.NickName + "님이 퇴장하셨습니다.");
     //}
-    [PunRPC]
-    public void YourRpcMethod(string message)
-    {
-        Debug.Log("Received RPC message: " + message);
-    }
-
-    // 다른 메서드에서 RPC 호출
-    public void CallRpc()
-    {
-        photonView.RPC("YourRpcMethod", RpcTarget.All, "Hello, everyone!");
-    }
 }
