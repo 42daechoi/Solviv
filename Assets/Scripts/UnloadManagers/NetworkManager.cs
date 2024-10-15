@@ -21,20 +21,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        // Æ÷Åæ ¼­¹ö ¿¬°á
+        // í¬í†¤ ì„œë²„ ì—°ê²°
         PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Æ÷Åæ ¸¶½ºÅÍ ¼­¹ö Á¢¼Ó ¿Ï·á");
+        Debug.Log("í¬í†¤ ë§ˆìŠ¤í„° ì„œë²„ ì ‘ì† ì™„ë£Œ");
         PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby()
     {
-        Debug.Log("·Îºñ Á¢¼Ó ¿Ï·á");
-        // ¹æ »ı¼º ¶Ç´Â ÀÔÀå¿¡ ÇÊ¿äÇÑ ÁØºñ ÄÚµå ÇÊ¿ä
+        Debug.Log("ë¡œë¹„ ì ‘ì† ì™„ë£Œ");
+        // ë°© ìƒì„± ë˜ëŠ” ì…ì¥ì— í•„ìš”í•œ ì¤€ë¹„ ì½”ë“œ í•„ìš”
     }
 
     public void CreateRoom()
@@ -45,7 +45,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        Debug.Log("¹æ »ı¼º ¿Ï·á");
+        Debug.Log("ë°© ìƒì„± ì™„ë£Œ");
     }
 
     public void JoinRoom()
@@ -55,14 +55,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("¹æ ÀÔÀå ¿Ï·á");
-        // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ ÀÎ½ºÅÏ½ºÈ­ °úÁ¤ ÇÊ¿ä
+        Debug.Log("ë°© ì…ì¥ ì™„ë£Œ");
+        // í”Œë ˆì´ì–´ ìºë¦­í„° ì¸ìŠ¤í„´ìŠ¤í™” ê³¼ì • í•„ìš”
         // PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity, 0);
     }
 
     //public override void OnPlayerLeftRoom(Player otherPlayer)
     //{
-    //    Debug.Log(otherPlayer.NickName + "´ÔÀÌ ÅğÀåÇÏ¼Ì½À´Ï´Ù.");
+    //    Debug.Log(otherPlayer.NickName + "ë‹˜ì´ í‡´ì¥í•˜ì…¨ìŠµë‹ˆë‹¤.");
     //}
     [PunRPC]
     public void YourRpcMethod(string message)
@@ -70,7 +70,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("Received RPC message: " + message);
     }
 
-    // ´Ù¸¥ ¸Ş¼­µå¿¡¼­ RPC È£Ãâ
+    // ë‹¤ë¥¸ ë©”ì„œë“œì—ì„œ RPC í˜¸ì¶œ
     public void CallRpc()
     {
         photonView.RPC("YourRpcMethod", RpcTarget.All, "Hello, everyone!");
