@@ -18,30 +18,33 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
-    }
-
-    private void Update()
-    {
-        GetDirectionAndMove();
-        ApplyGravity();
+        
+        // EventManager_Game에서 OnPlayerMove 이벤트 구독
+        EventManager_Game.Instance.OnPlayerMove += MovePlayer;
     }
     
-    private void GetDirectionAndMove()
+    private void OnDestroy()
     {
-        hzInput = Input.GetAxis("Horizontal");
-        vInput = Input.GetAxis("Vertical");
-        
-        dir = transform.forward * vInput + transform.right * hzInput;
-        
+        // 오브젝트 파괴 시 이벤트 구독 해제
+        EventManager_Game.Instance.OnPlayerMove -= MovePlayer;
+    }
+    
+
+    private void MovePlayer(Vector3 moveDirection)
+    {
+        dir = transform.forward * moveDirection.z + transform.right * moveDirection.x;
+
         if (_characterController != null)
         {
             _characterController.Move(dir * Time.deltaTime * moveSpeed);
         }
+
+        ApplyGravity();
     }
+    
     private bool IsGrounded()
     {
         charPos = new Vector3(transform.position.x, transform.position.y - groundyOffset, transform.position.z);
-
         return Physics.CheckSphere(charPos, _characterController.radius - 0.05f, groundMask);
     }
     
@@ -55,12 +58,13 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -2f;
         }
-        
+
         if (_characterController != null)
         {
             _characterController.Move(velocity * Time.deltaTime);
         }
     }
+
     
     private void OnDrawGizmos()
     {
