@@ -42,8 +42,12 @@ public class UIManager : MonoBehaviour
         EventManager_Main.OnOptionConfirmButtonClicked += Option_confirm;
     }
 
+    
+
     void FindGame()
     {
+
+        
         Debug.Log("FindGame 버튼 누름");
         // 새 게임 찾기 로직 구현 필요
         if (GameModeSelect != null)
