@@ -64,8 +64,8 @@ public class SpawnManager_Lobby : MonoBehaviour
 		CinemachineVirtualCamera virtualCamera = playerCharacter.GetComponentInChildren<CinemachineVirtualCamera>();
 		if (virtualCamera != null)
 		{
-            virtualCamera.gameObject.tag = "MainCamera";
-            Camera.main.tag = "Untagged";
+            virtualCamera.gameObject.tag = "CinamachinCamera";
+            Camera.main.tag = "MainCamera";
             //FindObjectOfType<Camera>().gameObject.SetActive(false);
             Debug.Log(Camera.main);
 
