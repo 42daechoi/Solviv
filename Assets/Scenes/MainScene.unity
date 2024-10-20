@@ -1917,6 +1917,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3baec148849075048b4e45897cc58816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FindGameButton: {fileID: 553038090}
+  CustomGameButton: {fileID: 622121352}
+  selectButton: {fileID: 667360600}
+  OptionButton: {fileID: 1497214034}
+  ControlPanelButton: {fileID: 1181321805}
+  ResolutionPanelButton: {fileID: 391405377}
+  AudioPanelButton: {fileID: 76782868}
+  OptionConfirmButton: {fileID: 717485873}
+  SoloModeButton: {fileID: 1070592073}
+  MutiModeButton: {fileID: 837531174}
 --- !u!1 &667360598
 GameObject:
   m_ObjectHideFlags: 0
@@ -3157,7 +3167,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Solvive
+  m_text: SOLVIVE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -4024,6 +4034,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3baec148849075048b4e45897cc58816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FindGameButton: {fileID: 0}
+  CustomGameButton: {fileID: 0}
+  selectButton: {fileID: 0}
+  OptionButton: {fileID: 0}
+  ControlPanelButton: {fileID: 0}
+  ResolutionPanelButton: {fileID: 0}
+  AudioPanelButton: {fileID: 0}
+  OptionConfirmButton: {fileID: 0}
+  SoloModeButton: {fileID: 0}
+  MutiModeButton: {fileID: 0}
 --- !u!114 &1796706010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4165,7 +4185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2142605472
 RectTransform:
   m_ObjectHideFlags: 0
