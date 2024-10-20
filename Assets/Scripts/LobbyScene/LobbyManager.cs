@@ -40,11 +40,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         SetReady(!currState);
     }
 
-    private void SetReady(bool ready)
+    private void SetReady(bool currState)
     {
         Hashtable props = new Hashtable
         {
-            { "isReady", ready }
+            { "isReady", currState }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
@@ -57,7 +57,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             bool currState = (bool)targetPlayer.CustomProperties["isReady"];
             OnChangedReady?.Invoke(currState);
         }
-
         ReadyCheckAndStartGame();
     }
 
