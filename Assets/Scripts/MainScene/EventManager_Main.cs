@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EventManager_Main : MonoBehaviour
 {
-   
     public static event Action OnFindGameClicked;
     public static event Action OnCustomGameClicked;
     public static event Action OnSelectClicked;
@@ -17,33 +17,66 @@ public class EventManager_Main : MonoBehaviour
     public static event Action OnResolutionPanelButtonClicked;
     public static event Action OnAudioPanelButtonClicked;
     public static event Action OnOptionConfirmButtonClicked;
+    
+    public Button FindGameButton;
+    public Button CustomGameButton;
+    public Button selectButton;
+    public Button OptionButton;
+    public Button ControlPanelButton;
+    public Button ResolutionPanelButton;
+    public Button AudioPanelButton;
+    public Button OptionConfirmButton;
+    public Button SoloModeButton;
+    public Button MutiModeButton;
 
-     public void OnClickFindGame() {
-        OnFindGameClicked?.Invoke();   
-        Debug.Log("OnClickFindGame 호출됨");
+    IEnumerator WaitSecond(Button button)
+        {
+        Debug.Log("WaitSecond 시작됨");
+        yield return new WaitForSeconds(3);
+        Debug.Log("3 초 후");
+        button.interactable = true;
+        }
+
+    public void OnClickFindGame() 
+    {
+        FindGameButton.interactable = false;   
+        StartCoroutine(WaitSecond(FindGameButton));
+        OnFindGameClicked?.Invoke();
     }
     public void OnClickCustomGame(){
+        CustomGameButton.interactable = false;   
+        StartCoroutine(WaitSecond(CustomGameButton));
         OnCustomGameClicked?.Invoke();
     }
     public void OnClickselect(){
+        selectButton.interactable=false;
+        StartCoroutine(WaitSecond(selectButton));
         OnSelectClicked?.Invoke();
+                
     }
     public void OnClickOption(){
+        OptionButton.interactable=false;
+        StartCoroutine(WaitSecond(OptionButton));
         OnOptionClicked?.Invoke();
     }
     public void OnClickControlPanelButton(){
+        ControlPanelButton.interactable=false;
+        StartCoroutine(WaitSecond(ControlPanelButton));
         OnControlPanelButtonClicked?.Invoke();
-        Debug.Log("컨트롤 패널");
     }
     public void OnClickResolutionPanelButton(){
+        ResolutionPanelButton.interactable=false;
+        StartCoroutine(WaitSecond(ResolutionPanelButton));
         OnResolutionPanelButtonClicked?.Invoke();
-        Debug.Log("해상도 패널");
     }
     public void OnClickAudioPanelButton(){
+        AudioPanelButton.interactable=false;
+        StartCoroutine(WaitSecond(AudioPanelButton));
         OnAudioPanelButtonClicked?.Invoke();
-        Debug.Log("오디오 패널");
     }
     public void OnOptionConfirmButton(){
+        OptionConfirmButton.interactable=false;
+        StartCoroutine(WaitSecond(OptionConfirmButton));
         OnOptionConfirmButtonClicked?.Invoke();
         Debug.Log("설정 적용");
     }
