@@ -20,29 +20,44 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         InputManager_Lobby.OnPlayerReady -= OnChangeReadyButtonClick;
     }
 
+    public override void OnJoinedRoom()
+    {
+        // 방에 들어오면 isReady 프로퍼티를 기본값으로 false로 설정
+        if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("isReady"))
+        {
+            Hashtable props = new Hashtable
+            {
+                { "isReady", false }
+            };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        }
+    }
+
     public void OnChangeReadyButtonClick()
     {
-        bool currState = (bool)PhotonNetwork.LocalPlayer.CustomProperties["isReady"];
+        bool currState = PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("isReady")
+                         && (bool)PhotonNetwork.LocalPlayer.CustomProperties["isReady"];
         SetReady(!currState);
     }
 
-    private void SetReady(bool ready)
+    private void SetReady(bool currState)
     {
         Hashtable props = new Hashtable
         {
-            { "isReady", ready }
+            { "isReady", currState }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-        bool currState = (bool)PhotonNetwork.LocalPlayer.CustomProperties["isReady"];
-        OnChangedReady?.Invoke(currState);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        if (changedProps.ContainsKey("isReady"))
+        // 플레이어 프로퍼티 업데이트 콜백 함수
+        if (targetPlayer == PhotonNetwork.LocalPlayer && changedProps.ContainsKey("isReady"))
         {
-            ReadyCheckAndStartGame();
+            bool currState = (bool)targetPlayer.CustomProperties["isReady"];
+            OnChangedReady?.Invoke(currState);
         }
+        ReadyCheckAndStartGame();
     }
 
     private void ReadyCheckAndStartGame()
