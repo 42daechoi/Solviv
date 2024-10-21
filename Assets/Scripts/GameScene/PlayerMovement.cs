@@ -20,13 +20,15 @@ public class PlayerMovement : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
         
         // EventManager_Game에서 OnPlayerMove 이벤트 구독
-        EventManager_Game.Instance.OnPlayerMove += MovePlayer;
+        BaseEventManager.Instance.OnPlayerMove += MovePlayer;
+        BaseEventManager.Instance.OnJump += JumpPlayer;
     }
     
     private void OnDestroy()
     {
         // 오브젝트 파괴 시 이벤트 구독 해제
-        EventManager_Game.Instance.OnPlayerMove -= MovePlayer;
+        BaseEventManager.Instance.OnPlayerMove -= MovePlayer;
+        BaseEventManager.Instance.OnJump -= JumpPlayer;
     }
     
 
@@ -41,7 +43,11 @@ public class PlayerMovement : MonoBehaviour
 
         ApplyGravity();
     }
-    
+
+    private void JumpPlayer()
+    {
+        Debug.Log("점프했다");
+    }
     private bool IsGrounded()
     {
         charPos = new Vector3(transform.position.x, transform.position.y - groundyOffset, transform.position.z);
