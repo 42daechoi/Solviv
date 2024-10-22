@@ -11,10 +11,22 @@ public class PlayerCamera : MonoBehaviour
     private PhotonView _photonView;
 
     [SerializeField] Transform camFollowPos;
+    [SerializeField] CinemachineVirtualCamera virtualCamera;
+    
+    
 
     void Start()
     {
         _photonView = GetComponent<PhotonView>();
+        if (_photonView.IsMine)
+        {
+            virtualCamera.Follow = camFollowPos;
+            virtualCamera.LookAt = camFollowPos;
+        }
+        else
+        {
+            virtualCamera.gameObject.SetActive(false);
+        }
     }
 
     void Update()
