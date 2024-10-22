@@ -1,4 +1,5 @@
 using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public Vector3 dir;
     private float hzInput, vInput;  // hzInput = 좌/우, vInput은 앞/뒤
     public CharacterController _characterController;
+    private PhotonView _photonView;
 
     [SerializeField] private float groundyOffset = 0.1f;
     [SerializeField] private LayerMask groundMask;
@@ -18,24 +20,35 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
-        
-        // EventManager_Game에서 OnPlayerMove 이벤트 구독
-        EventManager_Game.Instance.OnPlayerMove += MovePlayer;
+        _photonView = GetComponent<PhotonView>();
+
+        if (_photonView.IsMine)
+        {
+            EventManager_Game.Instance.OnPlayerMove += MovePlayer;
+        }
     }
-    
+
     private void OnDestroy()
     {
-        // 오브젝트 파괴 시 이벤트 구독 해제
-        EventManager_Game.Instance.OnPlayerMove -= MovePlayer;
+        if (_photonView.IsMine)
+        {
+            EventManager_Game.Instance.OnPlayerMove -= MovePlayer;
+        }
     }
-    
+
 
     private void MovePlayer(Vector3 moveDirection)
     {
+        if (!_photonView.IsMine)
+        {
+            Debug.Log("반환됨");
+            return;
+        }
         dir = transform.forward * moveDirection.z + transform.right * moveDirection.x;
 
         if (_characterController != null)
         {
+            Debug.Log("한캐릭터움직여짐");
             _characterController.Move(dir * Time.deltaTime * moveSpeed);
         }
 

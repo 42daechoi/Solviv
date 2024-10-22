@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2326128102555765918}
   - component: {fileID: 6521242896715556727}
   - component: {fileID: 8098753238102915207}
+  - component: {fileID: 8538563089411083015}
   m_Layer: 3
   m_Name: PicoChan
   m_TagString: Untagged
@@ -56,7 +57,8 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 8538563089411083015}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -155,6 +157,22 @@ MonoBehaviour:
       m_LegacyHeadingDefinition: 0
       m_LegacyVelocityFilterStrength: 0
   camFollowPos: {fileID: 1094722706730865377}
+  virtualCamera: {fileID: 8342344932916382689}
+--- !u!114 &8538563089411083015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2350652681907635850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!1 &5305074127380029501
 GameObject:
   m_ObjectHideFlags: 0
