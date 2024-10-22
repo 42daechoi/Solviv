@@ -37,10 +37,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // 방 생성 또는 입장에 필요한 준비 코드 필요
     }
 
-    public void CreateRoom(string roomName)
+    public void CreateRoom()
     {
         RoomOptions roomOptions = new RoomOptions { MaxPlayers = 4 };
-        PhotonNetwork.CreateRoom(roomName, roomOptions);
+        PhotonNetwork.CreateRoom("RoomName", roomOptions);
     }
 
     public override void OnCreatedRoom()
@@ -48,17 +48,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("방 생성 완료");
     }
 
-    public void JoinRoom(string roomName)
+    public void JoinRoom()
     {
-        if (PhotonNetwork.IsConnected)
-        {
-            PhotonNetwork.JoinRoom(roomName);
-            Debug.Log("방입장중");
-        }
-        else
-        {
-            Debug.Log("Photon에 연결되지 않았음");
-        }
+        PhotonNetwork.JoinRoom("RoomName");
     }
 
     public override void OnJoinedRoom()
@@ -67,16 +59,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("LobbyScene");
     }
 
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        Debug.Log($"방 입장 실패: {message}");
-    }
-
-    public override void OnCreateRoomFailed(short returnCode, string message)
-    {
-        Debug.Log($"방 생성 실패: {message}");
-    }
-    
     //public override void OnPlayerLeftRoom(Player otherPlayer)
     //{
     //    Debug.Log(otherPlayer.NickName + "님이 퇴장하셨습니다.");
