@@ -46,12 +46,14 @@ public class UIManager : MonoBehaviour
 
     void FindGame()
     {
+
+        
         Debug.Log("FindGame 버튼 누름");
         // 새 게임 찾기 로직 구현 필요
         if (GameModeSelect != null)
             {
-                GameModeSelect.SetActive(true);
-                Debug.Log("있음");
+        GameModeSelect.SetActive(true);
+        Debug.Log("있음");
             }
         else 
         {
@@ -70,7 +72,7 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Select 버튼 누름");
         // 캐릭터 설정 로직 구현 필요
-        NetworkManager.Instance.CreateRoom("SoloRoom");
+        NetworkManager.Instance.CreateRoom();
     }
 
     void Option()
@@ -86,11 +88,10 @@ public class UIManager : MonoBehaviour
     void Solo()
     {
         Debug.Log("솔로 모드 선택");
-        NetworkManager.Instance.JoinRoom("SoloRoom");
+        NetworkManager.Instance.JoinRoom();
         if (GameModeSelect != null)
         {
-        
-            GameModeSelect.SetActive(false);
+        GameModeSelect.SetActive(false);
         }
     }
     void Multi(){
