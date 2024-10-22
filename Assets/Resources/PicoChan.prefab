@@ -157,6 +157,7 @@ MonoBehaviour:
       m_LegacyHeadingDefinition: 0
       m_LegacyVelocityFilterStrength: 0
   camFollowPos: {fileID: 1094722706730865377}
+  virtualCamera: {fileID: 8342344932916382689}
 --- !u!114 &8538563089411083015
 MonoBehaviour:
   m_ObjectHideFlags: 0
