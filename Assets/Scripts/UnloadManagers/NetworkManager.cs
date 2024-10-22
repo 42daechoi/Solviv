@@ -37,10 +37,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // 방 생성 또는 입장에 필요한 준비 코드 필요
     }
 
-    public void CreateRoom()
+    public void CreateRoom(string roomName)
     {
         RoomOptions roomOptions = new RoomOptions { MaxPlayers = 4 };
-        PhotonNetwork.CreateRoom("RoomName", roomOptions);
+        PhotonNetwork.CreateRoom(roomName, roomOptions);
     }
 
     public override void OnCreatedRoom()
