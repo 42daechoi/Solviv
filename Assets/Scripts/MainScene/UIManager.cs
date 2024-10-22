@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Select 버튼 누름");
         // 캐릭터 설정 로직 구현 필요
-        NetworkManager.Instance.CreateRoom();
+        NetworkManager.Instance.CreateRoom("SoloRoom");
     }
 
     void Option()
