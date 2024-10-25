@@ -10,10 +10,10 @@ public class CustomUI_Event : MonoBehaviour
 {
     public GameObject CreateGameRoom;
     public TMP_InputField NumOfPeople;
-    public int step =1;
+    public int step = 1;
     public int minValue = 2;  // 최소 인원
     public int maxValue = 16;  // 최대 인원
-    private int currentValue = 0;
+    private int currentValue = 0; //방 인원
 
     void OnEnable(){
         EventManager_Custom.OnCreateButtonClicked += Create;
