@@ -48,7 +48,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (_characterController != null)
         {
-            Debug.Log("한캐릭터움직여짐");
             _characterController.Move(dir * Time.deltaTime * moveSpeed);
         }
 
