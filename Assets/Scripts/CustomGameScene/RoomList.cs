@@ -36,6 +36,7 @@ public class RoomList : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        Debug.Log(roomList.Count);
         foreach (RoomInfo roomInfo in roomList)
         {
             if (roomInfo.RemovedFromList)
@@ -54,32 +55,36 @@ public class RoomList : MonoBehaviourPunCallbacks
     }
 
     void UpdateUI()
-{
-    // 기존 룸 리스트 아이템 제거
-    foreach (Transform roomItem in roomListParent)
     {
-        Destroy(roomItem.gameObject);
-    }
-
-    // 룸 리스트 재생성
-    foreach (var roomEntry in cachedRoomList)
-    {
-        RoomInfo room = roomEntry.Value;
-
-        GameObject roomItem = Instantiate(roomListItemPrefab, roomListParent);
-
-        // 방 이름
-        roomItem.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = room.Name;
-
-        // 방의 게임 모드 표시
-        if (room.CustomProperties.ContainsKey("GameMode"))
+        // 기존 룸 리스트 아이템 제거
+        Debug.Log("업데이트UI");
+        foreach (Transform roomItem in roomListParent)
         {
-            string gameMode = (string)room.CustomProperties["GameMode"];
-            roomItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gameMode;  // 두 번째 항목에 게임 모드 표시
+
+            Destroy(roomItem.gameObject);
         }
 
-        // 플레이어 수 / 최대 플레이어 수 표시
-        roomItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = room.PlayerCount + "/" + room.MaxPlayers;
+        // 룸 리스트 재생성
+        foreach (var roomEntry in cachedRoomList)
+        {
+            Debug.Log("1111");
+            RoomInfo room = roomEntry.Value;
+
+            GameObject roomItem = Instantiate(roomListItemPrefab, roomListParent);
+
+            // 방 이름
+            roomItem.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = room.Name;
+
+            // 방의 게임 모드 표시
+            if (room.CustomProperties.ContainsKey("GameMode"))
+            {
+                string gameMode = (string)room.CustomProperties["GameMode"];
+                roomItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gameMode;  // 두 번째 항목에 게임 모드 표시
+            }
+
+            // 플레이어 수 / 최대 플레이어 수 표시
+            roomItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = room.PlayerCount + "/" + room.MaxPlayers;
+        }
     }
 }
-}
+

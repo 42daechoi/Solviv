@@ -50,9 +50,9 @@ public class CustomUI_Event : MonoBehaviour
     }
     void Create(){
         if (CreateGameRoom != null)
-            {
-        CreateGameRoom.SetActive(true);
-            }
+        {
+            CreateGameRoom.SetActive(true);
+        }
         Debug.Log("create버튼");
     }
 
