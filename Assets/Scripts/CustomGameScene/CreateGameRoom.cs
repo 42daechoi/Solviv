@@ -19,22 +19,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         // 포톤 서버에 연결
-        PhotonNetwork.ConnectUsingSettings(); // 포톤 서버 설정에 따라 서버 연결
-        Debug.Log("포톤 서버에 연결 중...");
+        //PhotonNetwork.ConnectUsingSettings(); // 포톤 서버 설정에 따라 서버 연결
+        //Debug.Log("포톤 서버에 연결 중...");
 
         // Confirm 버튼 클릭 시 방 생성 함수 호출
         confirmButton.onClick.AddListener(CreateRoom);
 
-        // UI 비활성화 (서버 연결되기 전까지 비활성화)
-        confirmButton.interactable = false;
     }
 
-    // 포톤 서버에 연결된 경우 호출되는 콜백
-    public override void OnConnectedToMaster()
-    {
-        Debug.Log("포톤 서버에 연결 성공!");
-        confirmButton.interactable = true; // 서버 연결 후에 방 생성 가능
-    }
+    
 
     // 방 생성 함수
     private void CreateRoom()
