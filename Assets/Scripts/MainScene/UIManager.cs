@@ -28,7 +28,6 @@ public class UIManager : MonoBehaviour
 
     void OnDisable()
     {
-        Debug.Log("해제");
         EventManager_Main.OnFindGameClicked -= FindGame;
         EventManager_Main.OnCustomGameClicked -= CustomGame;
         EventManager_Main.OnSelectClicked -= SelectCharacter;
@@ -42,7 +41,9 @@ public class UIManager : MonoBehaviour
         EventManager_Main.OnOptionConfirmButtonClicked += Option_confirm;
     }
 
-    
+    void Awake(){
+        DontDestroyOnLoad(gameObject);
+    }
 
     void FindGame()
     {
@@ -65,7 +66,7 @@ public class UIManager : MonoBehaviour
     void CustomGame()
     {
         Debug.Log("CustomGame 버튼 누름");
-        // 커스텀 게임 목록 보기 로직 구현 필요
+        PhotonNetwork.LoadLevel("CustomGameScene");
     }
 
     void SelectCharacter()
