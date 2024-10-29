@@ -5,8 +5,22 @@ using UnityEngine;
 
 public class WeaponSpawner : MonoBehaviour
 {
+    public static WeaponSpawner Instance;
     public GameObject[] spawnPoints;
     public GameObject specialSpawnPoint;
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
     private void Start()
     {
