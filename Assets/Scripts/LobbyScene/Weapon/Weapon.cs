@@ -7,4 +7,5 @@ public class Weapon : MonoBehaviour
 {
     public string weaponName;
     public float power;
+    public Transform spawnPointTransform;
 }
