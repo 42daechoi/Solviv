@@ -53,7 +53,7 @@ public class PlayerInteraction : MonoBehaviour
 		currentWeapon.transform.SetParent(handTransform);
 		currentWeapon.transform.localPosition = Vector3.zero; 
 		currentWeapon.transform.localRotation = Quaternion.identity;
-		WeaponSpawner.Instance.RespawnWeapon(triggeredWeapon.gameObject);
+		WeaponSpawner.Instance.RespawnWeapon(triggeredWeapon.spawnPointTransform);
 		triggeredWeapon = null;
 	}
 }

@@ -44,7 +44,12 @@ public class WeaponSpawner : MonoBehaviour
             Debug.LogError("RandomWeponName() is null.");
             return;
         }
-        PhotonNetwork.Instantiate(randomWeapon, spawnPointTransform.position, spawnPointTransform.rotation);
+        GameObject go = PhotonNetwork.Instantiate(randomWeapon, spawnPointTransform.position, spawnPointTransform.rotation);
+        if (go != null)
+        {
+            Weapon weapon = go.GetComponent<Weapon>();
+            weapon.spawnPointTransform = spawnPointTransform;
+        }
     }
 
     private string RandomWeaponName()
@@ -62,10 +67,10 @@ public class WeaponSpawner : MonoBehaviour
         PhotonNetwork.Instantiate("SpecialWeapon", specialSpawnPoint.transform.position, specialSpawnPoint.transform.rotation);
     }
 
-    public void RespawnWeapon(GameObject weapon)
+    public void RespawnWeapon(Transform spawnPointTransform)
     {
         // 플레이어가 무기를 주웠을 경우 호출 필요
-        StartCoroutine(RespawnWeaponAfterDelay(weapon.transform));
+        StartCoroutine(RespawnWeaponAfterDelay(spawnPointTransform));
     }
 
     IEnumerator RespawnWeaponAfterDelay(Transform spawnPointTransform)
