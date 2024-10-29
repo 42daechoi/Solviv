@@ -10,7 +10,7 @@ public class UIManager_Lobby : MonoBehaviour
 
     private void Start()
     {
-        readyGuideText.text = "Press F to ready";
+        readyGuideText.text = "Press E to ready";
     }
 
     private void OnEnable()
@@ -27,11 +27,11 @@ public class UIManager_Lobby : MonoBehaviour
     {
         if (isReady)
         {
-            readyGuideText.text = "Press F to Unready";
+            readyGuideText.text = "Press E to Unready";
         }
         else
         {
-            readyGuideText.text = "Press F to ready";
+            readyGuideText.text = "Press E to ready";
         }
     }
 }
