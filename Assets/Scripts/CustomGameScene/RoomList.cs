@@ -4,6 +4,8 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using UnityEngine.UI;
+using System;
 
 public class RoomList : MonoBehaviourPunCallbacks
 {
@@ -12,6 +14,11 @@ public class RoomList : MonoBehaviourPunCallbacks
     public GameObject roomListItemPrefab;
 
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
+
+    public RoomInfo selectedRoom;
+    public CustomUI_Event customUIEvent;
+    public RoomList roomList;
+    public event Action<RoomInfo> OnRoomSelected;
 
     IEnumerator Start()
     {
@@ -84,6 +91,22 @@ public class RoomList : MonoBehaviourPunCallbacks
 
             // 플레이어 수 / 최대 플레이어 수 표시
             roomItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = room.PlayerCount + "/" + room.MaxPlayers;
+
+            roomItem.GetComponent<Button>().onClick.AddListener(() => SelectRoom(room));
+        }
+    }
+    public void SelectRoom(RoomInfo roomInfo)
+    {
+        selectedRoom = roomInfo;
+        Debug.Log("선택된 방: " + selectedRoom.Name);
+        
+        // 방 선택 이벤트 호출
+        OnRoomSelected?.Invoke(roomInfo); // 이벤트 호출
+
+        // 선택한 방 정보를 CustomUI_Event에 전달
+        if (customUIEvent != null)
+        {
+            customUIEvent.OnRoomButtonClicked(roomInfo);
         }
     }
 }
