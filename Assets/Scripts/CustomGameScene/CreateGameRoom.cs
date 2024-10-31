@@ -18,13 +18,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        // 포톤 서버에 연결
-        //PhotonNetwork.ConnectUsingSettings(); // 포톤 서버 설정에 따라 서버 연결
-        //Debug.Log("포톤 서버에 연결 중...");
-
         // Confirm 버튼 클릭 시 방 생성 함수 호출
         confirmButton.onClick.AddListener(CreateRoom);
-
     }
 
     
