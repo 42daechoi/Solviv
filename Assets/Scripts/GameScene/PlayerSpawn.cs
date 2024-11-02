@@ -11,7 +11,7 @@ public class PlayerSpawn : MonoBehaviour
 {
     public Transform redSpawnPoint;
     public Transform blueSpawnPoint;
-    public string prefabAddress = "PicoChan";
+    public string prefabAddress = "Default_Unit";
     private bool isSpawning = false;
     private PhotonView pv;
 

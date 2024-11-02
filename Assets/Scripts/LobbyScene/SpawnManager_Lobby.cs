@@ -42,7 +42,7 @@ public class SpawnManager_Lobby : MonoBehaviour
 		if (positionFound)
 		{
 			// 플레이어를 스폰
-			GameObject playerCharacter = PhotonNetwork.Instantiate("PicoChan", spawnPosition, Quaternion.identity);
+			GameObject playerCharacter = PhotonNetwork.Instantiate("Default_Unit", spawnPosition, Quaternion.identity);
 			StartCoroutine(SetCameraTarget(playerCharacter));
 			PhotonView pv = playerCharacter.GetComponent<PhotonView>();
 

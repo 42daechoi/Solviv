@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float groundyOffset = 0.1f;
     [SerializeField] private LayerMask groundMask;
-    [SerializeField] private float gravity = -9.81f;
+    //[SerializeField] private float gravity = -9.81f;
     private Vector3 charPos;
     private Vector3 velocity;
 
@@ -51,31 +51,31 @@ public class PlayerMovement : MonoBehaviour
             _characterController.Move(dir * Time.deltaTime * moveSpeed);
         }
 
-        ApplyGravity();
+        //ApplyGravity();
     }
     
-    private bool IsGrounded()
-    {
-        charPos = new Vector3(transform.position.x, transform.position.y - groundyOffset, transform.position.z);
-        return Physics.CheckSphere(charPos, _characterController.radius - 0.05f, groundMask);
-    }
+    // private bool IsGrounded()
+    // {
+    //     charPos = new Vector3(transform.position.x, transform.position.y - groundyOffset, transform.position.z);
+    //     return Physics.CheckSphere(charPos, _characterController.radius - 0.05f, groundMask);
+    // }
     
-    private void ApplyGravity()
-    {
-        if (!IsGrounded())
-        {
-            velocity.y += gravity * Time.deltaTime;
-        }
-        else if (velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
-
-        if (_characterController != null)
-        {
-            _characterController.Move(velocity * Time.deltaTime);
-        }
-    }
+    // private void ApplyGravity()
+    // {
+    //     if (!IsGrounded())
+    //     {
+    //         velocity.y += gravity * Time.deltaTime;
+    //     }
+    //     else if (velocity.y < 0)
+    //     {
+    //         velocity.y = -2f;
+    //     }
+    //
+    //     if (_characterController != null)
+    //     {
+    //         _characterController.Move(velocity * Time.deltaTime);
+    //     }
+    // }
 
     
     private void OnDrawGizmos()
