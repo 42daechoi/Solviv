@@ -141,6 +141,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 923aa701eeefdbf459d6335dbf16bded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: 
-  power: 0
   spawnPointTransform: {fileID: 0}
+  weaponName: 
+  knockbackPower: 0
+  bulletCount: 5
+  maxBulletCount: 5
+  positionOffset: {x: 0, y: 1, z: 1}
+  bulletSpeed: 1
