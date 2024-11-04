@@ -46,7 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d75036666ef094aa5ce79cbe1c527b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
+  moveSpeed: 3
+  dir: {x: 0, y: 0, z: 0}
+  _characterController: {fileID: 0}
+  groundyOffset: 0.1
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1540881665616369963
 MonoBehaviour:
   m_ObjectHideFlags: 0
