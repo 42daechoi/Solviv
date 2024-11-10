@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class WeaponSpawner : MonoBehaviour
+public class WeaponSpawner : MonoBehaviourPun
 {
     public static WeaponSpawner Instance;
     public GameObject[] spawnPoints;
@@ -41,9 +40,10 @@ public class WeaponSpawner : MonoBehaviour
         string randomWeapon = RandomWeaponName();
         if (randomWeapon == null)
         {
-            Debug.LogError("RandomWeponName() is null.");
+            Debug.LogError("RandomWeaponName() is null.");
             return;
         }
+
         GameObject go = PhotonNetwork.Instantiate(randomWeapon, spawnPointTransform.position, spawnPointTransform.rotation);
         if (go != null)
         {
@@ -55,11 +55,7 @@ public class WeaponSpawner : MonoBehaviour
     private string RandomWeaponName()
     {
         int randomIndex = Random.Range(0, 2);
-        if (randomIndex == 0)
-            return "Weapon1";
-        if (randomIndex == 1)
-            return "Weapon2";
-        return null;
+        return randomIndex == 0 ? "Weapon1" : "Weapon2";
     }
 
     private void SpawnSpecialWeapon()
@@ -69,13 +65,24 @@ public class WeaponSpawner : MonoBehaviour
 
     public void RespawnWeapon(Transform spawnPointTransform)
     {
-        // 플레이어가 무기를 주웠을 경우 호출 필요
-        StartCoroutine(RespawnWeaponAfterDelay(spawnPointTransform));
+        // photonView 사용하여 RPC 호출
+        photonView.RPC("RPC_RespawnWeapon", RpcTarget.All, spawnPointTransform.position, spawnPointTransform.rotation);
     }
 
-    IEnumerator RespawnWeaponAfterDelay(Transform spawnPointTransform)
+    [PunRPC]
+    private void RPC_RespawnWeapon(Vector3 position, Quaternion rotation)
+    {
+        StartCoroutine(RespawnWeaponAfterDelay(position, rotation));
+    }
+
+    IEnumerator RespawnWeaponAfterDelay(Vector3 position, Quaternion rotation)
     {
         yield return new WaitForSeconds(3);
-        SpawnRandomWeapon(spawnPointTransform);
+
+        string randomWeapon = RandomWeaponName();
+        if (randomWeapon != null)
+        {
+            PhotonNetwork.Instantiate(randomWeapon, position, rotation);
+        }
     }
 }
