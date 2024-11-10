@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4262101212720757058}
   - component: {fileID: 916946507592988738}
   - component: {fileID: 4699191351393166084}
+  - component: {fileID: 179958148707999734}
   m_Layer: 0
   m_Name: SpecialWeapon
   m_TagString: Weapon
@@ -148,3 +149,18 @@ MonoBehaviour:
   maxBulletCount: 3
   positionOffset: {x: 0, y: 1, z: 5}
   bulletSpeed: 3
+--- !u!114 &179958148707999734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321679008593728673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
