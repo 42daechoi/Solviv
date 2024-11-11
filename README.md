@@ -35,8 +35,9 @@
 - LoadingScene - 리소스 로드 및 로딩 화면 구성
 - LobbyScene - 플레이어 스폰 시스템 구현
 - LobbyScene - 준비 기능
-- LobbyScene, GameScene - 총기 스폰
-- LobbyScene, GameScene - 사격, 장전 기능
+- LobbyScene, GameScene - 총기 스폰 및 동기화
+- LobbyScene, GameScene - 사격, 장전 기능 및 동기화
+<br><br><br>
 
 ## 기획서 및 개발 과정
 [Notion Link](https://hypnotic-ocelot-c39.notion.site/Project-Solvive-109285de75ba80e5aa81f923a9f34aa1?pvs=4)
