@@ -10,10 +10,13 @@ using System;
 public class RoomList : MonoBehaviourPunCallbacks
 {
     [Header("UI")] 
-    public Transform roomListParent;
-    public GameObject roomListItemPrefab;
+    public Transform roomListParent; // 방 리스트 부모 오브젝트
+    public GameObject roomListItemPrefab; // 방 아이템 프리팹
+    public Color selectedColor = Color.green; // 선택된 버튼의 강조 색상
+    public Color defaultColor = Color.white; // 기본 버튼 색상
 
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
+    private Button lastSelectedButton; // 마지막으로 선택된 버튼
 
     public RoomInfo selectedRoom;
     public CustomUI_Event customUIEvent;
@@ -64,17 +67,14 @@ public class RoomList : MonoBehaviourPunCallbacks
     void UpdateUI()
     {
         // 기존 룸 리스트 아이템 제거
-        Debug.Log("업데이트UI");
         foreach (Transform roomItem in roomListParent)
         {
-
             Destroy(roomItem.gameObject);
         }
 
         // 룸 리스트 재생성
         foreach (var roomEntry in cachedRoomList)
         {
-            Debug.Log("1111");
             RoomInfo room = roomEntry.Value;
 
             GameObject roomItem = Instantiate(roomListItemPrefab, roomListParent);
@@ -92,14 +92,28 @@ public class RoomList : MonoBehaviourPunCallbacks
             // 플레이어 수 / 최대 플레이어 수 표시
             roomItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = room.PlayerCount + "/" + room.MaxPlayers;
 
-            roomItem.GetComponent<Button>().onClick.AddListener(() => SelectRoom(room));
+            Button button = roomItem.GetComponent<Button>();
+
+            // 버튼 클릭 이벤트 추가
+            button.onClick.AddListener(() => SelectRoom(room, button));
         }
     }
-    public void SelectRoom(RoomInfo roomInfo)
+
+    public void SelectRoom(RoomInfo roomInfo, Button clickedButton)
     {
         selectedRoom = roomInfo;
         Debug.Log("선택된 방: " + selectedRoom.Name);
-        
+
+        // 이전 버튼 색상 초기화
+        if (lastSelectedButton != null)
+        {
+            lastSelectedButton.image.color = defaultColor;
+        }
+
+        // 현재 버튼 강조
+        clickedButton.image.color = selectedColor;
+        lastSelectedButton = clickedButton;
+
         // 방 선택 이벤트 호출
         OnRoomSelected?.Invoke(roomInfo); // 이벤트 호출
 
@@ -110,4 +124,3 @@ public class RoomList : MonoBehaviourPunCallbacks
         }
     }
 }
-
