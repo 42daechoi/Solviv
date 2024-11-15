@@ -43,29 +43,33 @@ public class PlayerInteraction : MonoBehaviourPun
 
     private void PickupWeapon()
     {
+        if (!photonView.IsMine) return;
+        
         if (triggeredWeapon == null)
         {
             return;
         }
         if (currentWeapon != null)
         {
+            Debug.Log(currentWeapon);
             PhotonNetwork.Destroy(currentWeapon.gameObject);
+            currentWeapon = null;
         }
 
-        // 소유권 이전
+        
         PhotonView weaponPhotonView = triggeredWeapon.GetComponent<PhotonView>();
         if (weaponPhotonView != null && weaponPhotonView.Owner != PhotonNetwork.LocalPlayer)
         {
-            weaponPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer); // 현재 플레이어에게 소유권 부여
+            weaponPhotonView.TransferOwnership(PhotonNetwork.LocalPlayer);
         }
 
-        // 새로운 무기를 현재 플레이어에게 설정
+        
         currentWeapon = triggeredWeapon;
         currentWeapon.transform.SetParent(handTransform);
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
 
-        // RPC를 사용하여 다른 플레이어에게 무기 줍기 동작을 알림
+        
         photonView.RPC("RPC_PickupWeapon", RpcTarget.OthersBuffered, currentWeapon.GetComponent<PhotonView>().ViewID);
 
         triggeredWeapon = null;
@@ -80,6 +84,11 @@ public class PlayerInteraction : MonoBehaviourPun
             Weapon weapon = weaponPhotonView.GetComponent<Weapon>();
             if (weapon != null)
             {
+                if (currentWeapon != null)
+                {
+                    Destroy(currentWeapon.gameObject);
+                    Debug.Log("Previous weapon destroyed on remote client");
+                }
                 currentWeapon = weapon;
                 currentWeapon.transform.SetParent(handTransform);
                 currentWeapon.transform.localPosition = Vector3.zero;
@@ -90,7 +99,7 @@ public class PlayerInteraction : MonoBehaviourPun
 
     private void Shoot()
     {
-        Debug.Log("shoot");
+        if (!photonView.IsMine) return;
         if (currentWeapon != null)
         {
             currentWeapon.Shoot();
@@ -99,7 +108,7 @@ public class PlayerInteraction : MonoBehaviourPun
 
     private void Reload()
     {
-        Debug.Log("reload");
+        if (!photonView.IsMine) return;
         if (currentWeapon != null)
         {
             currentWeapon.Reload();

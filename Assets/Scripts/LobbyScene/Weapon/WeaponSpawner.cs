@@ -1,6 +1,7 @@
 using System.Collections;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class WeaponSpawner : MonoBehaviourPun
 {
@@ -23,7 +24,10 @@ public class WeaponSpawner : MonoBehaviourPun
 
     private void Start()
     {
-        InitSpawnWeapons();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            InitSpawnWeapons();
+        }
     }
 
     void InitSpawnWeapons()
@@ -65,14 +69,7 @@ public class WeaponSpawner : MonoBehaviourPun
 
     public void RespawnWeapon(Transform spawnPointTransform)
     {
-        // photonView 사용하여 RPC 호출
-        photonView.RPC("RPC_RespawnWeapon", RpcTarget.All, spawnPointTransform.position, spawnPointTransform.rotation);
-    }
-
-    [PunRPC]
-    private void RPC_RespawnWeapon(Vector3 position, Quaternion rotation)
-    {
-        StartCoroutine(RespawnWeaponAfterDelay(position, rotation));
+        StartCoroutine(RespawnWeaponAfterDelay(spawnPointTransform.position, spawnPointTransform.rotation));
     }
 
     IEnumerator RespawnWeaponAfterDelay(Vector3 position, Quaternion rotation)

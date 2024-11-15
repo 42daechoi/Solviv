@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class InputManager_Lobby : MonoBehaviour
+public class InputManager_Lobby : MonoBehaviourPun
 {
     public static event Action OnPlayerReady;
     public static event Action OnTryPickUpWeapon;
