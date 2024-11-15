@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 3f;
 
     [HideInInspector] public Vector3 dir;
-    private float hzInput, vInput;  // hzInput = ÁÂ/¿ì, vInputÀº ¾Õ/µÚ
     public CharacterController _characterController;
     private PhotonView _photonView;
 
@@ -41,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_photonView.IsMine)
         {
-            Debug.Log("¹ÝÈ¯µÊ");
+            Debug.Log("ï¿½ï¿½È¯ï¿½ï¿½");
             return;
         }
         dir = transform.forward * moveDirection.z + transform.right * moveDirection.x;
