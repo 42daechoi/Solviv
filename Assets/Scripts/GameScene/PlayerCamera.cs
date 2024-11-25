@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using Cinemachine;
@@ -12,12 +11,11 @@ public class PlayerCamera : MonoBehaviour
 
     [SerializeField] Transform camFollowPos;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
-    
-    
 
     void Start()
     {
         _photonView = GetComponent<PhotonView>();
+        
         if (_photonView.IsMine)
         {
             virtualCamera.Follow = camFollowPos;
@@ -33,7 +31,6 @@ public class PlayerCamera : MonoBehaviour
     {
         if (_photonView.IsMine)
         {
-
             xAxis.Update(Time.deltaTime);
             yAxis.Update(Time.deltaTime);
         }
@@ -43,9 +40,10 @@ public class PlayerCamera : MonoBehaviour
     {
         if (_photonView.IsMine)
         {
-            camFollowPos.localEulerAngles =
-                new Vector3(yAxis.Value, camFollowPos.localEulerAngles.y, camFollowPos.localEulerAngles.z);
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, xAxis.Value, transform.eulerAngles.z);
+            Vector3 cameraRotation = virtualCamera.transform.localEulerAngles;
+            cameraRotation.x = yAxis.Value;
+            virtualCamera.transform.localEulerAngles = cameraRotation;
+            transform.eulerAngles = new Vector3(0f, xAxis.Value, 0f);
         }
     }
 }
