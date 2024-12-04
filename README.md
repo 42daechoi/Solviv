@@ -39,7 +39,7 @@
 - LobbyScene, GameScene - 사격, 장전 기능 및 동기화
 <br><br><br>
 
-##이주환 개발 내용
+## 이주환 개발 내용
 - MainScene - 게임 모드 선택, 옵션, eixt 등 UI 제작
 - CustomScene - Roomlist(입장 가능한 게임 리스트) 구현
 - CustomScene - 방 생성 기능 구현
