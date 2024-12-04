@@ -39,5 +39,13 @@
 - LobbyScene, GameScene - 사격, 장전 기능 및 동기화
 <br><br><br>
 
+##이주환 개발 내용
+- MainScene - 게임 모드 선택, 옵션, eixt 등 UI 제작
+- CustomScene - Roomlist(입장 가능한 게임 리스트) 구현
+- CustomScene - 방 생성 기능 구현
+- CustomScene - 방 입장 기능 구현
+- CustomScene - 방 검색 기능 구현
+<br><br><br>
+
 ## 기획서 및 개발 과정
 [Notion Link](https://hypnotic-ocelot-c39.notion.site/Project-Solvive-109285de75ba80e5aa81f923a9f34aa1?pvs=4)
