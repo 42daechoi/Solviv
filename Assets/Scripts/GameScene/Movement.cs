@@ -6,12 +6,15 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public float walkSpeed = 4f;
+    public float sprintSpeed = 14f;
     public float maxVelocityChange = 10f;
-
+    [Space] public float jumpHeight = 5f;
+    
     private Vector2 input;
     private Rigidbody rb;
-    private PhotonView photonView; // PhotonView 추가
+    private PhotonView photonView; // PhotonView 추가 
 
+    private bool sprinting;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,14 +31,26 @@ public class Movement : MonoBehaviour
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             input.Normalize();
         }
+
+        sprinting = Input.GetButton("Sprint");
     }
 
     private void FixedUpdate()
     {
         // 로컬 플레이어만 움직임 처리
         if (photonView.IsMine)
-        {
-            rb.AddForce(CalculateMovement(walkSpeed), ForceMode.VelocityChange);
+        { 
+            if (input.magnitude > 0.5f)
+            {
+                rb.AddForce(CalculateMovement(sprinting ? sprintSpeed : walkSpeed), ForceMode.VelocityChange);
+            }
+            else
+            {
+                    var velocity1 = rb.velocity;
+                    velocity1 = new Vector3(velocity1.x * 0.2f * Time.fixedDeltaTime, velocity1.y,
+                        velocity1.z * 0.2f * Time.fixedDeltaTime);
+                    rb.velocity = velocity1;
+            }
         }
     }
 
