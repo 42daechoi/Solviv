@@ -38,7 +38,7 @@ public class SpawnManager_Lobby : MonoBehaviour
 
 		if (positionFound)
 		{
-			GameObject playerCharacter = PhotonNetwork.Instantiate("PicoChan", spawnPosition, Quaternion.identity);
+			GameObject playerCharacter = PhotonNetwork.Instantiate("CowBoy", spawnPosition, Quaternion.identity);
 			StartCoroutine(SetCameraTarget(playerCharacter));
 			PhotonView pv = playerCharacter.GetComponent<PhotonView>();
 
