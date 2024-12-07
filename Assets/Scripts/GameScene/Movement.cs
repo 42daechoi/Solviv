@@ -15,10 +15,6 @@ public class Movement : MonoBehaviour
     private PhotonView photonView; // PhotonView 추가 
 
     private bool sprinting;
-
-    private bool jumping;
-
-    private bool grounded = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,34 +33,24 @@ public class Movement : MonoBehaviour
         }
 
         sprinting = Input.GetButton("Sprint");
-        jumping = Input.GetButton("Jump");
     }
 
     private void FixedUpdate()
     {
         // 로컬 플레이어만 움직임 처리
         if (photonView.IsMine)
-        {
-            if (grounded)
+        { 
+            if (input.magnitude > 0.5f)
             {
-                if (jumping)
-                {
-                    rb.velocity = new Vector3(rb.velocity.x, jumpHeight, rb.velocity.z);
-                }
-                else if (input.magnitude > 0.5f)
-                {
-                    rb.AddForce(CalculateMovement(sprinting ? sprintSpeed : walkSpeed), ForceMode.VelocityChange);
-                }
-                else
-                {
+                rb.AddForce(CalculateMovement(sprinting ? sprintSpeed : walkSpeed), ForceMode.VelocityChange);
+            }
+            else
+            {
                     var velocity1 = rb.velocity;
                     velocity1 = new Vector3(velocity1.x * 0.2f * Time.fixedDeltaTime, velocity1.y,
                         velocity1.z * 0.2f * Time.fixedDeltaTime);
                     rb.velocity = velocity1;
-                }
             }
-
-            grounded = false;
         }
     }
 
@@ -91,10 +77,5 @@ public class Movement : MonoBehaviour
         {
             return Vector3.zero;
         }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        grounded = true;
     }
 }
