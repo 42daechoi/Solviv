@@ -1,14 +1,13 @@
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using UnityEngine;
+using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
-using TMPro;
-using ExitGames.Client.Photon;
 
-public class RoomManager : MonoBehaviourPunCallbacks
+public class CreateGameRoom : MonoBehaviourPunCallbacks
 {
-    // UI 요소
     public Toggle publicToggle;
     public Toggle privateToggle;
     public Toggle soloModeToggle;
@@ -16,63 +15,73 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public TMP_InputField numberOfPeopleInput;
     public Button confirmButton;
 
-    private void Start()
+    public void Start()
     {
-        // Confirm 버튼 클릭 시 방 생성 함수 호출
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings(); // Photon 서버에 연결
+            Debug.Log("Photon 서버에 연결 시도 중...");
+        }
         confirmButton.onClick.AddListener(CreateRoom);
+        PhotonNetwork.AutomaticallySyncScene = true; // 씬 동기화 활성화
     }
-
     
-
-    // 방 생성 함수
-    private void CreateRoom()
-{
-    // 방 옵션 설정
-    RoomOptions roomOptions = new RoomOptions();
-
-    // Public/Private 설정
-    if (publicToggle.isOn)
+    public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        roomOptions.IsVisible = true; // 공개된 방
-        roomOptions.IsOpen = true;    // 누구나 들어올 수 있음
-    }
-    else if (privateToggle.isOn)
-    {
-        roomOptions.IsVisible = false; // 비공개 방
-        roomOptions.IsOpen = true;     // 초대 받은 사람만 들어올 수 있음
+        Debug.LogError($"방 참가 실패: {message}");
     }
 
-    // 최대 인원 설정
-    int maxPlayers;
-    if (int.TryParse(numberOfPeopleInput.text, out maxPlayers))
+    public override void OnDisconnected(DisconnectCause cause)
     {
-        roomOptions.MaxPlayers = (byte)maxPlayers;
+        Debug.LogError($"포톤 서버 연결 끊김: {cause}");
     }
 
-    // Custom Properties 설정 (게임 모드 추가)
-    Hashtable customProperties = new Hashtable();
-    string selectedGameMode = soloModeToggle.isOn ? "SoloMode" : "MultiMode";
-    customProperties.Add("GameMode", selectedGameMode);  // SoloMode 또는 MultiMode 설정
-    roomOptions.CustomRoomProperties = customProperties;
+    public void CreateRoom()
+    {
+        RoomOptions roomOptions = new RoomOptions();
 
-    // 로비에서 표시할 Custom Properties 키 설정
-    roomOptions.CustomRoomPropertiesForLobby = new string[] { "GameMode" };
+        // Public/Private 설정
+        roomOptions.IsVisible = publicToggle.isOn;
+        roomOptions.IsOpen = true;
 
-    // 방 이름 및 생성
-    string roomName = "Room_" + Random.Range(1000, 10000); // 임의로 방 이름 설정
-    PhotonNetwork.CreateRoom(roomName, roomOptions);
-    
-    Debug.Log($"방 생성됨: {roomName}, 게임 모드: {selectedGameMode}, 최대 인원: {maxPlayers}");
-}
+        // 최대 인원 설정
+        int maxPlayers;
+        if (int.TryParse(numberOfPeopleInput.text, out maxPlayers))
+        {
+            roomOptions.MaxPlayers = (byte)maxPlayers;
+        }
+
+        // Custom Properties 설정
+        Hashtable customProperties = new Hashtable();
+        string selectedGameMode = soloModeToggle.isOn ? "SoloMode" : "MultiMode";
+        customProperties.Add("GameMode", selectedGameMode);
+        roomOptions.CustomRoomProperties = customProperties;
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "GameMode" };
+
+        // 방 이름 생성 및 방 생성
+        string roomName = "Room_" + Random.Range(1000, 10000);
+        PhotonNetwork.CreateRoom(roomName, roomOptions);
+
+        Debug.Log($"방 생성 시도: {roomName}");
+        
+        PhotonNetwork.LoadLevel("GameRobby");
+    }
+
+    public override void OnCreatedRoom()
+    {
+        Debug.Log($"방 생성 성공: {PhotonNetwork.CurrentRoom.Name}");
+        PhotonNetwork.LoadLevel("GameRobby"); // 방 생성 성공 시 GameRobby로 이동
+    }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.LogError($"방 생성 실패: {message}");
     }
 
-    // 포톤 서버에 연결 실패한 경우 처리
-    public override void OnDisconnected(DisconnectCause cause)
+    public override void OnJoinedRoom()
     {
-        Debug.LogError($"포톤 서버 연결 실패: {cause}");
+        Debug.Log($"방 참가 성공: {PhotonNetwork.CurrentRoom.Name}");
+        PhotonNetwork.LoadLevel("GameRobby"); // 방 참가 성공 시 GameRobby로 이동
     }
+    
 }
