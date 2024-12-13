@@ -1641,6 +1641,7 @@ namespace Photon.Pun
         /// <returns>If the operation got queued and will be sent.</returns>
         public static bool CreateRoom(string roomName, RoomOptions roomOptions = null, TypedLobby typedLobby = null, string[] expectedUsers = null)
         {
+            
             if (OfflineMode)
             {
                 if (offlineModeRoom != null)

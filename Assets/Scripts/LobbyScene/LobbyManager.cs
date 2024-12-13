@@ -22,7 +22,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        // ¹æ¿¡ µé¾î¿À¸é isReady ÇÁ·ÎÆÛÆ¼¸¦ ±âº»°ªÀ¸·Î false·Î ¼³Á¤
+        // ï¿½æ¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ isReady ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½âº»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ falseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("isReady"))
         {
             Hashtable props = new Hashtable
@@ -51,7 +51,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        // ÇÃ·¹ÀÌ¾î ÇÁ·ÎÆÛÆ¼ ¾÷µ¥ÀÌÆ® ÄÝ¹é ÇÔ¼ö
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ý¹ï¿½ ï¿½Ô¼ï¿½
         if (targetPlayer == PhotonNetwork.LocalPlayer && changedProps.ContainsKey("isReady"))
         {
             bool currState = (bool)targetPlayer.CustomProperties["isReady"];
@@ -81,7 +81,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     private void StartGame()
-    {
+   {
         PhotonNetwork.LoadLevel("GameScene");
     }
 }
