@@ -74,4 +74,3 @@
 
 ## 기획서 및 개발 과정
 [Notion Link](https://hypnotic-ocelot-c39.notion.site/Project-Solvive-109285de75ba80e5aa81f923a9f34aa1?pvs=4)
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/2b287816-d79f-41aa-b5f8-5f045238d612/8ce47041-8cd5-4551-a034-d4e6d57d1f1f/image.png)
