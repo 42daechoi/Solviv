@@ -1,5 +1,5 @@
 # Project Solvive
-~~파티 애니멀즈의 서로를 밀어내어 안전구역을 이탈 시키는 게임성 + Totally accurate battlegrounds의 랙돌 캐릭터 감성을 접목한 멀티플레이 FPS 게임~~
+~~파티 애니멀즈의 서로를 밀어내어 안전구역을 이탈 시키는 게임성 + Totally accurate battlegrounds의 랙돌 캐릭터 감성을 접목한 멀티플레이 FPS 게임~~<br>
 1인칭 마피아 탈출 생존 게임
 <br><br><br>
 
