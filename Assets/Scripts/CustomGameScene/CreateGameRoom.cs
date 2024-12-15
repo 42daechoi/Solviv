@@ -10,8 +10,6 @@ public class CreateGameRoom : MonoBehaviourPunCallbacks
 {
     public Toggle publicToggle;
     public Toggle privateToggle;
-    public Toggle soloModeToggle;
-    public Toggle multiModeToggle;
     public TMP_InputField numberOfPeopleInput;
     public Button confirmButton;
 
@@ -52,11 +50,11 @@ public class CreateGameRoom : MonoBehaviourPunCallbacks
         }
 
         // Custom Properties 설정
-        Hashtable customProperties = new Hashtable();
-        string selectedGameMode = soloModeToggle.isOn ? "SoloMode" : "MultiMode";
-        customProperties.Add("GameMode", selectedGameMode);
-        roomOptions.CustomRoomProperties = customProperties;
-        roomOptions.CustomRoomPropertiesForLobby = new string[] { "GameMode" };
+        // Hashtable customProperties = new Hashtable();
+        // string selectedGameMode = soloModeToggle.isOn ? "SoloMode" : "MultiMode";
+        // customProperties.Add("GameMode", selectedGameMode);
+        // roomOptions.CustomRoomProperties = customProperties;
+        // roomOptions.CustomRoomPropertiesForLobby = new string[] { "GameMode" };
 
         // 방 이름 생성 및 방 생성
         string roomName = "Room_" + Random.Range(1000, 10000);
