@@ -83,11 +83,11 @@ public class RoomList : MonoBehaviourPunCallbacks
             roomItem.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = room.Name;
 
             // 방의 게임 모드 표시
-            if (room.CustomProperties.ContainsKey("GameMode"))
-            {
-                string gameMode = (string)room.CustomProperties["GameMode"];
-                roomItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gameMode;  // 두 번째 항목에 게임 모드 표시
-            }
+            // if (room.CustomProperties.ContainsKey("GameMode"))
+            // {
+            //     string gameMode = (string)room.CustomProperties["GameMode"];
+            //     roomItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = gameMode;  // 두 번째 항목에 게임 모드 표시
+            // }
 
             // 플레이어 수 / 최대 플레이어 수 표시
             roomItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = room.PlayerCount + "/" + room.MaxPlayers;
