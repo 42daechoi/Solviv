@@ -157,8 +157,8 @@ public class CustomUI_Event : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        Debug.Log("방 생성 성공! GameRobby로 이동");
-        PhotonNetwork.LoadLevel("GameLobby"); // GameRobby 씬으로 이동
+        Debug.Log("방 생성 성공! GameLobby로 이동");
+        PhotonNetwork.LoadLevel("GameLobby"); // GameLobby 씬으로 이동
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
