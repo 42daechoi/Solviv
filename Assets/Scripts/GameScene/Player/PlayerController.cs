@@ -16,6 +16,7 @@ namespace SF_FPSController
         public GameObject flashlightHolder; // Flashlight
         public float lookSpeed = 2.0f;
         public float lookXLimit = 45.0f;
+        public float interactionRange = 3f;
 
         private CharacterController characterController;
         private Vector3 moveDirection = Vector3.zero;
