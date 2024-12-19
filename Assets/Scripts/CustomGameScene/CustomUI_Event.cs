@@ -103,7 +103,7 @@ public class CustomUI_Event : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log($"방 참가 성공: {PhotonNetwork.CurrentRoom.Name}");
-        PhotonNetwork.LoadLevel("GameRobby");
+        PhotonNetwork.LoadLevel("GameLobby");
     }
 
     void Search()
@@ -158,7 +158,7 @@ public class CustomUI_Event : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         Debug.Log("방 생성 성공! GameRobby로 이동");
-        PhotonNetwork.LoadLevel("GameRobby"); // GameRobby 씬으로 이동
+        PhotonNetwork.LoadLevel("GameLobby"); // GameRobby 씬으로 이동
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

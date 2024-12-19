@@ -25,7 +25,7 @@ public class SpawnManager : MonoBehaviour
         GameObject player = PhotonNetwork.Instantiate("CowBoy", spawnPosition, spawnRotation);
         isSpawned[spawnIdx] = true;
     }
-
+    
     int GetAvailableSpawnIndex(int playerIndex)
     {
         int availableIndex = -1;

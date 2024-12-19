@@ -62,13 +62,13 @@ public class CreateGameRoom : MonoBehaviourPunCallbacks
 
         Debug.Log($"방 생성 시도: {roomName}");
         
-        PhotonNetwork.LoadLevel("TestScene");
+        PhotonNetwork.LoadLevel("GameLobby");
     }
 
     public override void OnCreatedRoom()
     {
         Debug.Log($"방 생성 성공: {PhotonNetwork.CurrentRoom.Name}");
-        PhotonNetwork.LoadLevel("TestScene"); // 방 생성 성공 시 GameLobby로 이동
+        PhotonNetwork.LoadLevel("GameLobby"); // 방 생성 성공 시 GameLobby로 이동
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -79,7 +79,7 @@ public class CreateGameRoom : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log($"방 참가 성공: {PhotonNetwork.CurrentRoom.Name}");
-        PhotonNetwork.LoadLevel("TestScene"); // 방 참가 성공 시 GameLobby로 이동
+        PhotonNetwork.LoadLevel("GameLobby"); // 방 참가 성공 시 GameLobby로 이동
     }
     
 }
