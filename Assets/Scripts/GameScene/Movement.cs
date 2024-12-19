@@ -8,74 +8,71 @@ public class Movement : MonoBehaviour
     public float walkSpeed = 4f;
     public float sprintSpeed = 14f;
     public float maxVelocityChange = 10f;
-    [Space] public float jumpHeight = 5f;
-    
-    private Vector2 input;
-    private Rigidbody rb;
-    private PhotonView photonView; // PhotonView 추가 
 
-    private bool sprinting;
-    // Start is called before the first frame update
+    private Vector3 inputDirection; // 이동 방향
+    private float currentSpeed; // 현재 속도
+    private Rigidbody rb;
+    private PhotonView photonView; // PhotonView 추가
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         photonView = GetComponent<PhotonView>(); // PhotonView 컴포넌트 가져오기
+        currentSpeed = walkSpeed; // 초기 속도 설정
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        // 로컬 플레이어만 입력 처리
-        if (photonView.IsMine)
-        {
-            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            input.Normalize();
-        }
+        // EventManager의 이벤트 구독
+        EventManager_Game.Instance.OnPlayerMove += OnPlayerMove;
+        EventManager_Game.Instance.OnPlayerSprint += OnPlayerSprint;
+    }
 
-        sprinting = Input.GetButton("Sprint");
+    private void OnDisable()
+    {
+        // EventManager의 이벤트 구독 해제
+        if (EventManager_Game.Instance != null)
+        {
+            EventManager_Game.Instance.OnPlayerMove -= OnPlayerMove;
+            EventManager_Game.Instance.OnPlayerSprint -= OnPlayerSprint;
+        }
     }
 
     private void FixedUpdate()
     {
         // 로컬 플레이어만 움직임 처리
-        if (photonView.IsMine)
-        { 
-            if (input.magnitude > 0.5f)
-            {
-                rb.AddForce(CalculateMovement(sprinting ? sprintSpeed : walkSpeed), ForceMode.VelocityChange);
-            }
-            else
-            {
-                    var velocity1 = rb.velocity;
-                    velocity1 = new Vector3(velocity1.x * 0.2f * Time.fixedDeltaTime, velocity1.y,
-                        velocity1.z * 0.2f * Time.fixedDeltaTime);
-                    rb.velocity = velocity1;
-            }
+        if (photonView.IsMine && inputDirection.magnitude > 0.1f)
+        {
+            rb.AddForce(CalculateMovement(currentSpeed), ForceMode.VelocityChange);
         }
     }
 
-    Vector3 CalculateMovement(float _speed)
+    private void OnPlayerMove(Vector3 moveDirection)
     {
-        Vector3 targetVelocity = new Vector3(input.x, 0, input.y);
+        inputDirection = moveDirection;
+    }
+
+    private void OnPlayerSprint(bool sprinting)
+    {
+        // 스프린트 상태에 따라 속도 변경
+        currentSpeed = sprinting ? sprintSpeed : walkSpeed;
+    }
+
+    Vector3 CalculateMovement(float speed)
+    {
+        Vector3 targetVelocity = new Vector3(inputDirection.x, 0, inputDirection.z);
         targetVelocity = transform.TransformDirection(targetVelocity);
 
-        targetVelocity *= _speed;
+        targetVelocity *= speed;
 
         Vector3 velocity = rb.velocity;
-        if (input.magnitude > 0.5f)
-        {
-            Vector3 velocityChange = targetVelocity - velocity;
+        Vector3 velocityChange = targetVelocity - velocity;
 
-            velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-            velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+        velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+        velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
 
-            velocityChange.y = 0;
+        velocityChange.y = 0;
 
-            return velocityChange;
-        }
-        else
-        {
-            return Vector3.zero;
-        }
+        return velocityChange;
     }
 }
