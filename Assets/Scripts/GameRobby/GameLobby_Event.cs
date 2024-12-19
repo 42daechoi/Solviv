@@ -6,7 +6,7 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class GameRobbyManager : MonoBehaviourPunCallbacks
+public class GameLobbyManager : MonoBehaviourPunCallbacks
 {
     public Transform playerListContent;
     public GameObject playerItemPrefab;
@@ -188,6 +188,23 @@ public class GameRobbyManager : MonoBehaviourPunCallbacks
         Debug.Log("게임 시작");
         PhotonNetwork.LoadLevel("GameScene");
     }
+    
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("방에 입장했습니다.");
+
+        // 플레이어의 IsReady 상태를 초기화 (not ready 상태)
+        Hashtable props = new Hashtable
+        {
+            { "IsReady", false } // 기본값을 false로 설정
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+        // UI 업데이트
+        UpdatePlayerList();
+        UpdateActionButton();
+    }
+
 
     private void ToggleReadyStatus()
     {
