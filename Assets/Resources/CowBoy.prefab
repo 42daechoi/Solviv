@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 1459528134989640662}
   - component: {fileID: 1724497594437183218}
   - component: {fileID: 2737885227569450820}
+  - component: {fileID: -218576575918510177}
+  - component: {fileID: -7020588551510213420}
   m_Layer: 3
   m_Name: CowBoy
   m_TagString: Player
@@ -195,6 +197,36 @@ MonoBehaviour:
   ikController: {fileID: 0}
   camFollowPos: {fileID: 2452726862730882359}
   virtualCamera: {fileID: 7194995405912271305}
+--- !u!114 &-218576575918510177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561389139830730110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6876c7d737e46b4eb27f0ac75e114e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &-7020588551510213420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561389139830730110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7df37843f971254baad7697d7ddfc50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRange: 3
 --- !u!1 &2112089104368048902
 GameObject:
   m_ObjectHideFlags: 0

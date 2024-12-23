@@ -15,5 +15,9 @@ public class InputManager_Game : MonoBehaviour
         // 스프린트 입력 처리
         bool sprinting = Input.GetKey(KeyCode.LeftShift); // KeyCode로 처리
         EventManager_Game.Instance.InvokePlayerSprint(sprinting);
+
+        // 상호 작용
+        bool interaction = Input.GetKeyDown(KeyCode.F);
+        EventManager_Game.Instance.InvokeInteraction(interaction);
     }
 }

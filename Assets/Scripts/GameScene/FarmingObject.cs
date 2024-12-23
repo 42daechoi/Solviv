@@ -21,7 +21,7 @@ public class FarmingObject : MonoBehaviourPun
         }
     }
 
-    void Interact(int playerID)
+    public void Interact(int playerID)
     {
         photonView.RPC("FarmingItem", RpcTarget.All, playerID);
     }
