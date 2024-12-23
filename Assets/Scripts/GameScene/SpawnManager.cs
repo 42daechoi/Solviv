@@ -22,7 +22,7 @@ public class SpawnManager : MonoBehaviour
         if (spawnIdx < 0) return;
         Vector3 spawnPosition = spawnPoints[spawnIdx].position;
         Quaternion spawnRotation = spawnPoints[spawnIdx].rotation;
-        GameObject player = PhotonNetwork.Instantiate("CowboyRio_Unity", spawnPosition, spawnRotation);
+        GameObject player = PhotonNetwork.Instantiate("CowBoy", spawnPosition, spawnRotation);
         isSpawned[spawnIdx] = true;
     }
     
