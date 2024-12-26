@@ -7,6 +7,7 @@ public class EventManager_Game : MonoBehaviour
 {
     public event Action<Vector3> OnPlayerMove;
     public event Action<bool> OnPlayerSprint;
+    public event Action<bool> OnInteraction;
 
     public static EventManager_Game Instance { get; private set; }
 
@@ -31,5 +32,10 @@ public class EventManager_Game : MonoBehaviour
     public void InvokePlayerSprint(bool sprinting)
     {
         OnPlayerSprint?.Invoke(sprinting);
+    }
+
+    public void InvokeInteraction(bool interaction)
+    {
+        OnInteraction?.Invoke(interaction);
     }
 }
