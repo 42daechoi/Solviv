@@ -17,7 +17,7 @@ public class CustomUI_Event : MonoBehaviourPunCallbacks
     private int currentValue = 0; // 방 인원
     private RoomInfo selectedRoom;
 
-    void OnEnable()
+    public override void OnEnable()
     {
         EventManager_Custom.OnCreateButtonClicked += Create;
         EventManager_Custom.OnJoinButonClicked += Join;
@@ -34,7 +34,7 @@ public class CustomUI_Event : MonoBehaviourPunCallbacks
         }
     }
 
-    void OnDisable()
+    public override void OnDisable()
     {
         EventManager_Custom.OnCreateButtonClicked -= Create;
         EventManager_Custom.OnJoinButonClicked -= Join;

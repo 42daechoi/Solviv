@@ -17,7 +17,9 @@ public class InputManager_Game : MonoBehaviour
         EventManager_Game.Instance.InvokePlayerSprint(sprinting);
 
         // 상호 작용
-        bool interaction = Input.GetKeyDown(KeyCode.F);
-        EventManager_Game.Instance.InvokeInteraction(interaction);
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            EventManager_Game.Instance.InvokeInteraction();
+        }
     }
 }
