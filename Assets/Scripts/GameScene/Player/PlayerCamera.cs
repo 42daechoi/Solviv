@@ -19,13 +19,6 @@ public class PlayerCamera : MonoBehaviour
 
         if (_photonView.IsMine)
         {
-            // Main Camera 비활성화
-            Camera mainCamera = Camera.main;
-            if (mainCamera != null)
-            {
-                mainCamera.gameObject.SetActive(false);
-            }
-
             if (virtualCamera != null && camFollowPos != null && ikController != null)
             {
                 virtualCamera.Follow = camFollowPos;
