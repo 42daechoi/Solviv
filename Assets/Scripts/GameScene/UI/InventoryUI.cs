@@ -3,10 +3,23 @@ using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
-    public Inventory inventory;
+    public static InventoryUI Instance { get; private set; }
+
     public Image[] slotUI;
 
-    void UpdateUI()
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void UpdateUI(Inventory inventory)
     {
         for (int i = 0; i < slotUI.Length; i++)
         {

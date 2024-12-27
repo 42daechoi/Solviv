@@ -15,6 +15,7 @@ public class Inventory : MonoBehaviour
             {
                 Debug.Log($"{item.itemName}을 획득하였습니다.");
                 itemSlots[i] = item;
+                InventoryUI.Instance.UpdateUI(this);
                 return true;
             }
         }
@@ -27,6 +28,7 @@ public class Inventory : MonoBehaviour
         if (itemSlots[slotIndex] != null)
         {
             itemSlots[slotIndex] = null;
+            InventoryUI.Instance.UpdateUI(this);
             Debug.Log($"{itemSlots[slotIndex].itemName}을 버렸습니다.");
         }
         else

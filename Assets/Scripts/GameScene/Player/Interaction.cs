@@ -17,16 +17,29 @@ public class Interaction : MonoBehaviourPun
         EventManager_Game.Instance.OnInteraction -= TryInteraction;
     }
 
-    private void TryInteraction(bool interaction)
+    private void TryInteraction()
     {
+        // 화면 중심에서 발사되는 레이 생성
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, interactionRange))
+
+        Debug.DrawRay(ray.origin, ray.direction * interactionRange, Color.red, 1.0f);
+        if (Physics.Raycast(ray, out hit, interactionRange))
         {
             FarmingObject farmingObject = hit.collider.GetComponent<FarmingObject>();
             if (farmingObject != null)
             {
+                Debug.Log("파밍 오브젝트 레이캐스트 히트 성공");
                 farmingObject.Interact(photonView.ViewID);
             }
+            else
+            {
+                Debug.Log("파밍 오브젝트 레이캐스트 히트 실패");
+            }
+        }
+        else
+        {
+            Debug.Log("레이캐스트가 아무 오브젝트도 맞추지 못했습니다.");
         }
     }
 }
