@@ -61,7 +61,7 @@
 - LobbyScene - 플레이어 스폰 시스템 구현
 - LobbyScene - 준비 기능
 - LobbyScene, GameScene - 총기 스폰 및 동기화
-- LobbyScene, GameScene - 사격, 장전 기능 및 동기화 (ObjectPooling 디자인 패턴)
+- LobbyScene, GameScene - 사격, 장전 기능 및 동기화 (ObjectPooling 디자인 패턴을 통한 총알 관리)
 - 기획 변경 이후
 - GameScene - 파밍 시스템 개발 (ScriptableObject를 활용한 아이템 데이터 관리)
 <br><br><br>
