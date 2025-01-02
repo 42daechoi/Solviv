@@ -63,7 +63,7 @@
 - LobbyScene, GameScene - 총기 스폰 및 동기화
 - LobbyScene, GameScene - 사격, 장전 기능 및 동기화
 <br>
-# 기획 변경 이후<br>
+### 기획 변경 이후<br>
 - GameScene - 파밍 시스템 개발 (ScriptableObject를 활용한 아이템 데이터 관리)
 <br><br><br>
 
