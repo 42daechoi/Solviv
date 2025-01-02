@@ -62,7 +62,11 @@
 - LobbyScene - 준비 기능
 - LobbyScene, GameScene - 총기 스폰 및 동기화
 - LobbyScene, GameScene - 사격, 장전 기능 및 동기화
-<br><br><br>
+<br>
+----------------------------------------------------
+<br>
+기획 변경 이후
+- GameScene - 파밍 시스템 개발 (ScriptableObject를 활용한 아이템 데이터 관리)
 
 ## 이주환 개발 내용
 - MainScene - 게임 모드 선택, 옵션, eixt 등 UI 제작
