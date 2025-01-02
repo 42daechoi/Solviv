@@ -26,15 +26,15 @@ public class Interaction : MonoBehaviourPun
         Debug.DrawRay(ray.origin, ray.direction * interactionRange, Color.red, 1.0f);
         if (Physics.Raycast(ray, out hit, interactionRange))
         {
-            FarmingObject farmingObject = hit.collider.GetComponent<FarmingObject>();
-            if (farmingObject != null)
+            IInteractableObject interactableObject = hit.collider.GetComponent<IInteractableObject>();
+            if (interactableObject != null)
             {
-                Debug.Log("파밍 오브젝트 레이캐스트 히트 성공");
-                farmingObject.Interact(photonView.ViewID);
+                Debug.Log("상호 작용 오브젝트 레이캐스트 히트 성공");
+                interactableObject.Interact(photonView.ViewID);
             }
             else
             {
-                Debug.Log("파밍 오브젝트 레이캐스트 히트 실패");
+                Debug.Log("상호 작용 오브젝트 레이캐스트 히트 실패");
             }
         }
         else

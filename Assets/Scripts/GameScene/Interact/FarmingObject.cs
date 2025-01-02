@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class FarmingObject : MonoBehaviourPun
+public class FarmingObject : MonoBehaviourPun, IInteractableObject
 {
     public Item item;
 
