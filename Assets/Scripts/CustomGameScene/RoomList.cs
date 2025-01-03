@@ -123,4 +123,22 @@ public class RoomList : MonoBehaviourPunCallbacks
             customUIEvent.OnRoomButtonClicked(roomInfo);
         }
     }
+    
+    public void OnClick_RefreshButton()
+    {
+        Debug.Log("방 목록 새로 고침 버튼 클릭!");
+
+        // 1) 캐시된 리스트 초기화 (혹은 필요에 따라 유지)
+        cachedRoomList.Clear();
+
+        // 2) 현재 로비에 있다면 나가기
+        if (PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.LeaveLobby();
+        }
+
+        // 3) 다시 로비에 입장 (이후 OnRoomListUpdate가 호출되며, UpdateUI()가 실행됨)
+        PhotonNetwork.JoinLobby();
+    }
+
 }
