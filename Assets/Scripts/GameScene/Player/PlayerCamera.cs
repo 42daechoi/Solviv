@@ -8,7 +8,6 @@ public class PlayerCamera : MonoBehaviour
 {
     public Cinemachine.AxisState xAxis, yAxis;
     private PhotonView _photonView;
-    [SerializeField] private Rio_IKController ikController;
 
     [SerializeField] Transform camFollowPos;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
@@ -19,7 +18,7 @@ public class PlayerCamera : MonoBehaviour
 
         if (_photonView.IsMine)
         {
-            if (virtualCamera != null && camFollowPos != null && ikController != null)
+            if (virtualCamera != null && camFollowPos != null)
             {
                 virtualCamera.Follow = camFollowPos;
                 virtualCamera.LookAt = camFollowPos;

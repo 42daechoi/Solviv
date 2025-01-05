@@ -13,6 +13,7 @@ public class Movement : MonoBehaviour
     private float currentSpeed; // 현재 속도
     private Rigidbody rb;
     private PhotonView photonView; // PhotonView 추가
+    private bool isGunEquipped = false;
 
     void Start()
     {
@@ -37,7 +38,7 @@ public class Movement : MonoBehaviour
             EventManager_Game.Instance.OnPlayerSprint -= OnPlayerSprint;
         }
     }
-
+    
     private void FixedUpdate()
     {
         // 로컬 플레이어만 움직임 처리
