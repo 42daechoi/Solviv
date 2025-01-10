@@ -28,7 +28,7 @@ public class SpawnManager : MonoBehaviour
         Debug.Log("dd");
         
         // 아이템 임시 스폰 - 삭제 필요
-        PhotonNetwork.Instantiate("Item/Cube", spawnPosition - new Vector3(2, 0, 0), spawnRotation);
+        PhotonNetwork.Instantiate("Item/Battery", spawnPosition - new Vector3(2, 0, 0), spawnRotation);
         PhotonNetwork.Instantiate("Item/Cube", spawnPosition - new Vector3(5, 0, 0), spawnRotation);
     }
     
