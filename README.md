@@ -75,14 +75,14 @@
 <br><br><br>
 
 ## 이성훈 개발 내용
--GameScene - Addressable을 활용하여 최적화 작업 (Photon의 Resource환경 때문에 사용하지않게됨)
--GameScene - 3인칭 카메라 구현
--GameScene - 플레이어의 RagDoll Movement 구현 및 Ragdoll과 관련된 물리학에 따른 리깅 및 구현 (기술스택 부족으로 인한 기획 변경)
--기획 변경 이후
--GameScene - 플레이어의 움직임 구현 (InputManager, EventManager를 활용하여 모듈화 작업)
--GameScene - 1인칭 카메라 구현
--GameScene - 플레이어의 유닛의 Inverse Kinemachine (IK)를 활용한 Animation Rigging
--GameScene - 플레이어 로컬환경(Photon.IsMine)의 유닛만 조작 가능 및 유저들간의 Position, Rotation 동기화
+- GameScene - Addressable을 활용하여 최적화 작업 (Photon의 Resource환경 때문에 사용하지않게됨)
+- GameScene - 3인칭 카메라 구현
+- GameScene - 플레이어의 RagDoll Movement 구현 및 Ragdoll과 관련된 물리학에 따른 리깅 및 구현 (기술스택 부족으로 인한 기획 변경)
+- 기획 변경 이후
+- GameScene - 플레이어의 움직임 구현 (InputManager, EventManager를 활용하여 모듈화 작업)
+- GameScene - 1인칭 카메라 구현
+- GameScene - 플레이어의 유닛의 Inverse Kinemachine (IK)를 활용한 Animation Rigging
+- GameScene - 플레이어 로컬환경(Photon.IsMine)의 유닛만 조작 가능 및 유저들간의 Position, Rotation 동기화
 
 
 ## 기획서 및 개발 과정
