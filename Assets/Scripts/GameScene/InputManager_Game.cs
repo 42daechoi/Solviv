@@ -43,5 +43,11 @@ public class InputManager_Game : MonoBehaviour
         {
             EventManager_Game.Instance.InvokeHeldItem(5);
         }
+
+        // 아이템 버리기
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            EventManager_Game.Instance.InvokeDropItem();
+        }
     }
 }

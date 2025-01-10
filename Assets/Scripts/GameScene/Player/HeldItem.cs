@@ -1,22 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 public class HeldItem : MonoBehaviour
 {
-    public Item item;
+    [SerializeField] private Item item;
+    [SerializeField] private int slotIndex;
 
     private void OnEnable()
     {
         EventManager_Game.Instance.OnHeldItem += SelectItem;
+        EventManager_Game.Instance.OnDropItem += DropItem;
     }
 
     private void OnDisable()
     {
         EventManager_Game.Instance.OnHeldItem -= SelectItem;
+        EventManager_Game.Instance.OnDropItem -= DropItem;
     }
 
-    public void SelectItem(int keyCode)
+    private void SelectItem(int keyCode)
     {
         if (TryGetComponent(out Inventory inventory))
         {
@@ -29,14 +33,23 @@ public class HeldItem : MonoBehaviour
             }
             else
             {
-                item = itemSlots[keyCode - 2];
+                slotIndex = keyCode - 2;
+                item = itemSlots[slotIndex];
                 // 아이템에 맞는 애니메이션 추가
             }
         }
     }
 
-    public string GetHeldItemName()
+    private void DropItem()
     {
-        return item.itemName;
+        if (item != null && TryGetComponent(out Inventory inventory))
+        {
+            inventory.RemoveItem(slotIndex);
+        }
+    }
+
+    public bool IsHeldItem(string itemName)
+    {
+        return item.itemName == itemName;
     }
 }

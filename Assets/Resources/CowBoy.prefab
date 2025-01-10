@@ -241,6 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  slotIndex: 0
 --- !u!114 &7810248626974016638
 MonoBehaviour:
   m_ObjectHideFlags: 0
