@@ -21,11 +21,11 @@ public class InventoryUI : MonoBehaviour
 
     public void UpdateUI(Inventory inventory)
     {
-        for (int i = 0; i < slotUI.Length; i++)
+        for (int i = 1; i < slotUI.Length; i++)
         {
-            if (i < inventory.itemSlots.Length && inventory.itemSlots[i] != null)
+            if (i < inventory.itemSlots.Length && inventory.itemSlots[i - 1] != null)
             {
-                slotUI[i].sprite = inventory.itemSlots[i].icon;
+                slotUI[i].sprite = inventory.itemSlots[i - 1].icon;
             }
             else
             {
