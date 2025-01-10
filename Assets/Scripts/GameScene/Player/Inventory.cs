@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-//using UnityEditor.UIElements;
+using Photon.Pun;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviourPun
 {
     public Item[] itemSlots = new Item[4];
+    private float dropOffset = 1f;
 
     public bool AddItem(Item item)
     {
@@ -27,9 +28,17 @@ public class Inventory : MonoBehaviour
     {
         if (itemSlots[slotIndex] != null)
         {
+            string dropItemName = "Item/" + itemSlots[slotIndex].itemName;
+            Vector3 dropPosition = transform.position + transform.forward * dropOffset;
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, dropOffset))
+            {
+                // 충돌이 발생하면 드롭 위치를 충돌 지점 바로 앞에 설정
+                dropPosition = hit.point - transform.forward * 0.5f;
+            }
+            PhotonNetwork.Instantiate(dropItemName, dropPosition, transform.transform.rotation);
             itemSlots[slotIndex] = null;
             InventoryUI.Instance.UpdateUI(this);
-            Debug.Log($"{itemSlots[slotIndex].itemName}을 버렸습니다.");
+            Debug.Log($"{dropItemName}을 버렸습니다.");
         }
         else
         {

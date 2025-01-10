@@ -9,9 +9,8 @@ public class Generator : MonoBehaviourPun, IInteractableObject
     {
         GameObject player = PhotonView.Find(playerID).gameObject;
         HeldItem heldItem = player.GetComponent<HeldItem>();
-        string heldItemName = heldItem.GetHeldItemName();
 
-        if (heldItemName != "Battery")
+        if (heldItem.IsHeldItem("Battery"))
         {
             return;
         }
