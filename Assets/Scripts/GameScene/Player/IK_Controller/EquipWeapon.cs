@@ -10,6 +10,10 @@ public class EquipWeapon : MonoBehaviour
     [SerializeField] private GameObject gun;
     [SerializeField] private Transform leftHandGrip;
     [SerializeField] private Transform rightHandGrip;
+    [SerializeField] private Transform firstPersonCamera;
+    
+    [SerializeField] private Vector3 gunPositionOffset = new Vector3(0, -0, 0);
+    [SerializeField] private Vector3 gunRotationOffset = Vector3.zero;
     
     private bool isGunEquipped = false;
     
@@ -20,23 +24,42 @@ public class EquipWeapon : MonoBehaviour
         {
             EquipGunInstantly();
         }
+        
+        if (isGunEquipped)
+        {
+            SyncTargetWithGrip(rightHandTarget.transform, rightHandGrip);
+            SyncTargetWithGrip(leftHandTarget.transform, leftHandGrip);
+            
+            SyncGunWithCamera();
+        }
     }
     
     public void EquipGunInstantly()
     {
-        // 권총 활성화
         gun.SetActive(true);
-
-        // 오른손 타겟 위치 및 회전 설정
+        
         rightHandTarget.transform.position = rightHandGrip.position;
         rightHandTarget.transform.rotation = rightHandGrip.rotation;
-
-        // 왼손 타겟 위치 및 회전 설정
+        
         leftHandTarget.transform.position = leftHandGrip.position;
         leftHandTarget.transform.rotation = leftHandGrip.rotation;
 
         isGunEquipped = true;
-
-        Debug.Log("손 타겟이 설정된 위치로 이동했습니다.");
+    }
+    
+    private void SyncTargetWithGrip(Transform target, Transform grip)
+    {
+        target.position = grip.position;
+        target.rotation = grip.rotation;
+    }
+    
+    private void SyncGunWithCamera()
+    {
+        gun.transform.position = firstPersonCamera.position +
+                                 firstPersonCamera.forward * gunPositionOffset.z +
+                                 firstPersonCamera.right * gunPositionOffset.x +
+                                 firstPersonCamera.up * gunPositionOffset.y;
+        
+        gun.transform.rotation = firstPersonCamera.rotation * Quaternion.Euler(gunRotationOffset);
     }
 }

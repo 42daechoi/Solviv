@@ -259,6 +259,9 @@ MonoBehaviour:
   gun: {fileID: 4329678239558885598}
   leftHandGrip: {fileID: 7775461785569214271}
   rightHandGrip: {fileID: 7209292559687552311}
+  firstPersonCamera: {fileID: 8697882884286579730}
+  gunPositionOffset: {x: 0.12, y: -0.15, z: 0.3}
+  gunRotationOffset: {x: -5, y: -0.2, z: 0}
 --- !u!1 &2112089104368048902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1945,15 +1948,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5502172216401881881, guid: 2feafb5676288b74f9e718994868fb8c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.11799933
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5502172216401881881, guid: 2feafb5676288b74f9e718994868fb8c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.298
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5502172216401881881, guid: 2feafb5676288b74f9e718994868fb8c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.4210004
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5502172216401881881, guid: 2feafb5676288b74f9e718994868fb8c, type: 3}
       propertyPath: m_LocalRotation.w
