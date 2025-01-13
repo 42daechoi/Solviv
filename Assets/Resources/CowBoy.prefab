@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -7020588551510213420}
   - component: {fileID: 687975531188347073}
   - component: {fileID: 7810248626974016638}
-  - component: {fileID: 3806824958477802355}
+  - component: {fileID: 4513475345461468984}
   m_Layer: 3
   m_Name: CowBoy
   m_TagString: Player
@@ -263,7 +263,7 @@ MonoBehaviour:
   firstPersonCamera: {fileID: 8697882884286579730}
   gunPositionOffset: {x: 0.12, y: -0.15, z: 0.3}
   gunRotationOffset: {x: -5, y: -0.2, z: 0}
---- !u!114 &3806824958477802355
+--- !u!114 &4513475345461468984
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,10 +272,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 561389139830730110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f1821a6999e40aabca70757a1012fdc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dd451b1751491547baab954d1ec57e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentItem: {fileID: 0}
+  walkSpeed: 4
+  sprintSpeed: 14
+  maxVelocityChange: 10
 --- !u!1 &2112089104368048902
 GameObject:
   m_ObjectHideFlags: 0

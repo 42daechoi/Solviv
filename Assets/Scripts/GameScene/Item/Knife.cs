@@ -2,7 +2,7 @@
 
 namespace GameScene.Item
 {
-    [CreateAssetMenu(fileName = "NewKnifeItem", menuName = "ScriptableObjects/KnifeItem")]
+    [CreateAssetMenu(fileName = "Knife", menuName = "ScriptableObjects/Knife")]
     public class Knife : global::Item
     {
         [Header("칼 레이 모듈")]

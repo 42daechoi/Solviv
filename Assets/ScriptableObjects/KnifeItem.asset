@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e219ac937944ca386cf7fde7536fed7, type: 3}
   m_Name: KnifeItem
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Knife
   icon: {fileID: 0}
   rayModule: {fileID: 11400000, guid: 415e93ab7a3fb6c439873c8febaef11f, type: 2}
