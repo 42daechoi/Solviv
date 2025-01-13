@@ -1,10 +1,16 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "FlashLight", menuName = "ScriptableObjects/FlashLight")]
-public class FlashLight : Item
+[CreateAssetMenu(fileName = "Flashlight", menuName = "ScriptableObjects/Flashlight")]
+public class Flashlight : Item
 {
+    public GameObject spotLight;
     public override void UseItem()
     {
-        return;
+        if (spotLight == null)
+        {
+            Debug.Log("Flashlight.cs : spot light missing.");
+        }
+        bool isActive = spotLight.activeSelf;
+        spotLight.SetActive(!isActive);
     }
 }
