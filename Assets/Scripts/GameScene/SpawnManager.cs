@@ -25,11 +25,10 @@ public class SpawnManager : MonoBehaviour
         Quaternion spawnRotation = spawnPoints[spawnIdx].rotation;
         GameObject player = PhotonNetwork.Instantiate("CowBoy", spawnPosition, spawnRotation);
         isSpawned[spawnIdx] = true;
-        Debug.Log("dd");
         
         // 아이템 임시 스폰 - 삭제 필요
-        PhotonNetwork.Instantiate("Item/Battery", spawnPosition - new Vector3(2, 0, 0), spawnRotation);
-        PhotonNetwork.Instantiate("Item/Cube", spawnPosition - new Vector3(5, 0, 0), spawnRotation);
+        PhotonNetwork.Instantiate("Item/Flashlight", spawnPosition - new Vector3(2, -5, 0), spawnRotation);
+        PhotonNetwork.Instantiate("Item/Gun", spawnPosition - new Vector3(5, -5, 0), spawnRotation);
     }
     
     int GetAvailableSpawnIndex(int playerIndex)
