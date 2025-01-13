@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun; // Photon 추가
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public float walkSpeed = 4f;
     public float sprintSpeed = 14f;
@@ -14,6 +14,7 @@ public class Movement : MonoBehaviour
     private Rigidbody rb;
     private PhotonView photonView; // PhotonView 추가
     private bool isGunEquipped = false;
+    
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class Movement : MonoBehaviour
         // EventManager의 이벤트 구독
         EventManager_Game.Instance.OnPlayerMove += OnPlayerMove;
         EventManager_Game.Instance.OnPlayerSprint += OnPlayerSprint;
+        EventManager_Game.Instance.OnUseItem += OnUseItem;
     }
 
     private void OnDisable()
@@ -36,6 +38,7 @@ public class Movement : MonoBehaviour
         {
             EventManager_Game.Instance.OnPlayerMove -= OnPlayerMove;
             EventManager_Game.Instance.OnPlayerSprint -= OnPlayerSprint;
+            EventManager_Game.Instance.OnUseItem -= OnUseItem;
         }
     }
     
@@ -75,5 +78,18 @@ public class Movement : MonoBehaviour
         velocityChange.y = 0;
 
         return velocityChange;
+    }
+
+    private void OnUseItem()
+    {
+        Item currentItem = null;
+        if (TryGetComponent(out HeldItem heldItem))
+        {
+            currentItem = heldItem.GetItem();
+        }
+        if (currentItem != null)
+        {
+            currentItem.UseItem();
+        }
     }
 }
