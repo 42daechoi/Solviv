@@ -29,13 +29,13 @@ public class HeldItem : MonoBehaviour
             if (keyCode == 1)
             {
                 item = null;
-                // �Ǽ� ��� �ִϸ��̼� �߰�
+                // 맨손 드는 애니메이션 추가
             }
             else
             {
                 slotIndex = keyCode - 2;
                 item = itemSlots[slotIndex];
-                // �����ۿ� �´� �ִϸ��̼� �߰�
+                // 아이템 별 애니메이션 추가
             }
         }
     }

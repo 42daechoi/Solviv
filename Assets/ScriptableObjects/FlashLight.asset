@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f4ae4a8b736b6f46ac6e8f94a9ce123, type: 3}
-  m_Name: Cube
+  m_Script: {fileID: 11500000, guid: cf8d1b5380d73194e8195ebe0f10d5a9, type: 3}
+  m_Name: FlashLight
   m_EditorClassIdentifier: 
-  itemName: Cube
-  icon: {fileID: 21300000, guid: 70f28a383b56d1c4d9e9c3749b65c165, type: 3}
+  itemName: FlashLight
+  icon: {fileID: 0}

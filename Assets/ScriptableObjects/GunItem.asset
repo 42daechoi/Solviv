@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98e2e9f1d0d144be973292286cafc059, type: 3}
   m_Name: GunItem
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Gun
   icon: {fileID: 0}
   rayModule: {fileID: 11400000, guid: 415e93ab7a3fb6c439873c8febaef11f, type: 2}
   currentSpeed: 0
