@@ -11,6 +11,8 @@ public class EventManager_Game : MonoBehaviour
     public event Action<int> OnHeldItem;
     public event Action OnDropItem;
 
+    public event Action OnUseItem;
+
     public static EventManager_Game Instance { get; private set; }
 
     private void Awake()
@@ -48,5 +50,10 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeDropItem()
     {
         OnDropItem?.Invoke();
+    }
+
+    public void InvokeUseItem()
+    {
+        OnUseItem?.Invoke();
     }
 }

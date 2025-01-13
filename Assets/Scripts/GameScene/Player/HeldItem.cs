@@ -29,13 +29,13 @@ public class HeldItem : MonoBehaviour
             if (keyCode == 1)
             {
                 item = null;
-                // ¸Ç¼Õ µå´Â ¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+                // ï¿½Ç¼ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
             }
             else
             {
                 slotIndex = keyCode - 2;
                 item = itemSlots[slotIndex];
-                // ¾ÆÀÌÅÛ¿¡ ¸Â´Â ¾Ö´Ï¸ÞÀÌ¼Ç Ãß°¡
+                // ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½Â´ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½
             }
         }
     }
@@ -51,5 +51,10 @@ public class HeldItem : MonoBehaviour
     public bool IsHeldItem(string itemName)
     {
         return item.itemName == itemName;
+    }
+
+    public Item GetItem()
+    {
+        return item;
     }
 }
