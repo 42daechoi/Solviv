@@ -5,8 +5,6 @@ using System;
 
 public class EventManager_Game : MonoBehaviour
 {
-    public event Action<Vector3> OnPlayerMove;
-    public event Action<bool> OnPlayerSprint;
     public event Action OnInteraction;
     public event Action<int> OnHeldItem;
     public event Action OnDropItem;
@@ -27,17 +25,7 @@ public class EventManager_Game : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public void InvokePlayerMove(Vector3 moveDirection)
-    {
-        OnPlayerMove?.Invoke(moveDirection);
-    }
-
-    public void InvokePlayerSprint(bool sprinting)
-    {
-        OnPlayerSprint?.Invoke(sprinting);
-    }
-
+    
     public void InvokeInteraction()
     {
         OnInteraction?.Invoke();
