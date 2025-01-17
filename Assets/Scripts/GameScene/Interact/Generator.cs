@@ -14,6 +14,6 @@ public class Generator : MonoBehaviourPun, IInteractableObject
         {
             return;
         }
-        // InstallBattery(); ¹ßÀü±â¿¡ ¹èÅÍ¸®¸¦ ÀåÂøÇÏ´Â ÇÔ¼ö Ãß°¡
+        // InstallBattery(); ë°œì „ê¸°ì— ë°°í„°ë¦¬ë¥¼ ì¥ì°©í•˜ëŠ” í•¨ìˆ˜ ì¶”ê°€
     }
 }
