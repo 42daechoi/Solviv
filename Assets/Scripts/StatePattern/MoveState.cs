@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class MoveState : IMovementState
+public class MoveState : IState
 {
 
     public void EnterState(PlayerController player)
     {
-        Debug.Log("Entered Move State");
+        Debug.Log("Move행동 진입");
     }
 
     public void UpdateState(PlayerController player)
@@ -13,8 +13,7 @@ public class MoveState : IMovementState
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         player.inputDirection = new Vector3(horizontal, 0, vertical).normalized;
-
-        // 스프린트 키가 눌리면 Sprint 상태로 전환
+        
         if (Input.GetKey(KeyCode.LeftShift))
         {
             player.TransitionToState(new SprintState());
@@ -32,7 +31,7 @@ public class MoveState : IMovementState
     {
         if (player.inputDirection.magnitude > 0.1f)
         {
-            // 기본 속도인 WalkSpeed로 부드럽게 이동
+            // 기본 속도인 WalkSpeed와 smoothSpeed의 보간값을 넣어 자연스럽게 줄어들게만듬
             Vector3 targetVelocity = player.CalculateMovement(player.SpeedSettings.walkSpeed);
             player.Rigidbody.velocity = Vector3.Lerp(player.Rigidbody.velocity, targetVelocity, player.SpeedSettings.smoothSpeed);
         }
@@ -40,6 +39,11 @@ public class MoveState : IMovementState
 
     public void ExitState(PlayerController player)
     {
-        Debug.Log("Exiting Move State");
+        Debug.Log("Move행동 벗어남");
+    }
+    
+    public bool CanInteraction()
+    {
+        return false;
     }
 }

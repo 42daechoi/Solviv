@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class IdleState : IMovementState
+public class IdleState : IState
 {
     public void EnterState(PlayerController player)
     {
-        Debug.Log("Entered Idle State");
+        Debug.Log("Idle자세");
     }
 
     public void UpdateState(PlayerController player)
@@ -26,6 +26,11 @@ public class IdleState : IMovementState
 
     public void ExitState(PlayerController player)
     {
-        Debug.Log("Exiting Idle State");
+        Debug.Log("Idle자세 벗어남");
+    }
+
+    public bool CanInteraction()
+    {
+        return true;
     }
 }

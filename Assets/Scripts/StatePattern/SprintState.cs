@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class SprintState : IMovementState
+public class SprintState : IState
 {
     public void EnterState(PlayerController player)
     {
-        Debug.Log("Entered Sprint State");
+        Debug.Log("Sprint행동 진입");
     }
 
     public void UpdateState(PlayerController player)
@@ -36,6 +36,11 @@ public class SprintState : IMovementState
 
     public void ExitState(PlayerController player)
     {
-        Debug.Log("Exiting Sprint State");
+        Debug.Log("Sprint 행동 벗어남");
+    }
+    
+    public bool CanInteraction()
+    {
+        return false;
     }
 }

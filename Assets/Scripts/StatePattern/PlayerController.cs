@@ -3,17 +3,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private IMovementState IdleState { get; set; }
-    private IMovementState MoveState { get; set; }
-    private IMovementState SprintState { get; set; }
-    private IMovementState JumpState { get; set; }
+    private IState IdleState { get; set; }
+    private IState MoveState { get; set; }
+    private IState SprintState { get; set; }
+    private IState JumpState { get; set; }
 
     [Header("Speed Settings")]
     [SerializeField] private MovementSettings _speedSettings;
     
     private Rigidbody _rigidbody;
     private PhotonView _photonView;
-    private IMovementState _currentState;
+    private IState _currentState;
+    private Interaction _interaction;
     
     private float _currentSpeed;
     
@@ -28,9 +29,20 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _photonView = GetComponent<PhotonView>();
+        _interaction = GetComponent<Interaction>();
         _currentSpeed = _speedSettings.walkSpeed;
         
         TransitionToState(new IdleState());
+    }
+    
+    private void OnEnable()
+    {
+        EventManager_Game.Instance.OnInteraction += HandleInteraction;
+    }
+
+    private void OnDisable()
+    {
+        EventManager_Game.Instance.OnInteraction -= HandleInteraction;
     }
 
     private void Update()
@@ -49,7 +61,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TransitionToState(IMovementState newState)
+    public void TransitionToState(IState newState)
     {
         _currentState?.ExitState(this);
         _currentState = newState;
@@ -79,5 +91,23 @@ public class PlayerController : MonoBehaviour
             Item currentItem = heldItem.GetItem();
             currentItem?.UseItem();
         }
+    }
+    
+    private void HandleInteraction()
+    {
+        if (_currentState.CanInteraction())
+        {
+            Debug.Log("인터렉션 실행");
+            _interaction.RunInteraction();
+        }
+        else
+        {
+            Debug.Log("현재 상태에서 Interaction 실행 불가.");
+        }
+    }
+
+    public IState GetCurrentState()
+    {
+        return _currentState;
     }
 }
