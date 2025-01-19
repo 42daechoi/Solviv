@@ -10,6 +10,7 @@ public class EventManager_Game : MonoBehaviour
     public event Action OnInteraction;
     public event Action<int> OnHeldItem;
     public event Action OnDropItem;
+    public event Action<int> OnRemoveItem;
 
     public event Action OnUseItem;
 
@@ -56,12 +57,10 @@ public class EventManager_Game : MonoBehaviour
     {
         OnUseItem?.Invoke();
     }
+
+    public void InvokeRemoveItem(int slotIndex)
+    {
+        OnRemoveItem?.Invoke(slotIndex);
+    }
 }
 
-// IdleState 내부에 Interaction 구현하면은 = 구조 단순화 되면서 확장성은 x
-// ㄴ 책임분리가 안됨
-
-// PC, Interaction 관리하면 구조는 if문써서 연산은 추가될진몰라도 확장성은 기가막히다.
-// ㄴ 책임분리 o
-
-// MoveState 말그대로
