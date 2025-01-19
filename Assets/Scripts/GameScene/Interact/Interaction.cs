@@ -6,17 +6,7 @@ using UnityEngine;
 public class Interaction : MonoBehaviourPun
 {
     public float interactionRange = 3.0f;
-
-    private void OnEnable()
-    {
-        EventManager_Game.Instance.OnInteraction += TryInteraction;
-    }
-
-    private void OnDisable()
-    {
-        EventManager_Game.Instance.OnInteraction -= TryInteraction;
-    }
-
+    
     private void TryInteraction()
     {
         // 화면 중심에서 발사되는 레이 생성
@@ -41,5 +31,10 @@ public class Interaction : MonoBehaviourPun
         {
             Debug.Log("레이캐스트가 아무 오브젝트도 맞추지 못했습니다.");
         }
+    }
+
+    public void RunInteraction()
+    {
+        TryInteraction();
     }
 }
