@@ -40,7 +40,7 @@ public class HeldItem : MonoBehaviour
         }
     }
 
-    private void DropItem()
+    public void DropItem()
     {
         if (item != null && TryGetComponent(out Inventory inventory))
         {
