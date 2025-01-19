@@ -13,7 +13,8 @@ public class FarmingObject : MonoBehaviourPun, IInteractableObject
 
         if (playerInventory.AddItem(item))
         {
-            PhotonNetwork.Destroy(gameObject);
+            photonView.TransferOwnership(playerID);
+            ObjectPool.instance.ReturnObject(gameObject, item.itemName);
         }
         else
         {

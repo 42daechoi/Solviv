@@ -5,8 +5,17 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviourPun
 {
-    public Item[] itemSlots = new Item[4];
-    private float dropOffset = 1f;
+    [SerializeField]private Item[] itemSlots = new Item[4];
+
+    private void OnEnable()
+    {
+        EventManager_Game.Instance.OnRemoveItem += RemoveItem;
+    }
+
+    private void OnDisable()
+    {
+        EventManager_Game.Instance.OnRemoveItem -= RemoveItem;
+    }
 
     public bool AddItem(Item item)
     {
@@ -28,21 +37,17 @@ public class Inventory : MonoBehaviourPun
     {
         if (itemSlots[slotIndex] != null)
         {
-            string dropItemName = "Item/" + itemSlots[slotIndex].itemName;
-            Vector3 dropPosition = transform.position + transform.forward * dropOffset;
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, dropOffset))
-            {
-                // 충돌이 발생하면 드롭 위치를 충돌 지점 바로 앞에 설정
-                dropPosition = hit.point - transform.forward * 0.5f;
-            }
-            PhotonNetwork.Instantiate(dropItemName, dropPosition, transform.transform.rotation);
             itemSlots[slotIndex] = null;
             InventoryUI.Instance.UpdateUI(this);
-            Debug.Log($"{dropItemName}을 버렸습니다.");
         }
         else
         {
             Debug.Log("비어있는 슬롯으로 버리기를 시도할 수 없습니다.");
         }
+    }
+
+    public Item[] GetItemSlots()
+    {
+        return itemSlots;
     }
 }

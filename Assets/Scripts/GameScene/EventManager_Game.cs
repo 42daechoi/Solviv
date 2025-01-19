@@ -10,6 +10,7 @@ public class EventManager_Game : MonoBehaviour
     public event Action OnInteraction;
     public event Action<int> OnHeldItem;
     public event Action OnDropItem;
+    public event Action<int> OnRemoveItem;
 
     public event Action OnUseItem;
 
@@ -55,5 +56,10 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeUseItem()
     {
         OnUseItem?.Invoke();
+    }
+
+    public void InvokeRemoveItem(int slotIndex)
+    {
+        OnRemoveItem?.Invoke(slotIndex);
     }
 }
