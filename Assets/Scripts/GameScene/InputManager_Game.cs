@@ -4,18 +4,18 @@ public class InputManager_Game : MonoBehaviour
 {
     void Update()
     {
-        // 이동 입력 처리
-        float hzInput = Input.GetAxis("Horizontal");
-        float vInput = Input.GetAxis("Vertical");
-        Vector3 moveDirection = new Vector3(hzInput, 0, vInput);
-
-        // 이동 이벤트 호출
-        EventManager_Game.Instance.InvokePlayerMove(moveDirection);
-
-        // 스프린트 입력 처리
-        bool sprinting = Input.GetKey(KeyCode.LeftShift); // KeyCode로 처리
-        EventManager_Game.Instance.InvokePlayerSprint(sprinting);
-
+        
+        // 이동 입력
+        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        if (moveDirection.magnitude > 0.01f) // 이동 입력이 유효할 때만 이벤트 발행
+        {
+            EventManager_Game.Instance.InvokePlayerMove(moveDirection);
+        }
+        
+        // 스프린트
+        bool isSprinting = Input.GetKey(KeyCode.LeftShift);
+        EventManager_Game.Instance.InvokeSprint(isSprinting);
+        
         // 상호 작용
         if (Input.GetKeyDown(KeyCode.F))
         {

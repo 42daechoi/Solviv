@@ -28,17 +28,17 @@ public class EventManager_Game : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
     public void InvokePlayerMove(Vector3 moveDirection)
     {
         OnPlayerMove?.Invoke(moveDirection);
     }
 
-    public void InvokePlayerSprint(bool sprinting)
+    // 스프린트 이벤트 발행
+    public void InvokeSprint(bool isSprint)
     {
-        OnPlayerSprint?.Invoke(sprinting);
+        OnPlayerSprint?.Invoke(isSprint);
     }
-
     public void InvokeInteraction()
     {
         OnInteraction?.Invoke();
@@ -63,3 +63,4 @@ public class EventManager_Game : MonoBehaviour
         OnRemoveItem?.Invoke(slotIndex);
     }
 }
+
