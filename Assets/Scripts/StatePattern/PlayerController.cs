@@ -16,10 +16,12 @@ public class PlayerController : MonoBehaviour
     private IState _currentState;
     private Interaction _interaction;
     
+    private Vector3 _inputDirection;
+    private bool _isSprinting;
+    
     private float _currentSpeed;
     
-
-    [HideInInspector] public Vector3 inputDirection;
+    
     [HideInInspector] public bool isGunEquipped;
     
     public Rigidbody Rigidbody => _rigidbody;
@@ -37,11 +39,15 @@ public class PlayerController : MonoBehaviour
     
     private void OnEnable()
     {
+        EventManager_Game.Instance.OnPlayerMove += UpdateMoveInput;
+        EventManager_Game.Instance.OnPlayerSprint += UpdateSprintInput;
         EventManager_Game.Instance.OnInteraction += HandleInteraction;
     }
 
     private void OnDisable()
     {
+        EventManager_Game.Instance.OnPlayerMove -= UpdateMoveInput;
+        EventManager_Game.Instance.OnPlayerSprint -= UpdateSprintInput;
         EventManager_Game.Instance.OnInteraction -= HandleInteraction;
     }
 
@@ -49,7 +55,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_photonView.IsMine)
         {
-            _currentState.UpdateState(this);
+            _currentState.UpdateState(this, _inputDirection, _isSprinting);
         }
     }
 
@@ -70,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 CalculateMovement(float speed)
     {
-        Vector3 targetVelocity = new Vector3(inputDirection.x, 0, inputDirection.z);
+        Vector3 targetVelocity = new Vector3(_inputDirection.x, 0, _inputDirection.z);
         targetVelocity = transform.TransformDirection(targetVelocity);
         targetVelocity *= speed;
 
@@ -91,6 +97,16 @@ public class PlayerController : MonoBehaviour
             Item currentItem = heldItem.GetItem();
             currentItem?.UseItem();
         }
+    }
+    
+    private void UpdateMoveInput(Vector3 moveDirection)
+    {
+        _inputDirection = moveDirection;
+    }
+
+    private void UpdateSprintInput(bool isSprinting)
+    {
+        _isSprinting = isSprinting;
     }
     
     private void HandleInteraction()

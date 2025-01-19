@@ -7,13 +7,9 @@ public class IdleState : IState
         Debug.Log("Idle자세");
     }
 
-    public void UpdateState(PlayerController player)
+    public void UpdateState(PlayerController player, Vector3 inputDirection, bool isSprinting)
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        player.inputDirection = new Vector3(horizontal, 0, vertical);
-
-        if (player.inputDirection.magnitude > 0.1f)
+        if (inputDirection.magnitude > 0.1f)
         {
             player.TransitionToState(new MoveState());
         }

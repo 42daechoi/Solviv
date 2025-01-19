@@ -7,31 +7,24 @@ public class SprintState : IState
         Debug.Log("Sprint행동 진입");
     }
 
-    public void UpdateState(PlayerController player)
+    public void UpdateState(PlayerController player, Vector3 inputDirection, bool isSprinting)
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        player.inputDirection = new Vector3(horizontal, 0, vertical).normalized;
-        
-        if (player.inputDirection.magnitude < 0.1f)
+        if (!isSprinting)
         {
-            player.TransitionToState(new IdleState());
+            player.TransitionToState(new MoveState());
             return;
         }
 
-        if (!Input.GetKey(KeyCode.LeftShift))
+        if (inputDirection.magnitude < 0.1f)
         {
-            player.TransitionToState(new MoveState());
+            player.TransitionToState(new IdleState());
         }
     }
 
     public void FixedUpdateState(PlayerController player)
     {
-        if (player.inputDirection.magnitude > 0.1f)
-        {
-            Vector3 targetVelocity = player.CalculateMovement(player.SpeedSettings.sprintSpeed);
-            player.Rigidbody.velocity = Vector3.Lerp(player.Rigidbody.velocity, targetVelocity, player.SpeedSettings.smoothSpeed);
-        }
+        Vector3 targetVelocity = player.CalculateMovement(player.SpeedSettings.sprintSpeed);
+        player.Rigidbody.velocity = Vector3.Lerp(player.Rigidbody.velocity, targetVelocity, player.SpeedSettings.smoothSpeed);
     }
 
     public void ExitState(PlayerController player)
@@ -41,6 +34,6 @@ public class SprintState : IState
     
     public bool CanInteraction()
     {
-        return false;
+        return true;
     }
 }
