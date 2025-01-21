@@ -8,6 +8,7 @@ TagManager:
   - CinamachinCamera
   - Weapon
   - Audio
+  - Button
   layers:
   - Default
   - TransparentFX
