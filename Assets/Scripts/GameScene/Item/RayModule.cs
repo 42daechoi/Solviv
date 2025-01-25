@@ -27,7 +27,7 @@ public class RayModule : ScriptableObject
                 PerformRandomShot(shooterTransform, speed);
                 break;
             case RayType.KnifeStab:
-                PerformKnifeStab(shooterTransform);
+                PerformShortStab(shooterTransform);
                 break;
         }
     }
@@ -73,19 +73,50 @@ public class RayModule : ScriptableObject
     }
 
 
-    private void PerformKnifeStab(Transform shooterTransform)
+    private void PerformShortStab(Transform shooterTransform)
     {
         float knifeRange = 2f;
-        Ray ray = new Ray(shooterTransform.position, shooterTransform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, knifeRange))
-        {
-            Debug.DrawRay(shooterTransform.position, shooterTransform.forward * knifeRange, Color.blue, 1f);
 
-            PlayerHealth targetHealth = hit.collider.GetComponent<PlayerHealth>();
-            if (targetHealth != null)
-            {
-                targetHealth.TakeDamage(damage);
-            }
+        // 1) 화면 중앙 기준 레이
+        Ray centerRay = Camera.main.ScreenPointToRay(
+            new Vector3(Screen.width / 2, Screen.height / 2, 0)
+        );
+
+        // 2) 레이 생성 (origin/direction)
+        Vector3 origin = centerRay.origin;
+        Vector3 direction = centerRay.direction;
+        Ray finalRay = new Ray(origin, direction);
+
+        // 3) 레이캐스트 (knifeRange 까지만)
+        if (Physics.Raycast(finalRay, out RaycastHit hit, knifeRange))
+        {
+            // 디버그 레이 (씬 뷰에서 파란 선으로 확인)
+            Debug.DrawRay(origin, direction * knifeRange, Color.blue, 1f);
+
+            // 맞은 대상이 PlayerHealth를 가지고 있다면 데미지 적용 - 이건 없애는게 좋을 듯 여러군데에서 ray를 재사용하려면
+            // PlayerHealth targetHealth = hit.collider.GetComponent<PlayerHealth>();
+            // if (targetHealth != null)
+            // {
+            //     targetHealth.TakeDamage(damage);
+            // }
         }
     }
+    
+    public bool TryGetShortRayHit(float range, out RaycastHit hit)
+    {
+        Ray centerRay = Camera.main.ScreenPointToRay(
+            new Vector3(Screen.width / 2, Screen.height / 2, 0)
+        );
+
+        if (Physics.Raycast(centerRay, out RaycastHit localHit, range))
+        {
+            Debug.DrawRay(centerRay.origin, centerRay.direction * range, Color.cyan, 1f);
+            hit = localHit;
+            return true;
+        }
+
+        hit = default;
+        return false;
+    }
+
 }
