@@ -9,6 +9,7 @@ public class EventManager_Game : MonoBehaviour
     public event Action<bool> OnPlayerSprint;
     public event Action OnInteraction;
     public event Action<int> OnHeldItem;
+    public event Action OnEquip;
     public event Action OnDropItem;
     public event Action<int> OnRemoveItem;
 
@@ -46,6 +47,7 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeHeldItem(int keyCode)
     {
         OnHeldItem?.Invoke(keyCode);
+        OnEquip?.Invoke();
     }
 
     public void InvokeDropItem()

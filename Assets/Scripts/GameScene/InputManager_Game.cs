@@ -26,6 +26,7 @@ public class InputManager_Game : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             EventManager_Game.Instance.InvokeHeldItem(1);
+            
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
