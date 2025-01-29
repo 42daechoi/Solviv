@@ -14,6 +14,8 @@ public class EventManager_Game : MonoBehaviour
     public event Action<int> OnRemoveItem;
 
     public event Action OnUseItem;
+    
+    public event Action<Item> OnUseItemWithItem;
 
     public static EventManager_Game Instance { get; private set; }
 
@@ -59,10 +61,16 @@ public class EventManager_Game : MonoBehaviour
     {
         OnUseItem?.Invoke();
     }
+    
 
     public void InvokeRemoveItem(int slotIndex)
     {
         OnRemoveItem?.Invoke(slotIndex);
+    }
+    
+    public void InvokeUseItemWithItem(Item usedItem)
+    {
+        OnUseItemWithItem?.Invoke(usedItem);
     }
 }
 
