@@ -53,6 +53,7 @@ public class EquipItem : MonoBehaviour
             Item item = _heldItem.GetItem();
             if (item)
             {
+                Debug.Log($"_heldItem에서 받아온아이템은{item}임");
                 Equip(item);
             }
             else
@@ -72,13 +73,13 @@ public class EquipItem : MonoBehaviour
         }
 
         _equippedObject = ObjectPool.instance.GetObject(item.itemName, Vector3.zero, Quaternion.identity);
-
+        
         if (_equippedObject)
         {
             _equippedObject.transform.SetParent(_equipPos);
             _equippedObject.transform.localPosition = item.equipPosition;
             _equippedObject.transform.localRotation = Quaternion.Euler(item.equipRotation);
-            
+            Debug.Log(_equippedObject);
             
             if (item.useRightIK)
             {
@@ -104,5 +105,17 @@ public class EquipItem : MonoBehaviour
                 _leftHandIK.weight = 0f;
             }
         }
+    }
+
+    public void Unequip()
+    {
+        if (_equippedObject)
+        {
+            ObjectPool.instance.ReturnObject(_equippedObject, _heldItem.GetItem().itemName);
+            _equippedObject = null;
+        }
+
+        _rightHandIK.weight = 0f;
+        _leftHandIK.weight = 0f;
     }
 }

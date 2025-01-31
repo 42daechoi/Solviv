@@ -32,7 +32,6 @@ public class HeldItem : MonoBehaviour
             if (keyCode == 1)
             {
                 item = null;
-                // 맨손 드는 애니메이션 추가
             }
             else
             {
