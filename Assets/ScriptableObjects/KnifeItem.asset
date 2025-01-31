@@ -14,4 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Knife
   icon: {fileID: 0}
+  equipPosition: {x: 0, y: 0, z: 0}
+  equipRotation: {x: 0, y: 0, z: 0}
+  rightHandPosition: {x: 0, y: 0, z: 0}
+  leftHandPosition: {x: 0, y: 0, z: 0}
+  rightHandRotation: {x: 0, y: 0, z: 0}
+  leftHandRotation: {x: 0, y: 0, z: 0}
+  useRightIK: 1
+  useLeftIK: 0
   rayModule: {fileID: 11400000, guid: 415e93ab7a3fb6c439873c8febaef11f, type: 2}
