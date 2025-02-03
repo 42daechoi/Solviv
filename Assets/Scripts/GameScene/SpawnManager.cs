@@ -27,7 +27,7 @@ public class SpawnManager : MonoBehaviour
         isSpawned[spawnIdx] = true;
         
         // 아이템 임시 스폰 - 삭제 필요
-        PhotonNetwork.Instantiate("Item/Flashlight", spawnPosition - new Vector3(2, -10, 0), spawnRotation);
+        PhotonNetwork.Instantiate("Item/Key", spawnPosition - new Vector3(2, -10, 0), spawnRotation);
         PhotonNetwork.Instantiate("Item/Battery", spawnPosition - new Vector3(5, -10, 0), spawnRotation);
     }
     

@@ -6,7 +6,7 @@ using static System.Runtime.CompilerServices.RuntimeHelpers;
 public class HeldItem : MonoBehaviour
 {
     [SerializeField] private Item item;
-    [SerializeField] private int slotIndex;
+    [SerializeField] private int slotIndex = -10;
     private float dropOffset = 1f;
 
 
@@ -32,12 +32,12 @@ public class HeldItem : MonoBehaviour
             if (keyCode == 1)
             {
                 item = null;
+                slotIndex = -10;
             }
             else
             {
                 slotIndex = keyCode - 2;
                 item = itemSlots[slotIndex];
-                // 아이템 별 애니메이션 추가
             }
         }
     }
