@@ -19,20 +19,20 @@ public class RayModule : ScriptableObject
     [Header("사격 랜덤 범위"), Tooltip("Speed가 0이 아닐 때 사격 각도 무작위 범위를 조절")]
     public float randomRange = 2f;
 
-    public void ExecuteRayAction(Transform shooterTransform, float speed)
+    public RaycastHit? ExecuteRayAction(Transform shooterTransform, float speed)
     {
         switch (rayType)
         {
             case RayType.RandomShot:
-                PerformRandomShot(shooterTransform, speed);
-                break;
+                return PerformRandomShot(shooterTransform, speed);
             case RayType.KnifeStab:
-                PerformShortStab(shooterTransform);
-                break;
+                return PerformShortStab(shooterTransform);
         }
+
+        return null;
     }
 
-    private void PerformRandomShot(Transform shooterTransform, float speed)
+    private RaycastHit? PerformRandomShot(Transform shooterTransform, float speed)
     {
         // 1) 카메라 정중앙에서 레이를 얻는다.
         //    (화면 중앙 픽셀(Screen.width / 2, Screen.height / 2) 기준)
@@ -69,12 +69,16 @@ public class RayModule : ScriptableObject
             {
                 targetHealth.TakeDamage(damage);
             }
+            return hit;
         }
+        return null;
     }
 
 
-    private void PerformShortStab(Transform shooterTransform)
+    private RaycastHit? PerformShortStab(Transform shooterTransform)
     {
+
+        Debug.Log("1");
         float knifeRange = 2f;
 
         // 1) 화면 중앙 기준 레이
@@ -99,24 +103,8 @@ public class RayModule : ScriptableObject
             // {
             //     targetHealth.TakeDamage(damage);
             // }
+            return hit;
         }
+        return null;
     }
-    
-    public bool TryGetShortRayHit(float range, out RaycastHit hit)
-    {
-        Ray centerRay = Camera.main.ScreenPointToRay(
-            new Vector3(Screen.width / 2, Screen.height / 2, 0)
-        );
-
-        if (Physics.Raycast(centerRay, out RaycastHit localHit, range))
-        {
-            Debug.DrawRay(centerRay.origin, centerRay.direction * range, Color.cyan, 1f);
-            hit = localHit;
-            return true;
-        }
-
-        hit = default;
-        return false;
-    }
-
 }

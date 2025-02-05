@@ -15,7 +15,7 @@ public class EventManager_Game : MonoBehaviour
 
     public event Action OnUseItem;
     
-    public event Action<Item> OnUseItemWithItem;
+    public event Action<Item> OnOpenDoor;
 
     public static EventManager_Game Instance { get; private set; }
 
@@ -68,9 +68,9 @@ public class EventManager_Game : MonoBehaviour
         OnRemoveItem?.Invoke(slotIndex);
     }
     
-    public void InvokeUseItemWithItem(Item usedItem)
+    public void InvokeOpenDoor(Item usedItem)
     {
-        OnUseItemWithItem?.Invoke(usedItem);
+        OnOpenDoor?.Invoke(usedItem);
     }
 }
 
