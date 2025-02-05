@@ -15,12 +15,14 @@ public class HeldItem : MonoBehaviour
     {
         EventManager_Game.Instance.OnHeldItem += SelectItem;
         EventManager_Game.Instance.OnDropItem += DropItem;
+        EventManager_Game.Instance.OnUseItem += UseItem;
     }
 
     private void OnDisable()
     {
         EventManager_Game.Instance.OnHeldItem -= SelectItem;
         EventManager_Game.Instance.OnDropItem -= DropItem;
+        EventManager_Game.Instance.OnUseItem -= UseItem;
     }
 
     private void SelectItem(int keyCode)
@@ -77,5 +79,14 @@ public class HeldItem : MonoBehaviour
     public int GetSlotIndex()
     {
         return slotIndex;
+    }
+
+    public void UseItem()
+    {
+        if (item == null)
+        {
+            return;
+        }
+        item.UseItem();
     }
 }

@@ -11,14 +11,14 @@ namespace GameScene.Item
         [Header("현재 이동 스피드 (예시용)")]
         public float currentSpeed;
 
+        private RaycastHit hit;
         public override void UseItem()
         {
             Transform shooterTransform = GetShooterTransform();
 
             if (rayModule != null && shooterTransform != null)
             {
-                rayModule.ExecuteRayAction(shooterTransform, currentSpeed);
-                
+                RaycastHit? raycastHit = rayModule.ExecuteRayAction(shooterTransform, currentSpeed);
             }
             else
             {

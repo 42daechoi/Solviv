@@ -3,10 +3,12 @@
 namespace GameScene.Item
 {
     [CreateAssetMenu(fileName = "Knife", menuName = "ScriptableObjects/Knife")]
+    
     public class Knife : global::Item
     {
         [Header("칼 레이 모듈")]
         public RayModule rayModule;
+        private RaycastHit hit;
 
         public override void UseItem()
         {
@@ -14,7 +16,7 @@ namespace GameScene.Item
 
             if (rayModule != null && shooterTransform != null)
             {
-                rayModule.ExecuteRayAction(shooterTransform, 0f);
+                RaycastHit? raycastHit = rayModule.ExecuteRayAction(shooterTransform, 0f);
             }
             else
             {
