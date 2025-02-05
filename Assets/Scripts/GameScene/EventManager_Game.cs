@@ -16,6 +16,7 @@ public class EventManager_Game : MonoBehaviour
     public event Action OnUseItem;
     
     public event Action<Item> OnOpenDoor;
+    public event Action<bool> OnUseComputer;
 
     public static EventManager_Game Instance { get; private set; }
 
@@ -71,6 +72,11 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeOpenDoor(Item usedItem)
     {
         OnOpenDoor?.Invoke(usedItem);
+    }
+
+    public void InvokeUseComputer(bool isActComputer)
+    {
+        OnUseComputer?.Invoke(isActComputer);
     }
 }
 

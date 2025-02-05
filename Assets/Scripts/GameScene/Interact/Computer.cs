@@ -18,7 +18,7 @@ public class Computer : MonoBehaviourPun, IInteractableObject
         {
             moniterCamera.gameObject.SetActive(true);
             moniterCamera.Priority = 20;
-            OnInteraction = true;  
+            OnInteraction = true;
         }
         else
         {
@@ -26,5 +26,6 @@ public class Computer : MonoBehaviourPun, IInteractableObject
             moniterCamera.gameObject.SetActive(false);
             OnInteraction = false;
         }
+        EventManager_Game.Instance.InvokeUseComputer(OnInteraction);
     }
 }
