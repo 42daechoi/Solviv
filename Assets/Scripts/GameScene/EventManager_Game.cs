@@ -17,6 +17,7 @@ public class EventManager_Game : MonoBehaviour
     
     public event Action<Item> OnOpenDoor;
     public event Action<bool> OnUseComputer;
+    public event Action OnAllGeneratorsActivated;
 
     public static EventManager_Game Instance { get; private set; }
 
@@ -77,6 +78,11 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeUseComputer(bool isActComputer)
     {
         OnUseComputer?.Invoke(isActComputer);
+    }
+
+    public void InvokeAllGeneratorsActivated()
+    {
+        OnAllGeneratorsActivated?.Invoke();
     }
 }
 

@@ -5,15 +5,30 @@ using UnityEngine;
 public class Computer : MonoBehaviourPun, IInteractableObject
 {
     [SerializeField] private CinemachineVirtualCamera moniterCamera;
+    private bool IsAllGeneratorsActivated;
     private bool OnInteraction;
+
+    private void OnEnable()
+    {
+        EventManager_Game.Instance.OnAllGeneratorsActivated += HandleAllGeneratorsActivated;
+    }
+    private void OnDisable()
+    {
+        EventManager_Game.Instance.OnAllGeneratorsActivated -= HandleAllGeneratorsActivated;
+    }
 
     void Start()
     {
+        IsAllGeneratorsActivated = false;
         OnInteraction = false;
         moniterCamera.gameObject.SetActive(false);
     }
     public void Interact(int playerId)
     {
+        if (IsAllGeneratorsActivated == false)
+        {
+            return;
+        }
         if (!OnInteraction)
         {
             moniterCamera.gameObject.SetActive(true);
@@ -27,5 +42,11 @@ public class Computer : MonoBehaviourPun, IInteractableObject
             OnInteraction = false;
         }
         EventManager_Game.Instance.InvokeUseComputer(OnInteraction);
+    }
+
+    private void HandleAllGeneratorsActivated()
+    {
+        IsAllGeneratorsActivated = true;
+        Debug.Log("컴퓨터 상호작용 활성화.");
     }
 }

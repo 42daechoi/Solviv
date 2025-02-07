@@ -19,12 +19,15 @@ public class Generator : MonoBehaviourPun, IInteractableObject
         HeldItem heldItem = player.GetComponent<HeldItem>();
         Inventory inventory = player.GetComponent<Inventory>();
 
-        if (!heldItem.IsHeldItem("Battery") || currentBatteryCount >= maxBatteryCount)
+        if (!heldItem.IsHeldItem("Battery") || IsAllBatteryInstalled())
         {
             return;
         }
         InstallBattery(inventory, heldItem.GetSlotIndex());
-        ExecuteGenerator();
+        if (IsAllBatteryInstalled())
+        {
+            ExecuteGenerator();
+        }
     }
 
     private void InstallBattery(Inventory inventory, int slotIdx)
@@ -37,11 +40,16 @@ public class Generator : MonoBehaviourPun, IInteractableObject
 
     private void ExecuteGenerator()
     {
-        if (currentBatteryCount >= maxBatteryCount)
+        if (IsAllBatteryInstalled())
         {
             // 발전기 가동 애니메이션 또는 발전기 Light On
-            // GameManager의 실행된 발전기 수 증가
+            GameManager.Instance.AddActiveGenerator();
             Debug.Log("발전기 가동 완료.");
         }
+    }
+
+    private bool IsAllBatteryInstalled()
+    {
+        return currentBatteryCount >= maxBatteryCount;
     }
 }
