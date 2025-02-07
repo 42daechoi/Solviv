@@ -3,39 +3,40 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class Generator : MonoBehaviourPun, IInteractableObject
+public class Generator : MonoBehaviourPun
 {
     private int maxBatteryCount = 3;
     [SerializeField] private int currentBatteryCount;
+    private Vector3 batteryPositionOffset;
 
     void Start()
     {
         currentBatteryCount = 0;
+        batteryPositionOffset = Vector3.zero;
+        // 추후 수정 필요, 배터리 장착시 오프셋 값 증가 필요, 배터리 해제 시 오프셋 값 감소 필요
     }
 
-    public void Interact(int playerID)
+    public bool TryInstallBattery(HeldItem heldItem)
     {
-        GameObject player = PhotonView.Find(playerID).gameObject;
-        HeldItem heldItem = player.GetComponent<HeldItem>();
-        Inventory inventory = player.GetComponent<Inventory>();
-
-        if (!heldItem.IsHeldItem("Battery") || IsAllBatteryInstalled())
+        if (IsAllBatteryInstalled())
         {
-            return;
+            Debug.Log("Generator : 배터리가 이미 가득 찼습니다.");
+            return false;
         }
-        InstallBattery(inventory, heldItem.GetSlotIndex());
+        Debug.Log("3");
+        InstallBattery(heldItem);
         if (IsAllBatteryInstalled())
         {
             ExecuteGenerator();
         }
+        return true;
     }
 
-    private void InstallBattery(Inventory inventory, int slotIdx)
+    private void InstallBattery(HeldItem heldItem)
     {
-        // 발전기에 배터리 장착 위치 설정 추가 필요
-        EventManager_Game.Instance.InvokeRemoveItem(slotIdx);
+        heldItem.ReplaceItem(gameObject.transform.position + batteryPositionOffset);
         currentBatteryCount++;
-        Debug.Log($"배터리 장착 성공. 현재 장착된 배터리 갯수 : {currentBatteryCount}");
+        Debug.Log($"Generator : 배터리 장착 성공. 현재 장착된 배터리 갯수 : {currentBatteryCount}");
     }
 
     private void ExecuteGenerator()
@@ -44,7 +45,7 @@ public class Generator : MonoBehaviourPun, IInteractableObject
         {
             // 발전기 가동 애니메이션 또는 발전기 Light On
             GameManager.Instance.AddActiveGenerator();
-            Debug.Log("발전기 가동 완료.");
+            Debug.Log("Generator : 발전기 가동 완료.");
         }
     }
 

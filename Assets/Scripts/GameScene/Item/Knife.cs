@@ -6,9 +6,8 @@ namespace GameScene.Item
     
     public class Knife : global::Item
     {
-        [Header("칼 레이 모듈")]
+        [Header("레이 모듈")]
         public RayModule rayModule;
-        private RaycastHit hit;
 
         public override void UseItem()
         {

@@ -77,8 +77,6 @@ public class RayModule : ScriptableObject
 
     private RaycastHit? PerformShortStab(Transform shooterTransform)
     {
-
-        Debug.Log("1");
         float knifeRange = 2f;
 
         // 1) 화면 중앙 기준 레이

@@ -73,7 +73,8 @@ public class EquipItem : MonoBehaviour
         }
 
         _equippedObject = ObjectPool.instance.GetObject(item.itemName, Vector3.zero, Quaternion.identity);
-        
+        _heldItem.SetHeldItemObject(_equippedObject);
+
         if (_equippedObject)
         {
             _equippedObject.transform.SetParent(_equipPos);
