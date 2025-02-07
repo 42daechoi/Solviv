@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e219ac937944ca386cf7fde7536fed7, type: 3}
+  m_Name: KnifeItem
+  m_EditorClassIdentifier: 
+  itemName: Knife
+  icon: {fileID: 0}
+  equipPosition: {x: 0, y: 0, z: 0}
+  equipRotation: {x: 0, y: 0, z: 0}
+  rightHandPosition: {x: 0, y: 0, z: 0}
+  leftHandPosition: {x: 0, y: 0, z: 0}
+  rightHandRotation: {x: 0, y: 0, z: 0}
+  leftHandRotation: {x: 0, y: 0, z: 0}
+  useRightIK: 1
+  useLeftIK: 0
+  rayModule: {fileID: 11400000, guid: 415e93ab7a3fb6c439873c8febaef11f, type: 2}

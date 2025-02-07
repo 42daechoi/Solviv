@@ -7,6 +7,7 @@ public class HeldItem : MonoBehaviour
 {
     [SerializeField] private Item item;
     [SerializeField] private int slotIndex = -10;
+    private GameObject heldItemObject;
     private float dropOffset = 1f;
 
 
@@ -44,22 +45,43 @@ public class HeldItem : MonoBehaviour
         }
     }
 
+    public void ReplaceItem(Vector3 replacePosition)
+    {
+        if (item != null)
+        {
+            Transform heldItemTransform = heldItemObject.transform;
+
+            heldItemTransform.SetParent(null);
+            heldItemTransform.position = replacePosition;
+            RemoveHeldItem();
+        }
+    }
+
     public void DropItem()
     {
-        if (item != null && TryGetComponent(out Inventory inventory))
+        ReplaceItem(GetDropPosition());
+    }
+
+    public void RemoveHeldItem()
+    {
+        if (item != null)
         {
-            Item[] itemSlots = inventory.GetItemSlots();
-            string dropItemName = itemSlots[slotIndex].itemName;
-            Vector3 dropPosition = transform.position + transform.forward * dropOffset;
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, dropOffset))
-            {
-                // 충돌이 발생하면 드롭 위치를 충돌 지점 바로 앞에 설정
-                dropPosition = hit.point - transform.forward * 0.5f;
-            }
-            ObjectPool.instance.GetObject(dropItemName, dropPosition, transform.rotation);
+            heldItemObject.GetComponent<Collider>().enabled = true;
             EventManager_Game.Instance.InvokeRemoveItem(slotIndex);
             item = null;
+            slotIndex = -10;
         }
+    }
+
+    private Vector3 GetDropPosition()
+    {
+        Vector3 dropPosition = transform.position + transform.forward * dropOffset;
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, dropOffset))
+        {
+            // 충돌이 발생하면 드롭 위치를 충돌 지점 바로 앞에 설정
+            dropPosition = hit.point - transform.forward * 0.5f;
+        }
+        return dropPosition;
     }
 
     public bool IsHeldItem(string itemName)
@@ -88,5 +110,16 @@ public class HeldItem : MonoBehaviour
             return;
         }
         item.UseItem();
+    }
+
+    public void SetHeldItemObject(GameObject go)
+    {
+        heldItemObject = go;
+        heldItemObject.GetComponent<Collider>().enabled = false;
+    }
+
+    public GameObject GetHeldItemObject()
+    {
+        return heldItemObject;
     }
 }
