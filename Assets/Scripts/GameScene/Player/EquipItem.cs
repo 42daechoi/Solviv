@@ -12,8 +12,11 @@ public class EquipItem : MonoBehaviour
 
     public GameObject Equip(Item item)
     {
+        if (item == null)
+        {
+            return null;
+        }
         GameObject equipItem = ObjectPool.instance.GetObject(item.itemName, Vector3.zero, Quaternion.identity);
-        Debug.Log(equipItem.name);
         if (equipItem)
         {
             equipItem.transform.SetParent(_equipTransform);
@@ -28,13 +31,13 @@ public class EquipItem : MonoBehaviour
         return equipItem;
     }
 
-    public void UnEquip(GameObject itemObject, bool isReturnPool)
+    public void UnEquip(Item item, GameObject itemObject, bool isReturnPool)
     {
         if (itemObject)
         {
             if (isReturnPool)
             {
-                ObjectPool.instance.ReturnObject(itemObject, itemObject.name);
+                ObjectPool.instance.ReturnObject(itemObject, item.itemName);
             }
             itemObject.transform.SetParent(null);
             itemObject.GetComponent<Collider>().enabled = true;

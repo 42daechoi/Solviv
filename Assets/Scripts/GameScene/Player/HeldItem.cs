@@ -43,14 +43,14 @@ public class HeldItem : MonoBehaviour
         {
             if (keyCode == 1)
             {
-                equipItem.UnEquip(itemObject, true);
+                equipItem.UnEquip(item, itemObject, true);
                 InitItemInfo();
             }
             else
             {
                 if (item != null)
                 {
-                    equipItem.UnEquip(itemObject, true);
+                    equipItem.UnEquip(item, itemObject, true);
                 }
                 slotIndex = keyCode - 2;
                 item = inventory.GetItem(slotIndex);
@@ -70,7 +70,7 @@ public class HeldItem : MonoBehaviour
     {
         if (item != null)
         {
-            equipItem.UnEquip(itemObject, false);
+            equipItem.UnEquip(item, itemObject, false);
 
             itemObject.transform.position = replacePosition;
             EventManager_Game.Instance.InvokeRemoveItem(slotIndex);
