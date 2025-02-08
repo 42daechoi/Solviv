@@ -6,7 +6,7 @@ public class JumpState : IState
     {
         Debug.Log("Jump 상태 진입");
 
-        // 점프 애니메이션 설정 및 힘 적용
+        player.Animator.SetTrigger("JumpTrigger");
         Vector3 jumpForce = new Vector3(0, player.SpeedSettings.jumpForce, 0);
         player.Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
         
@@ -19,7 +19,7 @@ public class JumpState : IState
 
     public void FixedUpdateState(PlayerController player)
     {
-        if (player.IsGrounded())
+        if (player.IsGrounded() && player.Rigidbody.velocity.y <= 0.1f)
         {
             player.TransitionToState(new IdleState());
         }
@@ -34,9 +34,5 @@ public class JumpState : IState
     {
         return false;  // 점프 중에는 상호작용 불가
     }
-
-    public bool IsJumping()
-    {
-        return true;
-    }
+    
 }

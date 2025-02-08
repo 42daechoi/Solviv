@@ -25,11 +25,9 @@ public class MoveState : IState
     public void FixedUpdateState(PlayerController player)
     {
         Vector3 movement = new Vector3(player.InputDirection.x, 0, player.InputDirection.z).normalized * player.SpeedSettings.walkSpeed;
-
-        // 월드 좌표로 변환
+        
         movement = player.transform.TransformDirection(movement);
-
-        // MovePosition으로 이동
+        
         player.Rigidbody.MovePosition(player.Rigidbody.position + movement * Time.fixedDeltaTime);
 
     }
@@ -43,10 +41,5 @@ public class MoveState : IState
     public bool CanInteraction()
     {
         return true;
-    }
-
-    public bool IsJumping()
-    {
-        return false;
     }
 }

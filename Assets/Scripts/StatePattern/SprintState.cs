@@ -42,9 +42,4 @@ public class SprintState : IState
     {
         return true;
     }
-
-    public bool IsJumping()
-    {
-        return false;
-    }
 }

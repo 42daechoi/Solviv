@@ -7,5 +7,4 @@ public interface IState
     void FixedUpdateState(PlayerController player);
     void ExitState(PlayerController player);
     bool CanInteraction();
-    bool IsJumping();
 }

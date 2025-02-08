@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour
     private string _currentAnimationState = "Default";
     public Animator Animator { get; private set; }
     private IState IdleState { get; set; }
-    private IState MoveState { get; set; }
-    private IState SprintState { get; set; }
     private IState JumpState { get; set; }
     private IState UseCumputerState { get; set; }
 
@@ -26,8 +24,6 @@ public class PlayerController : MonoBehaviour
     
     private float _currentSpeed;
     
-    
-    [HideInInspector] public bool isGunEquipped;
     
     public Rigidbody Rigidbody => _rigidbody;
     public MovementSettings SpeedSettings => _speedSettings;
@@ -58,9 +54,7 @@ public class PlayerController : MonoBehaviour
         _currentSpeed = _speedSettings.walkSpeed;
         
         IdleState = new IdleState();
-        MoveState = new MoveState();
         JumpState = new JumpState();
-        UseCumputerState = new UseComputerState();
         
         TransitionToState(new IdleState());
     }
@@ -107,15 +101,6 @@ public class PlayerController : MonoBehaviour
         _currentState = newState;
         _currentState.EnterState(this);
     }
-
-    private void OnUseItem()
-    {
-        if (TryGetComponent(out HeldItem heldItem))
-        {
-            Item currentItem = heldItem.GetItem();
-            currentItem?.UseItem();
-        }
-    }
     
     private void UpdateMoveInput(Vector3 moveDirection)
     {
@@ -126,7 +111,6 @@ public class PlayerController : MonoBehaviour
     private void UpdateSprintInput(bool isSprinting)
     {
         _isSprinting = isSprinting;
-        Animator.SetBool("isSprinting", _isSprinting);
     }
     
     private void HandleInteraction()
@@ -175,7 +159,7 @@ public class PlayerController : MonoBehaviour
     
     private void HandlePlayerJump()
     {
-        if (IsGrounded() && !_currentState.IsJumping())
+        if (IsGrounded())
         {
             TransitionToState(JumpState);
         }
@@ -183,7 +167,7 @@ public class PlayerController : MonoBehaviour
     
     public bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, 1.1f);
+        return Physics.Raycast(transform.position, Vector3.down, 0.1f);
     }
 
     public IState GetCurrentState()

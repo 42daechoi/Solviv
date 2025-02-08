@@ -85,7 +85,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speedSettings: {fileID: 11400000, guid: 7e36eb25be707ba4ea11d87045aa4004, type: 2}
-  isGunEquipped: 0
 --- !u!136 &6855327632404394511
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -30,9 +30,4 @@ public class IdleState : IState
     {
         return true;
     }
-
-    public bool IsJumping()
-    {
-        return false;
-    }
 }

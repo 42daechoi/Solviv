@@ -32,9 +32,4 @@ public class UseComputerState : IState
     {
         return true;
     }
-
-    public bool IsJumping()
-    {
-        return false;
-    }
 }
