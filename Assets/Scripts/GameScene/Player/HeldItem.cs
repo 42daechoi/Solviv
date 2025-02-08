@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 public class HeldItem : MonoBehaviour
 {
     [SerializeField] private Item item;
-    [SerializeField] private int slotIndex = -10;
-    private GameObject heldItemObject;
+    [SerializeField] private GameObject itemObject;
+    [SerializeField] private int slotIndex;
+    [SerializeField] private EquipItem equipItem;
     private float dropOffset = 1f;
 
 
@@ -26,51 +24,63 @@ public class HeldItem : MonoBehaviour
         EventManager_Game.Instance.OnUseItem -= UseItem;
     }
 
+    private void Start()
+    {
+        if (TryGetComponent(out EquipItem _equipItem))
+        {
+            equipItem = _equipItem;
+        }
+        else
+        {
+            Debug.Log("HeldItem : EquipItem을 가져오지 못함.");
+        }
+        InitItemInfo();
+    }
+
     private void SelectItem(int keyCode)
     {
         if (TryGetComponent(out Inventory inventory))
         {
-            Item[] itemSlots = inventory.GetItemSlots();
-
             if (keyCode == 1)
             {
-                item = null;
-                slotIndex = -10;
+                equipItem.UnEquip(itemObject, true);
+                InitItemInfo();
             }
             else
             {
+                if (item != null)
+                {
+                    equipItem.UnEquip(itemObject, true);
+                }
                 slotIndex = keyCode - 2;
-                item = itemSlots[slotIndex];
+                item = inventory.GetItem(slotIndex);
+                itemObject = equipItem.Equip(item);
             }
         }
+    }
+
+    private void InitItemInfo()
+    {
+        item = null;
+        itemObject = null;
+        slotIndex = -10;
     }
 
     public void ReplaceItem(Vector3 replacePosition)
     {
         if (item != null)
         {
-            Transform heldItemTransform = heldItemObject.transform;
+            equipItem.UnEquip(itemObject, false);
 
-            heldItemTransform.SetParent(null);
-            heldItemTransform.position = replacePosition;
-            RemoveHeldItem();
+            itemObject.transform.position = replacePosition;
+            EventManager_Game.Instance.InvokeRemoveItem(slotIndex);
+            InitItemInfo();
         }
     }
 
     public void DropItem()
     {
         ReplaceItem(GetDropPosition());
-    }
-
-    public void RemoveHeldItem()
-    {
-        if (item != null)
-        {
-            heldItemObject.GetComponent<Collider>().enabled = true;
-            EventManager_Game.Instance.InvokeRemoveItem(slotIndex);
-            item = null;
-            slotIndex = -10;
-        }
     }
 
     private Vector3 GetDropPosition()
@@ -84,24 +94,11 @@ public class HeldItem : MonoBehaviour
         return dropPosition;
     }
 
-    public bool IsHeldItem(string itemName)
-    {
-        if (item == null)
-        {
-            return false;
-        }
-        return item.itemName == itemName;
-    }
-
     public Item GetItem()
     {
         return item;
     }
 
-    public int GetSlotIndex()
-    {
-        return slotIndex;
-    }
 
     public void UseItem()
     {
@@ -110,16 +107,5 @@ public class HeldItem : MonoBehaviour
             return;
         }
         item.UseItem();
-    }
-
-    public void SetHeldItemObject(GameObject go)
-    {
-        heldItemObject = go;
-        heldItemObject.GetComponent<Collider>().enabled = false;
-    }
-
-    public GameObject GetHeldItemObject()
-    {
-        return heldItemObject;
     }
 }
