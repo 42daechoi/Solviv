@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class MoveState : IState
 {
-
     public void EnterState(PlayerController player)
     {
         Debug.Log("Move행동 진입");
@@ -25,8 +24,12 @@ public class MoveState : IState
 
     public void FixedUpdateState(PlayerController player)
     {
-        Vector3 targetVelocity = player.CalculateMovement(player.SpeedSettings.walkSpeed);
-        player.Rigidbody.velocity = Vector3.Lerp(player.Rigidbody.velocity, targetVelocity, player.SpeedSettings.smoothSpeed);
+        Vector3 movement = new Vector3(player.InputDirection.x, 0, player.InputDirection.z).normalized * player.SpeedSettings.walkSpeed;
+        
+        movement = player.transform.TransformDirection(movement);
+        
+        player.Rigidbody.MovePosition(player.Rigidbody.position + movement * Time.fixedDeltaTime);
+
     }
 
     public void ExitState(PlayerController player)

@@ -3,8 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MovementSettings", menuName = "Settings/MovementSettings", order = 1)]
 public class MovementSettings : ScriptableObject
 {
-    public float walkSpeed = 4f;
-    public float sprintSpeed = 8f;
-    public float maxVelocityChange = 10f;
-    public float smoothSpeed = 0.2f;
+    public float walkSpeed = 800f;
+    public float sprintSpeed = 1000f;
+    public float maxVelocityChange = 600f;
+    public float jumpForce = 400f;
 }

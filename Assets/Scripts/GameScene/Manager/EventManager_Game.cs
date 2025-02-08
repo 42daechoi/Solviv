@@ -7,6 +7,7 @@ public class EventManager_Game : MonoBehaviour
 {
     public event Action<Vector3> OnPlayerMove;
     public event Action<bool> OnPlayerSprint;
+    public event Action OnPlayerJump;
     public event Action OnInteraction;
     public event Action<int> OnHeldItem;
     public event Action OnDropItem;
@@ -43,6 +44,11 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeSprint(bool isSprint)
     {
         OnPlayerSprint?.Invoke(isSprint);
+    }
+
+    public void InvokePlayerJump()
+    {
+        OnPlayerJump?.Invoke();
     }
     public void InvokeInteraction()
     {

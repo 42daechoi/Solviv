@@ -1,18 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpState : MonoBehaviour
+public class JumpState : IState
 {
-    // Start is called before the first frame update
-    void Start()
+    public void EnterState(PlayerController player)
+    {
+        Debug.Log("Jump 상태 진입");
+
+        player.Animator.SetTrigger("JumpTrigger");
+        Vector3 jumpForce = new Vector3(0, player.SpeedSettings.jumpForce, 0);
+        player.Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
+        
+    }
+
+    public void UpdateState(PlayerController player, Vector3 inputDirection, bool isSprinting)
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void FixedUpdateState(PlayerController player)
     {
-        
+        if (player.IsGrounded() && player.Rigidbody.velocity.y <= 0.1f)
+        {
+            player.TransitionToState(new IdleState());
+        }
     }
+
+    public void ExitState(PlayerController player)
+    {
+        Debug.Log("Jump 상태 종료");
+    }
+
+    public bool CanInteraction()
+    {
+        return false;  // 점프 중에는 상호작용 불가
+    }
+    
 }

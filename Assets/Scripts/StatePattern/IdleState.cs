@@ -5,6 +5,7 @@ public class IdleState : IState
     public void EnterState(PlayerController player)
     {
         Debug.Log("Idle자세");
+        player.Animator.SetBool("isWalking", false);
     }
 
     public void UpdateState(PlayerController player, Vector3 inputDirection, bool isSprinting)
