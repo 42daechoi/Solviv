@@ -9,12 +9,12 @@ public class EventManager_Game : MonoBehaviour
     public event Action<bool> OnPlayerSprint;
     public event Action OnInteraction;
     public event Action<int> OnHeldItem;
-    public event Action OnEquip;
-    public event Action OnUnequipItem;
     public event Action OnDropItem;
     public event Action<int> OnRemoveItem;
     public event Action<string> OnAnimationStateChanged;
+
     public event Action OnUseItem;
+    
     public event Action<Item> OnOpenDoor;
     public event Action<bool> OnUseComputer;
     public event Action OnAllGeneratorsActivated;
@@ -51,7 +51,6 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeHeldItem(int keyCode)
     {
         OnHeldItem?.Invoke(keyCode);
-        OnEquip?.Invoke();
     }
 
     public void InvokeDropItem()
@@ -88,10 +87,6 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeAnimationStateChange(string animationState)
     {
         OnAnimationStateChanged?.Invoke(animationState);
-    }
-    public void InvokeUnequipItem()
-    {
-        OnUnequipItem?.Invoke();
     }
 }
 

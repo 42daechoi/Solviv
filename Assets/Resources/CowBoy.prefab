@@ -242,7 +242,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
+  itemObject: {fileID: 0}
   slotIndex: 0
+  equipItem: {fileID: 0}
 --- !u!114 &8103383532906522961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de89cfceadc78a34d8cf6277fa9e28e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _equipPos: {fileID: 4238469746385283008}
+  _equipTransform: {fileID: 4238469746385283008}
 --- !u!95 &3950928292007483792
 Animator:
   serializedVersion: 5

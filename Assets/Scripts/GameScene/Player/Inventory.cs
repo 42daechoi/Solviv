@@ -63,6 +63,11 @@ public class Inventory : MonoBehaviourPun
         }
     }
 
+    public Item GetItem(int slotIndex)
+    {
+        return itemSlots[slotIndex];
+    }
+
     public Item[] GetItemSlots()
     {
         return itemSlots;

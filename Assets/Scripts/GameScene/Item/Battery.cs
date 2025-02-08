@@ -18,16 +18,11 @@ public class Battery : Item
             RaycastHit? raycastHit = rayModule.ExecuteRayAction(shooterTransform, 0f);
             if (raycastHit.HasValue)
             {
-                Debug.Log("1");
                 Generator generator = raycastHit.Value.collider.GetComponent<Generator>();
                 if (generator != null)
                 {
-                    Debug.Log("2");
                     HeldItem heldItem = shooterTransform.gameObject.GetComponent<HeldItem>();
-                    if (generator.TryInstallBattery(heldItem) == true)
-                    {
-                        heldItem.RemoveHeldItem();
-                    }
+                    generator.TryInstallBattery(heldItem);
                 }
             }
         }
