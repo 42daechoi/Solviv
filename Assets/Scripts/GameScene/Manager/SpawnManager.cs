@@ -27,8 +27,9 @@ public class SpawnManager : MonoBehaviour
         isSpawned[spawnIdx] = true;
         
         // 아이템 임시 스폰 - 삭제 필요
-        PhotonNetwork.Instantiate("Item/Key", spawnPosition - new Vector3(2, 2, 0), spawnRotation);
+        PhotonNetwork.Instantiate("Item/Battery", spawnPosition - new Vector3(2, 2, 0), spawnRotation);
         PhotonNetwork.Instantiate("Item/Battery", spawnPosition - new Vector3(5, 2, 0), spawnRotation);
+        PhotonNetwork.Instantiate("Item/Battery", spawnPosition - new Vector3(4, 2, 0), spawnRotation);
     }
     
     int GetAvailableSpawnIndex(int playerIndex)
