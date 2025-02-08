@@ -4,6 +4,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController LocalPlayerInstance { get; private set; }
+    private string _currentAnimationState = "Default";
+    public Animator Animator { get; private set; }
     private IState IdleState { get; set; }
     private IState MoveState { get; set; }
     private IState SprintState { get; set; }
@@ -51,9 +53,11 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _photonView = GetComponent<PhotonView>();
         _interaction = GetComponent<Interaction>();
+        Animator = GetComponent<Animator>();
         _currentSpeed = _speedSettings.walkSpeed;
         
         IdleState = new IdleState();
+        MoveState = new MoveState();
         UseCumputerState = new UseComputerState();
         
         TransitionToState(new IdleState());
@@ -65,6 +69,7 @@ public class PlayerController : MonoBehaviour
         EventManager_Game.Instance.OnPlayerSprint += UpdateSprintInput;
         EventManager_Game.Instance.OnInteraction += HandleInteraction;
         EventManager_Game.Instance.OnUseComputer += HandleUseComputer;
+        EventManager_Game.Instance.OnAnimationStateChanged += HandleAnimationStateChanged;
     }
 
     private void OnDisable()
@@ -73,6 +78,7 @@ public class PlayerController : MonoBehaviour
         EventManager_Game.Instance.OnPlayerSprint -= UpdateSprintInput;
         EventManager_Game.Instance.OnInteraction -= HandleInteraction;
         EventManager_Game.Instance.OnUseComputer -= HandleUseComputer;
+        EventManager_Game.Instance.OnAnimationStateChanged -= HandleAnimationStateChanged;
     }
 
     private void Update()
@@ -166,6 +172,14 @@ public class PlayerController : MonoBehaviour
         {
             TransitionToState(IdleState);
         }
+    }
+    
+    private void HandleAnimationStateChanged(string animationState)
+    {
+        _currentAnimationState = animationState;
+
+        // 애니메이션 상태 변경
+        Animator.SetBool("isCarrying", animationState == "Carry");
     }
 
     public IState GetCurrentState()

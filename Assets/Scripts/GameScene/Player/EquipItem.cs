@@ -3,27 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
 using Object = System.Object;
 
 public class EquipItem : MonoBehaviour
 {
+    
     private HeldItem _heldItem;
     private GameObject _equippedObject;
-    
+
     [SerializeField] private Transform _equipPos;
 
-    [Header("RightHand")] 
-    [SerializeField] private TwoBoneIKConstraint _rightHandIK;
-    [SerializeField] private Transform _rightHandTarget;
-
-    [Header("LeftHand")] 
-    [SerializeField] private TwoBoneIKConstraint _leftHandIK;
-    [SerializeField] private Transform _leftHandTarget;
-
-    [SerializeField] private Transform _iKRightHandPos;
-    [SerializeField] private Transform _iKLeftHandPos;
-    
     private void OnEnable()
     {
         EventManager_Game.Instance.OnEquip += EquipHeldItem;
@@ -38,7 +27,7 @@ public class EquipItem : MonoBehaviour
     {
         if (TryGetComponent(out _heldItem))
         {
-            Debug.Log("가져왔다.",_heldItem);
+            Debug.Log("가져왔다.", _heldItem);
         }
         else
         {
@@ -53,7 +42,7 @@ public class EquipItem : MonoBehaviour
             Item item = _heldItem.GetItem();
             if (item)
             {
-                Debug.Log($"_heldItem에서 받아온아이템은{item}임");
+                Debug.Log($"_heldItem에서 받아온 아이템은 {item}임");
                 Equip(item);
             }
             else
@@ -82,29 +71,8 @@ public class EquipItem : MonoBehaviour
             _equippedObject.transform.localRotation = Quaternion.Euler(item.equipRotation);
             Debug.Log(_equippedObject);
             
-            if (item.useRightIK)
-            {
-                _rightHandTarget.position = _equipPos.TransformPoint(item.rightHandPosition);
-                _rightHandTarget.rotation = _equipPos.rotation * Quaternion.Euler(item.rightHandRotation);
-                _rightHandIK.weight = 1f;
-            }
-            else
-            {
-                _rightHandIK.weight = 0f;
-            }
-            
-
-            // IK 설정: 왼손
-            if (item.useLeftIK)
-            {
-                _leftHandTarget.position = _equipPos.TransformPoint(item.leftHandPosition);
-                _leftHandTarget.rotation = _equipPos.rotation * Quaternion.Euler(item.leftHandRotation);
-                _leftHandIK.weight = 1f;
-            }
-            else
-            {
-                _leftHandIK.weight = 0f;
-            }
+            string animationState = item.itemName == "Battery" ? "Carry" : "Default";
+            EventManager_Game.Instance.InvokeAnimationStateChange(animationState);
         }
     }
 
@@ -115,8 +83,5 @@ public class EquipItem : MonoBehaviour
             ObjectPool.instance.ReturnObject(_equippedObject, _heldItem.GetItem().itemName);
             _equippedObject = null;
         }
-
-        _rightHandIK.weight = 0f;
-        _leftHandIK.weight = 0f;
     }
 }
