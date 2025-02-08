@@ -5,6 +5,8 @@ public class SprintState : IState
     public void EnterState(PlayerController player)
     {
         Debug.Log("Sprint행동 진입");
+        player.Animator.SetBool("isSprinting", true);
+        Debug.Log("isSprinting 애니메이션 파라미터 설정 완료");
     }
 
     public void UpdateState(PlayerController player, Vector3 inputDirection, bool isSprinting)
@@ -30,6 +32,7 @@ public class SprintState : IState
     public void ExitState(PlayerController player)
     {
         Debug.Log("Sprint 행동 벗어남");
+        player.Animator.SetBool("isSprinting", false);
     }
     
     public bool CanInteraction()

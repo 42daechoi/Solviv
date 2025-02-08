@@ -137,6 +137,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateSprintInput(bool isSprinting)
     {
         _isSprinting = isSprinting;
+        Animator.SetBool("isSprinting", _isSprinting);
     }
     
     private void HandleInteraction()
