@@ -39,6 +39,11 @@ public class InputManager_Game : MonoBehaviour
         // 스프린트
         bool isSprinting = Input.GetKey(KeyCode.LeftShift);
         EventManager_Game.Instance.InvokeSprint(isSprinting);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            EventManager_Game.Instance.InvokePlayerJump();
+        }
         
         // 상호 작용
         if (Input.GetKeyDown(KeyCode.F))

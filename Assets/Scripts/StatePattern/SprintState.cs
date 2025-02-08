@@ -25,8 +25,11 @@ public class SprintState : IState
 
     public void FixedUpdateState(PlayerController player)
     {
-        Vector3 targetVelocity = player.CalculateMovement(player.SpeedSettings.sprintSpeed);
-        player.Rigidbody.velocity = Vector3.Lerp(player.Rigidbody.velocity, targetVelocity, player.SpeedSettings.smoothSpeed);
+        
+        Vector3 movement = new Vector3(player.InputDirection.x, 0, player.InputDirection.z).normalized * player.SpeedSettings.sprintSpeed;
+        movement = player.transform.TransformDirection(movement);
+        
+        player.Rigidbody.MovePosition(player.Rigidbody.position + movement * Time.fixedDeltaTime);
     }
 
     public void ExitState(PlayerController player)
@@ -38,5 +41,10 @@ public class SprintState : IState
     public bool CanInteraction()
     {
         return true;
+    }
+
+    public bool IsJumping()
+    {
+        return false;
     }
 }

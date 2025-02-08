@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private Interaction _interaction;
     
     private Vector3 _inputDirection;
+    public Vector3 InputDirection => _inputDirection;
     private bool _isSprinting;
     
     private float _currentSpeed;
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
         
         IdleState = new IdleState();
         MoveState = new MoveState();
+        JumpState = new JumpState();
         UseCumputerState = new UseComputerState();
         
         TransitionToState(new IdleState());
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour
     {
         EventManager_Game.Instance.OnPlayerMove += UpdateMoveInput;
         EventManager_Game.Instance.OnPlayerSprint += UpdateSprintInput;
+        EventManager_Game.Instance.OnPlayerJump += HandlePlayerJump;
         EventManager_Game.Instance.OnInteraction += HandleInteraction;
         EventManager_Game.Instance.OnUseComputer += HandleUseComputer;
         EventManager_Game.Instance.OnAnimationStateChanged += HandleAnimationStateChanged;
@@ -76,11 +79,12 @@ public class PlayerController : MonoBehaviour
     {
         EventManager_Game.Instance.OnPlayerMove -= UpdateMoveInput;
         EventManager_Game.Instance.OnPlayerSprint -= UpdateSprintInput;
+        EventManager_Game.Instance.OnPlayerJump -= HandlePlayerJump;
         EventManager_Game.Instance.OnInteraction -= HandleInteraction;
         EventManager_Game.Instance.OnUseComputer -= HandleUseComputer;
         EventManager_Game.Instance.OnAnimationStateChanged -= HandleAnimationStateChanged;
     }
-
+    
     private void Update()
     {
         if (_photonView.IsMine)
@@ -104,22 +108,6 @@ public class PlayerController : MonoBehaviour
         _currentState.EnterState(this);
     }
 
-    public Vector3 CalculateMovement(float speed)
-    {
-        Vector3 targetVelocity = new Vector3(_inputDirection.x, 0, _inputDirection.z);
-        targetVelocity = transform.TransformDirection(targetVelocity);
-        targetVelocity *= speed;
-
-        Vector3 velocity = _rigidbody.velocity;
-        Vector3 velocityChange = targetVelocity - velocity;
-
-        velocityChange.x = Mathf.Clamp(velocityChange.x, -_speedSettings.maxVelocityChange, _speedSettings.maxVelocityChange);
-        velocityChange.z = Mathf.Clamp(velocityChange.z, -_speedSettings.maxVelocityChange, _speedSettings.maxVelocityChange);
-        velocityChange.y = 0;
-
-        return velocityChange;
-    }
-
     private void OnUseItem()
     {
         if (TryGetComponent(out HeldItem heldItem))
@@ -132,6 +120,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateMoveInput(Vector3 moveDirection)
     {
         _inputDirection = moveDirection;
+        _currentState.UpdateState(this, _inputDirection, _isSprinting);
     }
 
     private void UpdateSprintInput(bool isSprinting)
@@ -181,6 +170,20 @@ public class PlayerController : MonoBehaviour
 
         // 애니메이션 상태 변경
         Animator.SetBool("isCarrying", animationState == "Carry");
+    }
+    
+    
+    private void HandlePlayerJump()
+    {
+        if (IsGrounded() && !_currentState.IsJumping())
+        {
+            TransitionToState(JumpState);
+        }
+    }
+    
+    public bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, 1.1f);
     }
 
     public IState GetCurrentState()
