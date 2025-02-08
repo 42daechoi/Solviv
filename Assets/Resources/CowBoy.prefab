@@ -130,7 +130,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 1724497594437183218}
-  viewIdField: 0
+  viewIdField: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &1724497594437183218
@@ -215,6 +215,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  fistItem: {fileID: 11400000, guid: b32b772ac36c4364eaceb1cb785d7842, type: 2}
 --- !u!114 &-7020588551510213420
 MonoBehaviour:
   m_ObjectHideFlags: 0

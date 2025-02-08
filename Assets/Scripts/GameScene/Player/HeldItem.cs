@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 
@@ -34,12 +35,12 @@ public class HeldItem : MonoBehaviour
 
             if (keyCode == 1)
             {
-                item = null;
-                slotIndex = -10;
+                item = itemSlots[0];
+                slotIndex = 0;
             }
             else
             {
-                slotIndex = keyCode - 2;
+                slotIndex = keyCode - 1;
                 item = itemSlots[slotIndex];
             }
         }
@@ -60,6 +61,7 @@ public class HeldItem : MonoBehaviour
     public void DropItem()
     {
         ReplaceItem(GetDropPosition());
+        EventManager_Game.Instance.InvokeUnequipItem();
     }
 
     public void RemoveHeldItem()

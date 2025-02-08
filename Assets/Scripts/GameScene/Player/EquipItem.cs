@@ -16,11 +16,13 @@ public class EquipItem : MonoBehaviour
     private void OnEnable()
     {
         EventManager_Game.Instance.OnEquip += EquipHeldItem;
+        EventManager_Game.Instance.OnUnequipItem += Unequip;
     }
 
     private void OnDisable()
     {
         EventManager_Game.Instance.OnEquip -= EquipHeldItem;
+        EventManager_Game.Instance.OnUnequipItem -= Unequip;
     }
 
     private void Start()
@@ -45,23 +47,30 @@ public class EquipItem : MonoBehaviour
                 Debug.Log($"_heldItem에서 받아온 아이템은 {item}임");
                 Equip(item);
             }
-            else
-            {
-                Debug.Log("장착할 대상이 없음");
-            }
         }
     }
 
     private void Equip(Item item)
     {
-        // 장착된 무기가 있다면 반환하고 null값 만든 후 실행
         if (_equippedObject)
         {
-            ObjectPool.instance.ReturnObject(_equippedObject, _heldItem.GetItem().itemName);
+            string equippedItemName = _heldItem?.GetItem()?.itemName;
+            if (!string.IsNullOrEmpty(equippedItemName))
+            {
+                Debug.Log("이즈널올엠프티 들어갔음");
+                ObjectPool.instance.ReturnObject(_equippedObject, equippedItemName);
+            }
             _equippedObject = null;
         }
 
         _equippedObject = ObjectPool.instance.GetObject(item.itemName, Vector3.zero, Quaternion.identity);
+        
+        if (_equippedObject == null)
+        {
+            Debug.LogError($"ObjectPool에서 {item.itemName}을(를) 가져오지 못했습니다.");
+            return;
+        }
+        
         _heldItem.SetHeldItemObject(_equippedObject);
 
         if (_equippedObject)
@@ -80,8 +89,19 @@ public class EquipItem : MonoBehaviour
     {
         if (_equippedObject)
         {
-            ObjectPool.instance.ReturnObject(_equippedObject, _heldItem.GetItem().itemName);
+            // heldItem이 null이거나 아이템 이름이 null인 경우 반환을 생략
+            string itemName = _heldItem?.GetItem()?.itemName;
+
+            if (!string.IsNullOrEmpty(itemName))
+            {
+                ObjectPool.instance.ReturnObject(_equippedObject, itemName);
+            }
+
             _equippedObject = null;
         }
+
+        // 애니메이션 상태를 기본으로 전환
+        EventManager_Game.Instance.InvokeAnimationStateChange("Default");
     }
+    
 }

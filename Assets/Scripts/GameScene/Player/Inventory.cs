@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -6,6 +7,22 @@ using UnityEngine;
 public class Inventory : MonoBehaviourPun
 {
     [SerializeField]private Item[] itemSlots = new Item[4];
+    [SerializeField] private Item fistItem;
+
+    private void Start()
+    {
+        if (fistItem != null)
+        {
+            itemSlots[0] = fistItem;
+        }
+        else
+        {
+            Debug.LogError("주먹 아이템이 설정되지 않았습니다.");
+        }
+        
+        InventoryUI.Instance.UpdateUI(this);
+    }
+
 
     private void OnEnable()
     {

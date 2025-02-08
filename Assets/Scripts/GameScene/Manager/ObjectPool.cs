@@ -22,6 +22,7 @@ public class ObjectPool : MonoBehaviour
             obj.transform.position = position;
             obj.transform.rotation = rotation;
             obj.SetActive(true);
+            Debug.Log($"오브젝트 가져옴: {itemName}, 남은 개수: {pool[itemName].Count}");
             return obj;
         }
         Debug.Log("오브젝트 풀에 해당 아이템이 없습니다.");
@@ -47,10 +48,12 @@ public class ObjectPool : MonoBehaviour
         if (!pool.ContainsKey(itemName))
         {
             pool[itemName] = new Queue<GameObject>();
+            Debug.LogWarning($"{itemName}에 대한 풀을 찾지 못했습니다. 새로운 풀을 생성합니다.");
         }
         Debug.Log("2");
         obj.SetActive(false);
         pool[itemName].Enqueue(obj);
+        Debug.Log($"오브젝트 반환됨: {itemName}, 현재 풀 개수: {pool[itemName].Count}");
         Debug.Log("3");
     }
 }
