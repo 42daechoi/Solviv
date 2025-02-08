@@ -12,6 +12,7 @@ public class EventManager_Game : MonoBehaviour
     public event Action OnEquip;
     public event Action OnDropItem;
     public event Action<int> OnRemoveItem;
+    public event Action<string> OnAnimationStateChanged;
 
     public event Action OnUseItem;
     
@@ -83,6 +84,11 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeAllGeneratorsActivated()
     {
         OnAllGeneratorsActivated?.Invoke();
+    }
+    
+    public void InvokeAnimationStateChange(string animationState)
+    {
+        OnAnimationStateChanged?.Invoke(animationState);
     }
 }
 
