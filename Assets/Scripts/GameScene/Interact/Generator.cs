@@ -3,17 +3,26 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class Generator : MonoBehaviourPun
+public class Generator : MonoBehaviourPun, IInteractableObject
 {
     private int maxBatteryCount = 3;
-    [SerializeField] private int currentBatteryCount;
+    [SerializeField] private int installedBatteryCount;
+    [SerializeField] private GameObject[] installedBattery;
     private Vector3 batteryPositionOffset;
 
     void Start()
     {
-        currentBatteryCount = 0;
+        installedBatteryCount = 0;
+        installedBattery = new GameObject[3];
         batteryPositionOffset = new Vector3(-0.4f, 0.5f, 0.3f);
-        // 추후 수정 필요, 배터리 장착시 오프셋 값 증가 필요, 배터리 해제 시 오프셋 값 감소 필요
+    }
+
+    public void Interact(int playerId)
+    {
+        if (installedBatteryCount != 0)
+        {
+            UninstallBattery(playerId);
+        }
     }
 
     public void TryInstallBattery(HeldItem heldItem)
@@ -35,20 +44,32 @@ public class Generator : MonoBehaviourPun
                                           + transform.up * batteryPositionOffset.y
                                           + transform.forward * batteryPositionOffset.z;
 
-        heldItem.ReplaceItem(worldPosition);
-        IncreaseBattery();
-        Debug.Log($"Generator : 배터리 장착 성공. 현재 장착된 배터리 갯수 : {currentBatteryCount}");
+        installedBattery[installedBatteryCount] = heldItem.GetItemObject();
+        heldItem.ReplaceItem(worldPosition, false);
+        IncreaseBatteryCount();
+        Debug.Log($"Generator : 배터리 장착 성공. 현재 장착된 배터리 갯수 : {installedBatteryCount}");
     }
 
-    private void IncreaseBattery()
+    private void UninstallBattery(int playerId)
     {
-        currentBatteryCount++;
+        DecreaseBatteryCount();
+        GameObject uninstallBatteryObject = installedBattery[installedBatteryCount];
+        FarmingObject farmingObject = uninstallBatteryObject.GetComponent<FarmingObject>();
+        farmingObject.Interact(playerId);
+        installedBattery[installedBatteryCount] = null;
+        Debug.Log($"Generator : 배터리 회수 성공. 현재 장착된 배터리 갯수 : {installedBatteryCount}");
+
+    }
+
+    private void IncreaseBatteryCount()
+    {
+        installedBatteryCount++;
         batteryPositionOffset += new Vector3(0.4f, 0, 0);
     }
 
-    private void DecreaseBattery()
+    private void DecreaseBatteryCount()
     {
-        currentBatteryCount--;
+        installedBatteryCount--;
         batteryPositionOffset -= new Vector3(0.4f, 0, 0);
     }
 
@@ -64,6 +85,6 @@ public class Generator : MonoBehaviourPun
 
     private bool IsAllBatteryInstalled()
     {
-        return currentBatteryCount >= maxBatteryCount;
+        return installedBatteryCount >= maxBatteryCount;
     }
 }

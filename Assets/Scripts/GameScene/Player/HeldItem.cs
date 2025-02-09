@@ -43,14 +43,14 @@ public class HeldItem : MonoBehaviour
         {
             if (keyCode == 1)
             {
-                equipItem.UnEquip(item, itemObject, true);
+                equipItem.UnEquip(item, itemObject, true, true);
                 InitItemInfo();
             }
             else
             {
                 if (item != null)
                 {
-                    equipItem.UnEquip(item, itemObject, true);
+                    equipItem.UnEquip(item, itemObject, true, true);
                 }
                 slotIndex = keyCode - 2;
                 item = inventory.GetItem(slotIndex);
@@ -66,11 +66,11 @@ public class HeldItem : MonoBehaviour
         slotIndex = -10;
     }
 
-    public void ReplaceItem(Vector3 replacePosition)
+    public void ReplaceItem(Vector3 replacePosition, bool needCollider)
     {
         if (item != null)
         {
-            equipItem.UnEquip(item, itemObject, false);
+            equipItem.UnEquip(item, itemObject, false, needCollider);
 
             itemObject.transform.position = replacePosition;
             EventManager_Game.Instance.InvokeRemoveItem(slotIndex);
@@ -80,7 +80,7 @@ public class HeldItem : MonoBehaviour
 
     public void DropItem()
     {
-        ReplaceItem(GetDropPosition());
+        ReplaceItem(GetDropPosition(), true);
     }
 
     private Vector3 GetDropPosition()
@@ -97,6 +97,11 @@ public class HeldItem : MonoBehaviour
     public Item GetItem()
     {
         return item;
+    }
+
+    public GameObject GetItemObject()
+    {
+        return itemObject;
     }
 
 
