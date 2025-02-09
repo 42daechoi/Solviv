@@ -31,7 +31,7 @@ public class EquipItem : MonoBehaviour
         return equipItem;
     }
 
-    public void UnEquip(Item item, GameObject itemObject, bool isReturnPool)
+    public void UnEquip(Item item, GameObject itemObject, bool isReturnPool, bool needCollider)
     {
         if (itemObject)
         {
@@ -40,7 +40,10 @@ public class EquipItem : MonoBehaviour
                 ObjectPool.instance.ReturnObject(itemObject, item.itemName);
             }
             itemObject.transform.SetParent(null);
-            itemObject.GetComponent<Collider>().enabled = true;
+            if (needCollider)
+            {
+                itemObject.GetComponent<Collider>().enabled = true;
+            }
         }
     }
 }
