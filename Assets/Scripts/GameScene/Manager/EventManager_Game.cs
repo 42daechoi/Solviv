@@ -5,7 +5,7 @@ using System;
 
 public class EventManager_Game : MonoBehaviour
 {
-    public event Action<Vector3> OnPlayerMove;
+    public event Action<float, float> OnPlayerMove;
     public event Action<bool> OnPlayerSprint;
     public event Action OnPlayerJump;
     public event Action OnInteraction;
@@ -35,9 +35,9 @@ public class EventManager_Game : MonoBehaviour
         }
     }
     
-    public void InvokePlayerMove(Vector3 moveDirection)
+    public void InvokePlayerMove(float horizontal, float vertical)
     {
-        OnPlayerMove?.Invoke(moveDirection);
+        OnPlayerMove?.Invoke(horizontal, vertical);
     }
 
     // 스프린트 이벤트 발행

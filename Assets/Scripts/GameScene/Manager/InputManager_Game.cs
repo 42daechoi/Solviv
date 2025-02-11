@@ -30,10 +30,11 @@ public class InputManager_Game : MonoBehaviour
         }
         
         // 이동 입력
-        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        if (moveDirection.magnitude > 0.01f) // 이동 입력이 유효할 때만 이벤트 발행
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        if (Mathf.Abs(horizontal) > 0.01f || Mathf.Abs(vertical) > 0.01f)
         {
-            EventManager_Game.Instance.InvokePlayerMove(moveDirection);
+            EventManager_Game.Instance.InvokePlayerMove(horizontal, vertical);
         }
         
         // 스프린트

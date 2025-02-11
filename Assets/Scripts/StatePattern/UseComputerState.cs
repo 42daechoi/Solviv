@@ -7,12 +7,12 @@ public class UseComputerState : IState
         Debug.Log("UseComputerState에 진입했습니다.");
     }
 
-    public void UpdateState(PlayerController player, Vector3 inputDirection, bool isSprinting)
+    public void UpdateState(PlayerController player, Vector3 inputDirection, float offset)
     {
         
     }
 
-    public void UpdateState(Vector3 inputDirection, bool isSprinting)
+    public void UpdateState(Vector3 inputDirection)
     {
         
     }
