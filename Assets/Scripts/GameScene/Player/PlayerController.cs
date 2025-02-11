@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController LocalPlayerInstance { get; private set; }
     private string _currentAnimationState = "Default";
-    public Animator Animator { get; private set; }
+    public Animator _animator { get; private set; }
     private IState IdleState { get; set; }
     private IState JumpState { get; set; }
     private IState UseCumputerState { get; set; }
@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _inputDirection;
     public Vector3 InputDirection => _inputDirection;
     private bool _isSprinting;
+    private float _offset;
     
     private float _currentSpeed;
     
@@ -50,10 +51,9 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _photonView = GetComponent<PhotonView>();
         _interaction = GetComponent<Interaction>();
-        Animator = GetComponent<Animator>();
+        _animator  = GetComponent<Animator>();
         _currentSpeed = _speedSettings.walkSpeed;
         
-        IdleState = new IdleState();
         JumpState = new JumpState();
         
         TransitionToState(new IdleState());
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_photonView.IsMine)
         {
-            _currentState.UpdateState(this, _inputDirection, _isSprinting);
+            _currentState.UpdateState(this, _inputDirection, _offset);
         }
     }
 
@@ -102,10 +102,10 @@ public class PlayerController : MonoBehaviour
         _currentState.EnterState(this);
     }
     
-    private void UpdateMoveInput(Vector3 moveDirection)
+    private void UpdateMoveInput(float horizontal, float vertical)
     {
-        _inputDirection = moveDirection;
-        _currentState.UpdateState(this, _inputDirection, _isSprinting);
+        _inputDirection = new Vector3(horizontal, 0, vertical);
+        _offset = 0.5f + (_isSprinting ? 0.5f : 0f);
     }
 
     private void UpdateSprintInput(bool isSprinting)
@@ -153,7 +153,12 @@ public class PlayerController : MonoBehaviour
         _currentAnimationState = animationState;
 
         // 애니메이션 상태 변경
-        Animator.SetBool("isCarrying", animationState == "Carry");
+    }
+    
+    public void UpdateAnimator()
+    {
+        _animator.SetFloat("Horizontal", _inputDirection.x * _offset);
+        _animator.SetFloat("Vertical", _inputDirection.z * _offset);
     }
     
     

@@ -5,14 +5,13 @@ public class JumpState : IState
     public void EnterState(PlayerController player)
     {
         Debug.Log("Jump 상태 진입");
-
-        player.Animator.SetTrigger("JumpTrigger");
+        
         Vector3 jumpForce = new Vector3(0, player.SpeedSettings.jumpForce, 0);
         player.Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
         
     }
 
-    public void UpdateState(PlayerController player, Vector3 inputDirection, bool isSprinting)
+    public void UpdateState(PlayerController player, Vector3 inputDirection, float offset)
     {
         
     }
@@ -34,5 +33,6 @@ public class JumpState : IState
     {
         return false;  // 점프 중에는 상호작용 불가
     }
+    
     
 }
