@@ -10,8 +10,12 @@ public class Computer : MonoBehaviourPun, IInteractableObject
 
     private void OnEnable()
     {
-        EventManager_Game.Instance.OnAllGeneratorsActivated += HandleAllGeneratorsActivated;
+        if (EventManager_Game.Instance != null)
+        {
+            EventManager_Game.Instance.OnAllGeneratorsActivated += HandleAllGeneratorsActivated;
+        }
     }
+
     private void OnDisable()
     {
         EventManager_Game.Instance.OnAllGeneratorsActivated -= HandleAllGeneratorsActivated;
@@ -19,12 +23,17 @@ public class Computer : MonoBehaviourPun, IInteractableObject
 
     void Start()
     {
+        if (EventManager_Game.Instance != null)
+        {
+            EventManager_Game.Instance.OnAllGeneratorsActivated += HandleAllGeneratorsActivated;
+        }
         IsAllGeneratorsActivated = false;
         OnInteraction = false;
         moniterCamera.gameObject.SetActive(false);
     }
     public void Interact(int playerId)
     {
+        Debug.Log($"Computer : {IsAllGeneratorsActivated}");
         if (IsAllGeneratorsActivated == false)
         {
             return;

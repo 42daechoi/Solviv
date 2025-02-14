@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         activeGeneratorCount = 0;
-        maxGeneratorCount = 3;
+        maxGeneratorCount = 1;
     }
 
     public void AddActiveGenerator()
