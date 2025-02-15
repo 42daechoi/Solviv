@@ -5,24 +5,26 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public Transform[] spawnPoints;
+    public Transform[] playerSpawnPoints;
+    public Transform[] itemSpawnPoints;
     private bool[] isSpawned;
 
     void Start()
     {
-        isSpawned = new bool[spawnPoints.Length];
-        SpawnPlayer();
+        isSpawned = new bool[playerSpawnPoints.Length];
+        SpawnPlayers();
+        SpawnItems();
         
     }
 
-    void SpawnPlayer()
+    void SpawnPlayers()
     {
         int playerIdx = PhotonNetwork.LocalPlayer.ActorNumber - 1;
         int spawnIdx = GetAvailableSpawnIndex(playerIdx);
 
         if (spawnIdx < 0) return;
-        Vector3 spawnPosition = spawnPoints[spawnIdx].position;
-        Quaternion spawnRotation = spawnPoints[spawnIdx].rotation;
+        Vector3 spawnPosition = playerSpawnPoints[spawnIdx].position;
+        Quaternion spawnRotation = playerSpawnPoints[spawnIdx].rotation;
         GameObject player = PhotonNetwork.Instantiate("CowBoy", spawnPosition, spawnRotation);
         isSpawned[spawnIdx] = true;
         
@@ -36,7 +38,7 @@ public class SpawnManager : MonoBehaviour
     {
         int availableIndex = -1;
 
-        for (int i = 0; i < spawnPoints.Length; i++)
+        for (int i = 0; i < playerSpawnPoints.Length; i++)
         {
             if (!isSpawned[i])
             {
@@ -46,5 +48,25 @@ public class SpawnManager : MonoBehaviour
         }
 
         return availableIndex;
+    }
+
+    void SpawnItems()
+    {
+        SpawnPasswordPapers();
+    }
+
+    private void SpawnPasswordPapers()
+    {
+        PasswordGenerator passwordGenerator = GameManager.Instance.GetPasswordGenerator();
+        List<string> passwords = passwordGenerator.GetAllPasswords();
+
+        for (int i = 0; i < 10; i++)
+        {
+            //GameObject go = PhotonNetwork.Instantiate("Item/PasswordPaper", Vector3.zero, Quaternion.Euler);
+           // FarmingObject fo = go.GetComponent<FarmingObject>();
+            PasswordPaper paper = ScriptableObject.CreateInstance<PasswordPaper>();
+            paper.SetPassword(passwords[i]);
+            //fo.item = paper;
+        }
     }
 }
