@@ -87,11 +87,6 @@ public class EventManager_Game : MonoBehaviour
 
     public void InvokeAllGeneratorsActivated()
     {
-        Debug.Log($"EventManager : 발전기 가동 완료 이벤트 발생{OnAllGeneratorsActivated}");
-        if (OnAllGeneratorsActivated == null)
-        {
-            Debug.LogWarning("OnAllGeneratorsActivated 이벤트에 구독자가 없습니다.");
-        }
         OnAllGeneratorsActivated?.Invoke();
     }
     

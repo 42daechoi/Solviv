@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int activeGeneratorCount;
     [SerializeField] private int maxGeneratorCount;
+    private PasswordGenerator passwordGenerator;
 
     private void Awake()
     {
@@ -25,6 +26,12 @@ public class GameManager : MonoBehaviour
     {
         activeGeneratorCount = 0;
         maxGeneratorCount = 1;
+        passwordGenerator = new PasswordGenerator();
+    }
+
+    public PasswordGenerator GetPasswordGenerator()
+    {
+        return passwordGenerator;
     }
 
     public void AddActiveGenerator()

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Computer : MonoBehaviourPun, IInteractableObject
 {
     [SerializeField] private CinemachineVirtualCamera moniterCamera;
+    [SerializeField] private Canvas moniterCanvas;
     private bool IsAllGeneratorsActivated;
     private bool OnInteraction;
 
@@ -41,6 +42,7 @@ public class Computer : MonoBehaviourPun, IInteractableObject
         if (!OnInteraction)
         {
             moniterCamera.gameObject.SetActive(true);
+            moniterCanvas.gameObject.SetActive(true);
             moniterCamera.Priority = 20;
             OnInteraction = true;
         }
@@ -48,6 +50,7 @@ public class Computer : MonoBehaviourPun, IInteractableObject
         {
             moniterCamera.Priority = 5;
             moniterCamera.gameObject.SetActive(false);
+            moniterCanvas.gameObject.SetActive(false);
             OnInteraction = false;
         }
         EventManager_Game.Instance.InvokeUseComputer(OnInteraction);
