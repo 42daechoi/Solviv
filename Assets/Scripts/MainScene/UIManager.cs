@@ -68,7 +68,8 @@ public class UIManager : MonoBehaviour
     void CustomGame()
     {
         Debug.Log("CustomGame 버튼 누름");
-        PhotonNetwork.LoadLevel("CustomGameScene");
+        //PhotonNetwork.LoadLevel("CustomGameScene");
+        NetworkManager.Instance.JoinRoom();
     }
 
     void SelectCharacter()

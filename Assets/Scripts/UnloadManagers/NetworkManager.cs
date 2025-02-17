@@ -57,6 +57,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("방 입장 완료");
         PhotonNetwork.LoadLevel("GameScene");
+        //PhotonNetwork.LoadLevel("GameLobby");
     }
 
     //public override void OnPlayerLeftRoom(Player otherPlayer)

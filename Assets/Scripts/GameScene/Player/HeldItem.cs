@@ -1,6 +1,7 @@
+using Photon.Pun;
 using UnityEngine;
 
-public class HeldItem : MonoBehaviour
+public class HeldItem : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Item item;
     [SerializeField] private GameObject itemObject;
@@ -39,6 +40,7 @@ public class HeldItem : MonoBehaviour
 
     private void SelectItem(int keyCode)
     {
+        if (!photonView.IsMine) return;
         if (TryGetComponent(out Inventory inventory))
         {
             if (keyCode == 1)
@@ -68,14 +70,28 @@ public class HeldItem : MonoBehaviour
 
     public void ReplaceItem(Vector3 replacePosition, bool needCollider)
     {
+        if (!photonView.IsMine) return;
         if (item != null)
         {
             equipItem.UnEquip(item, itemObject, false, needCollider);
 
-            itemObject.transform.position = replacePosition;
+            int viewID = itemObject.GetPhotonView().ViewID;
+            photonView.RPC("SyncReplaceItem", RpcTarget.All, replacePosition, viewID);
             EventManager_Game.Instance.InvokeRemoveItem(slotIndex);
             InitItemInfo();
         }
+    }
+
+    [PunRPC]
+    private void SyncReplaceItem(Vector3 replacePosition, int itemViewID)
+    {
+        PhotonView itemPhotonView = PhotonView.Find(itemViewID);
+        if (itemPhotonView == null) return;
+
+        GameObject itemObj = itemPhotonView.gameObject;
+        if (itemObj == null) return;
+
+        itemObj.transform.position = replacePosition;
     }
 
     public void DropItem()
@@ -107,10 +123,8 @@ public class HeldItem : MonoBehaviour
 
     public void UseItem()
     {
-        if (item == null)
-        {
-            return;
-        }
+        if (!photonView.IsMine) return;
+        if (item == null) return;
         item.UseItem();
     }
 }
