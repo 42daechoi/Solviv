@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 687975531188347073}
   - component: {fileID: 8103383532906522961}
   - component: {fileID: 3950928292007483792}
+  - component: {fileID: -6049143326472299741}
   m_Layer: 3
   m_Name: CowBoy
   m_TagString: Player
@@ -276,6 +277,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-6049143326472299741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561389139830730110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d63c49ec41d10c949af33574a21a92f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  role: 0
 --- !u!1 &1656115688673201943
 GameObject:
   m_ObjectHideFlags: 0
