@@ -62,13 +62,14 @@ public class CreateGameRoom : MonoBehaviourPunCallbacks
 
         Debug.Log($"방 생성 시도: {roomName}");
         
-        PhotonNetwork.LoadLevel("GameLobby");
+        //PhotonNetwork.LoadLevel("GameLobby");
+        PhotonNetwork.LoadLevel("GameLobby"); // 방 생성 성공 시 GameLobby로 이동
     }
 
     public override void OnCreatedRoom()
     {
         Debug.Log($"방 생성 성공: {PhotonNetwork.CurrentRoom.Name}");
-        PhotonNetwork.LoadLevel("GameLobby"); // 방 생성 성공 시 GameLobby로 이동
+        
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
