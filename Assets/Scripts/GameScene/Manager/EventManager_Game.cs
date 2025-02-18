@@ -19,6 +19,7 @@ public class EventManager_Game : MonoBehaviour
     
     public event Action<Item> OnOpenDoor;
     public event Action<bool> OnUseComputer;
+    public event Action<int, Vector3> OnMoveToComputer;
     public event Action OnExitComputer;
     public event Action OnAllGeneratorsActivated;
 
@@ -90,6 +91,11 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeUseComputer(bool isActComputer)
     {
         OnUseComputer?.Invoke(isActComputer);
+    }
+    
+    public void InvokeMoveToComputer(int playerId, Vector3 targetPosition)
+    {
+        OnMoveToComputer?.Invoke(playerId, targetPosition);
     }
     
     public void InvokeExitComputer()

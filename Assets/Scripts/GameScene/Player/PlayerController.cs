@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private bool _isSprinting;
     private float _offset;
     private float _currentSpeed;
+    private Vector3 _computerInteractionPoint;
     
     private InputManager_Game _defaultInputManager;
     private InputManager_Computer _computerInputManager;
@@ -83,6 +85,7 @@ public class PlayerController : MonoBehaviour
         EventManager_Game.Instance.OnPlayerJump += HandlePlayerJump;
         EventManager_Game.Instance.OnInteraction += HandleInteraction;
         EventManager_Game.Instance.OnUseComputer += HandleUseComputer;
+        EventManager_Game.Instance.OnMoveToComputer += HandleMoveToComputer;
         EventManager_Game.Instance.OnAnimationStateChanged += HandleAnimationStateChanged;
     }
 
@@ -93,6 +96,7 @@ public class PlayerController : MonoBehaviour
         EventManager_Game.Instance.OnPlayerJump -= HandlePlayerJump;
         EventManager_Game.Instance.OnInteraction -= HandleInteraction;
         EventManager_Game.Instance.OnUseComputer -= HandleUseComputer;
+        EventManager_Game.Instance.OnMoveToComputer -= HandleMoveToComputer;
         EventManager_Game.Instance.OnAnimationStateChanged -= HandleAnimationStateChanged;
     }
     
@@ -154,7 +158,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void HandleUseComputer(bool isActComputer)
+    private void HandleUseComputer(bool isActComputer)
     {
         if (!_photonView.IsMine) return;
 
@@ -187,7 +191,18 @@ public class PlayerController : MonoBehaviour
             EventManager_Game.Instance.InvokeCameraActive(true);
         }
     }
+
+    private void HandleMoveToComputer(int playerId, Vector3 targetPosition)
+    {
+        _computerInteractionPoint = targetPosition;
+    }
     
+    public void StartMoveToComputer()
+    {
+        transform.position = _computerInteractionPoint;
+    }
+    
+
     private void SetInputManager(MonoBehaviour newInputManager)
     {
         if (!_photonView.IsMine) return;
