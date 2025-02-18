@@ -19,7 +19,7 @@ public class EventManager_Game : MonoBehaviour
     
     public event Action<Item> OnOpenDoor;
     public event Action<bool> OnUseComputer;
-    public event Action<int, Vector3> OnMoveToComputer;
+    public event Action<int, Vector3, Quaternion> OnMoveToComputer;
     public event Action OnExitComputer;
     public event Action OnAllGeneratorsActivated;
 
@@ -93,9 +93,9 @@ public class EventManager_Game : MonoBehaviour
         OnUseComputer?.Invoke(isActComputer);
     }
     
-    public void InvokeMoveToComputer(int playerId, Vector3 targetPosition)
+    public void InvokeMoveToComputer(int playerId, Vector3 targetPosition, Quaternion targetRotation)
     {
-        OnMoveToComputer?.Invoke(playerId, targetPosition);
+        OnMoveToComputer?.Invoke(playerId, targetPosition, targetRotation);
     }
     
     public void InvokeExitComputer()
