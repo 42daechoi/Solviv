@@ -30,6 +30,6 @@ public class UseComputerState : IState
 
     public bool CanInteraction()
     {
-        return true;
+        return false;
     }
 }

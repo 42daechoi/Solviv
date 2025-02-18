@@ -10,7 +10,6 @@ public class MoveState : IState
     public void UpdateState(PlayerController player, Vector3 inputDirection, float offset)
     {
         player.UpdateAnimator();
-        Debug.Log($"Animator 파라미터 - Horizontal: {inputDirection.x}, Vertical: {inputDirection.z}");
         
         if (offset > 0.5f)
         {

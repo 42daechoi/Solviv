@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
@@ -14,18 +15,14 @@ public class InputManager_Game : MonoBehaviour
             Debug.LogError("플레이어컨트롤러 싱글톤 null떳다잉");
             return;
         }
-}
-    
+    }
+
     void Update()
     {
         IState currentState = _playerController.GetCurrentState();
         
         if (currentState is UseComputerState)
         {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                EventManager_Game.Instance.InvokeInteraction();
-            }
             return;
         }
         
