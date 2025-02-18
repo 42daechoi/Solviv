@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviour
     public Animator _animator { get; private set; }
     private IState IdleState { get; set; }
     private IState JumpState { get; set; }
-    private IState UseCumputerState { get; set; }
+    private IState UseComputerState { get; set; }
+    
+    private IState _previousState;
 
     [Header("Speed Settings")]
     [SerializeField] private MovementSettings _speedSettings;
@@ -22,8 +24,10 @@ public class PlayerController : MonoBehaviour
     public Vector3 InputDirection => _inputDirection;
     private bool _isSprinting;
     private float _offset;
-    
     private float _currentSpeed;
+    
+    private InputManager_Game _defaultInputManager;
+    private InputManager_Computer _computerInputManager;
     
     
     public Rigidbody Rigidbody => _rigidbody;
@@ -53,10 +57,23 @@ public class PlayerController : MonoBehaviour
         _interaction = GetComponent<Interaction>();
         _animator  = GetComponent<Animator>();
         _currentSpeed = _speedSettings.walkSpeed;
-        
+
+        IdleState = new IdleState();
         JumpState = new JumpState();
         
-        TransitionToState(new IdleState());
+        _defaultInputManager = FindObjectOfType<InputManager_Game>();
+        
+        _computerInputManager = gameObject.AddComponent<InputManager_Computer>();
+        _computerInputManager.enabled = false;
+        
+        if (IdleState != null)
+        {
+            TransitionToState(IdleState);
+        }
+        else
+        {
+            Debug.LogError("IdleState가 초기화되지 않았습니다!");
+        }
     }
     
     private void OnEnable()
@@ -97,9 +114,20 @@ public class PlayerController : MonoBehaviour
 
     public void TransitionToState(IState newState)
     {
-        _currentState?.ExitState(this);
+        if (_currentState != null)
+        {
+            _previousState = _currentState;
+            _currentState.ExitState(this);
+        }
+
         _currentState = newState;
         _currentState.EnterState(this);
+        
+        if (_previousState is UseComputerState && _currentState is IdleState)
+        {
+            Debug.Log("컴퓨터종료 아이들로전환 컴퓨터강제종료이벤트발행");
+            EventManager_Game.Instance.InvokeExitComputer();
+        }
     }
     
     private void UpdateMoveInput(float horizontal, float vertical)
@@ -128,6 +156,8 @@ public class PlayerController : MonoBehaviour
 
     public void HandleUseComputer(bool isActComputer)
     {
+        if (!_photonView.IsMine) return; // 로컬 플레이어만 실행
+
         if (EventManager_Game.Instance == null)
         {
             Debug.LogError("EventManager_Game 인스턴스가 null입니다.");
@@ -136,16 +166,32 @@ public class PlayerController : MonoBehaviour
 
         if (isActComputer)
         {
-            if (UseCumputerState == null)
+            if (_currentState is UseComputerState) return;
+
+            if (UseComputerState == null)
             {
-                UseCumputerState = new UseComputerState();
+                UseComputerState = new UseComputerState();
             }
-            TransitionToState(UseCumputerState);
+            SetInputManager(_computerInputManager);
+            TransitionToState(UseComputerState);
         }
         else
         {
+            if (_currentState is IdleState) return;
+
+            SetInputManager(_defaultInputManager);
             TransitionToState(IdleState);
         }
+    }
+    
+    private void SetInputManager(MonoBehaviour newInputManager)
+    {
+        if (!_photonView.IsMine) return; // 로컬 플레이어만 적용
+
+        _defaultInputManager.enabled = false;
+        _computerInputManager.enabled = false;
+
+        newInputManager.enabled = true;
     }
     
     private void HandleAnimationStateChanged(string animationState)

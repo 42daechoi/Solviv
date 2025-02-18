@@ -14,20 +14,14 @@ public class Computer : MonoBehaviourPun, IInteractableObject
         if (EventManager_Game.Instance != null)
         {
             EventManager_Game.Instance.OnAllGeneratorsActivated += HandleAllGeneratorsActivated;
+            EventManager_Game.Instance.OnExitComputer += ForceExit;
         }
-    }
-
-    private void OnDisable()
-    {
-        EventManager_Game.Instance.OnAllGeneratorsActivated -= HandleAllGeneratorsActivated;
     }
 
     void Start()
     {
-        if (EventManager_Game.Instance != null)
-        {
-            EventManager_Game.Instance.OnAllGeneratorsActivated += HandleAllGeneratorsActivated;
-        }
+        EventManager_Game.Instance.OnAllGeneratorsActivated += HandleAllGeneratorsActivated;
+        EventManager_Game.Instance.OnExitComputer += ForceExit;
         IsAllGeneratorsActivated = false;
         OnInteraction = false;
         moniterCamera.gameObject.SetActive(false);
@@ -46,14 +40,22 @@ public class Computer : MonoBehaviourPun, IInteractableObject
             moniterCamera.Priority = 20;
             OnInteraction = true;
         }
-        else
-        {
-            moniterCamera.Priority = 5;
-            moniterCamera.gameObject.SetActive(false);
-            moniterCanvas.gameObject.SetActive(false);
-            OnInteraction = false;
-        }
         EventManager_Game.Instance.InvokeUseComputer(OnInteraction);
+    }
+
+    private void ForceExit()
+    {
+        Debug.Log("컴퓨터 강제 종료");
+
+        moniterCamera.Priority = 5;
+        moniterCamera.gameObject.SetActive(false);
+        moniterCanvas.gameObject.SetActive(false);
+        OnInteraction = false;
+        if (EventManager_Game.Instance != null)
+        {
+            Debug.Log("이벤트 매니저 호출 성공");
+            EventManager_Game.Instance.InvokeUseComputer(OnInteraction);
+        }
     }
 
     private void HandleAllGeneratorsActivated()

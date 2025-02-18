@@ -18,6 +18,7 @@ public class EventManager_Game : MonoBehaviour
     
     public event Action<Item> OnOpenDoor;
     public event Action<bool> OnUseComputer;
+    public event Action OnExitComputer;
     public event Action OnAllGeneratorsActivated;
 
     public static EventManager_Game Instance { get; private set; }
@@ -83,6 +84,12 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeUseComputer(bool isActComputer)
     {
         OnUseComputer?.Invoke(isActComputer);
+    }
+    
+    public void InvokeExitComputer()
+    {
+        Debug.Log("이벤트매니저 컴퓨터강제종료 발행");
+        OnExitComputer?.Invoke();
     }
 
     public void InvokeAllGeneratorsActivated()
