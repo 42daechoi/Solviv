@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using Photon.Pun;
 using UnityEngine;
@@ -6,6 +7,8 @@ public class Computer : MonoBehaviourPun, IInteractableObject
 {
     [SerializeField] private CinemachineVirtualCamera moniterCamera;
     [SerializeField] private Canvas moniterCanvas;
+    [SerializeField] private Transform interactionPoint;
+    
     private bool IsAllGeneratorsActivated;
     private bool OnInteraction;
 
@@ -16,6 +19,12 @@ public class Computer : MonoBehaviourPun, IInteractableObject
             EventManager_Game.Instance.OnAllGeneratorsActivated += HandleAllGeneratorsActivated;
             EventManager_Game.Instance.OnExitComputer += ForceExit;
         }
+    }
+
+    private void OnDisable()
+    {
+        EventManager_Game.Instance.OnAllGeneratorsActivated -= HandleAllGeneratorsActivated;
+        EventManager_Game.Instance.OnExitComputer -= ForceExit;
     }
 
     void Start()
@@ -40,6 +49,10 @@ public class Computer : MonoBehaviourPun, IInteractableObject
             moniterCamera.Priority = 20;
             OnInteraction = true;
         }
+
+        Vector3 worldPosition = transform.TransformPoint(interactionPoint.localPosition);
+        
+        EventManager_Game.Instance.InvokeMoveToComputer(playerId, worldPosition);
         EventManager_Game.Instance.InvokeUseComputer(OnInteraction);
     }
 
