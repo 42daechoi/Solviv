@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour
 
     public void HandleUseComputer(bool isActComputer)
     {
-        if (!_photonView.IsMine) return; // 로컬 플레이어만 실행
+        if (!_photonView.IsMine) return;
 
         if (EventManager_Game.Instance == null)
         {
@@ -174,6 +174,8 @@ public class PlayerController : MonoBehaviour
             }
             SetInputManager(_computerInputManager);
             TransitionToState(UseComputerState);
+            
+            EventManager_Game.Instance.InvokeCameraActive(false);
         }
         else
         {
@@ -181,12 +183,14 @@ public class PlayerController : MonoBehaviour
 
             SetInputManager(_defaultInputManager);
             TransitionToState(IdleState);
+            
+            EventManager_Game.Instance.InvokeCameraActive(true);
         }
     }
     
     private void SetInputManager(MonoBehaviour newInputManager)
     {
-        if (!_photonView.IsMine) return; // 로컬 플레이어만 적용
+        if (!_photonView.IsMine) return;
 
         _defaultInputManager.enabled = false;
         _computerInputManager.enabled = false;
