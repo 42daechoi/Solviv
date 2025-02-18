@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private float _offset;
     private float _currentSpeed;
     private Vector3 _computerInteractionPoint;
+    private Quaternion _computerInteractionRotation;
     
     private InputManager_Game _defaultInputManager;
     private InputManager_Computer _computerInputManager;
@@ -192,14 +193,53 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void HandleMoveToComputer(int playerId, Vector3 targetPosition)
+    private void HandleMoveToComputer(int playerId, Vector3 targetPosition, Quaternion targetRotation)
     {
         _computerInteractionPoint = targetPosition;
+        _computerInteractionRotation = targetRotation;
     }
     
     public void StartMoveToComputer()
     {
-        transform.position = _computerInteractionPoint;
+        StopAllCoroutines();
+        StartCoroutine(WalkToComputer(_computerInteractionPoint, _computerInteractionRotation));
+        // transform.position = _computerInteractionPoint; 즉시텔레포트
+    }
+    
+    private IEnumerator WalkToComputer(Vector3 targetPosition, Quaternion targetRotation)
+    {
+        float distanceThreshold = 0.1f;
+        float moveSpeed = _speedSettings.walkSpeed;
+        float rotationSpeed = 1f;
+        
+        Vector3 startPosition = transform.position;
+        Vector3 direction = (targetPosition - startPosition).normalized;
+        
+        if (_animator != null)
+        {
+            _animator.SetFloat("Horizontal", direction.x);
+            _animator.SetFloat("Vertical", direction.z);
+        }
+
+        while (Vector3.Distance(transform.position, targetPosition) > distanceThreshold)
+        {
+            Vector3 newPosition = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            _rigidbody.MovePosition(newPosition);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+        
+        transform.position = targetPosition;
+        transform.rotation = targetRotation;
+        
+        if (_animator != null)
+        {
+            _animator.SetFloat("Horizontal", 0);
+            _animator.SetFloat("Vertical", 0);
+        }
+        
+        _animator?.SetTrigger("Typing");
     }
     
 

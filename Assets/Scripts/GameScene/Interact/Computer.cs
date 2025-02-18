@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Computer : MonoBehaviourPun, IInteractableObject
 {
-    [SerializeField] private CinemachineVirtualCamera moniterCamera;
+    //[SerializeField] private CinemachineVirtualCamera moniterCamera;
     [SerializeField] private Canvas moniterCanvas;
     [SerializeField] private Transform interactionPoint;
     
@@ -33,7 +33,7 @@ public class Computer : MonoBehaviourPun, IInteractableObject
         EventManager_Game.Instance.OnExitComputer += ForceExit;
         IsAllGeneratorsActivated = false;
         OnInteraction = false;
-        moniterCamera.gameObject.SetActive(false);
+        //moniterCamera.gameObject.SetActive(false);
     }
     public void Interact(int playerId)
     {
@@ -44,15 +44,16 @@ public class Computer : MonoBehaviourPun, IInteractableObject
         }
         if (!OnInteraction)
         {
-            moniterCamera.gameObject.SetActive(true);
+            //moniterCamera.gameObject.SetActive(true);
             moniterCanvas.gameObject.SetActive(true);
-            moniterCamera.Priority = 20;
+            //moniterCamera.Priority = 20;
             OnInteraction = true;
         }
 
         Vector3 worldPosition = transform.TransformPoint(interactionPoint.localPosition);
+        Quaternion worldRotation = interactionPoint.rotation;
         
-        EventManager_Game.Instance.InvokeMoveToComputer(playerId, worldPosition);
+        EventManager_Game.Instance.InvokeMoveToComputer(playerId, worldPosition, worldRotation);
         EventManager_Game.Instance.InvokeUseComputer(OnInteraction);
     }
 
@@ -60,8 +61,8 @@ public class Computer : MonoBehaviourPun, IInteractableObject
     {
         Debug.Log("컴퓨터 강제 종료");
 
-        moniterCamera.Priority = 5;
-        moniterCamera.gameObject.SetActive(false);
+        //moniterCamera.Priority = 5;
+        //moniterCamera.gameObject.SetActive(false);
         moniterCanvas.gameObject.SetActive(false);
         OnInteraction = false;
         if (EventManager_Game.Instance != null)
