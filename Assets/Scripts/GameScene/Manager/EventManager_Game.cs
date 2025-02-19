@@ -7,6 +7,7 @@ public class EventManager_Game : MonoBehaviour
 {
     public event Action<float, float> OnPlayerMove;
     public event Action<bool> OnPlayerSprint;
+    public event Action<bool> OnCameraActive;
     public event Action OnPlayerJump;
     public event Action OnInteraction;
     public event Action<int> OnHeldItem;
@@ -18,6 +19,8 @@ public class EventManager_Game : MonoBehaviour
     
     public event Action<Item> OnOpenDoor;
     public event Action<bool> OnUseComputer;
+    public event Action<int, Vector3, Quaternion> OnMoveToComputer;
+    public event Action OnExitComputer;
     public event Action OnAllGeneratorsActivated;
 
     public static EventManager_Game Instance { get; private set; }
@@ -44,6 +47,11 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeSprint(bool isSprint)
     {
         OnPlayerSprint?.Invoke(isSprint);
+    }
+    
+    public void InvokeCameraActive(bool isActive)
+    {
+        OnCameraActive?.Invoke(isActive);
     }
 
     public void InvokePlayerJump()
@@ -83,6 +91,17 @@ public class EventManager_Game : MonoBehaviour
     public void InvokeUseComputer(bool isActComputer)
     {
         OnUseComputer?.Invoke(isActComputer);
+    }
+    
+    public void InvokeMoveToComputer(int playerId, Vector3 targetPosition, Quaternion targetRotation)
+    {
+        OnMoveToComputer?.Invoke(playerId, targetPosition, targetRotation);
+    }
+    
+    public void InvokeExitComputer()
+    {
+        Debug.Log("이벤트매니저 컴퓨터강제종료 발행");
+        OnExitComputer?.Invoke();
     }
 
     public void InvokeAllGeneratorsActivated()

@@ -46,6 +46,7 @@ public class Generator : MonoBehaviourPun, IInteractableObject
 
         installedBattery[installedBatteryCount] = heldItem.GetItemObject();
         heldItem.ReplaceItem(worldPosition, false);
+        Debug.Log($"Generator : 배터리 장착 성공. 장창된 포지션 : {worldPosition}");
         IncreaseBatteryCount();
         Debug.Log($"Generator : 배터리 장착 성공. 현재 장착된 배터리 갯수 : {installedBatteryCount}");
     }
