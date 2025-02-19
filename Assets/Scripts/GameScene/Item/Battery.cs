@@ -9,7 +9,7 @@ public class Battery : Item
         Transform shooterTransform = GetShooterTransform();
         if (shooterTransform == null)
         {
-            Debug.Log("Battery : ÇÃ·¹ÀÌ¾î Æ®·£½ºÆûÀ» Ã£Áö ¸øÇß½À´Ï´Ù.");
+            Debug.Log("Battery : í”Œë ˆì´ì–´ íŠ¸ëœìŠ¤í¼ì„ ì°¾ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -28,7 +28,7 @@ public class Battery : Item
         }
         else
         {
-            Debug.LogWarning($"RayModule ¶Ç´Â ShooterTransformÀÌ À¯È¿ÇÏÁö ¾Ê½À´Ï´Ù.");
+            Debug.LogWarning($"RayModule ë˜ëŠ” ShooterTransformì´ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
         }
     }
 

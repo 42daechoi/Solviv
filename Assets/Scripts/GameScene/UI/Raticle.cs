@@ -1,53 +1,83 @@
-using System.Collections;
-using System.Collections.Generic;
 using GameScene.Item;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun; // Photon 사용 시
 
 public class Raticle : MonoBehaviour
 {
-    [Header("References")]
-    public global::Item HeldItem; // 현재 장착된 아이템 (Item 기반)
-
     [Header("Crosshair Settings")]
-    public Image crosshairImage; // 조준점 UI 이미지
-    public Sprite farmingSprite; // 파밍 상태 원형 스프라이트
-    public Sprite aimingSprite; // 총 장착 상태 원형 스프라이트
+    [SerializeField] private Image crosshairImage; // 조준점 UI 이미지
+    [SerializeField] private Sprite farmingSprite; // 파밍 상태 원형 스프라이트
+    [SerializeField] private Sprite aimingSprite;  // 총 장착 상태 원형 스프라이트
 
     [Header("Crosshair Colors")]
-    public Color farmingColor = new Color(1f, 1f, 1f, 0.3f); // 파밍 상태 색상 (연함)
-    public Color aimingColor = new Color(1f, 1f, 1f, 1f); // 총 장착 상태 색상 (진함)
+    [SerializeField] private Color farmingColor = new Color(1f, 1f, 1f, 0.3f); // 파밍 상태 색상 (연함)
+    [SerializeField] private Color aimingColor = new Color(1f, 1f, 1f, 1f);    // 총 장착 상태 색상 (진함)
 
     [Header("Crosshair Sizes")]
-    public float farmingSize = 25f; // 파밍 상태 크기
-    public float aimingSize = 100f; // 총 장착 상태 크기
-    public float movingSize = 150f; // 이동 중 크기
+    [SerializeField] private float farmingSize = 25f; // 파밍 상태 크기
+    [SerializeField] private float aimingSize = 100f; // 총 장착 상태 크기
+    [SerializeField] private float movingSize = 150f; // 이동 중 크기
 
     [Header("Transition Settings")]
-    public float transitionSpeed = 5f; // 크기 및 색상 전환 속도
+    [SerializeField] private float transitionSpeed = 5f; // 크기 및 색상 전환 속도
+    
+    // 플레이어 참조
+    private Transform playerTransform;
+    private HeldItem heldItem;
 
-    private bool isMoving = false; // 이동 여부
-    private Vector3 lastPosition; // 이전 프레임 위치
+    // 이동 판별
+    private bool isMoving = false;
+    private Vector3 lastPosition;
 
-    void Start()
+    private void Start()
     {
-        // 초기 조준점 상태 설정
+        // 처음 조준점
         SetCrosshairState(farmingSprite, farmingColor, farmingSize);
-        lastPosition = transform.position;
+        
+        // 플레이어 찾고
+        if (playerTransform == null)
+        {
+            // "Player" 태그 오브젝트를 찾음
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (var p in players)
+            {
+                PhotonView pv = p.GetComponent<PhotonView>();
+                if (pv != null && pv.IsMine)
+                {
+                    playerTransform = p.transform;
+                    heldItem = p.GetComponent<HeldItem>();
+                    break;
+                }
+            }
+        }
+
+        if (playerTransform != null)
+        {
+            lastPosition = playerTransform.position;
+        }
     }
 
-    void Update()
+    private void Update()
     {
-        // 이동 여부 감지
-        isMoving = (transform.position - lastPosition).sqrMagnitude > 0.01f;
-        lastPosition = transform.position;
+        if (playerTransform == null)
+        {
+            // 로컬 플레이어를 못찾으면 반환
+            return;
+        }
+        
+        // (1) 이동 감지
+        Vector3 currentPlayerPos = playerTransform.position;
+        isMoving = (currentPlayerPos - lastPosition).sqrMagnitude > 0.01f;
+        lastPosition = currentPlayerPos;
 
-        // 현재 장착된 아이템이 총인지 확인
-        bool isAiming = HeldItem is Gun;
+// (2) 총 장착 여부
+        bool isAiming = (heldItem != null && heldItem.HeldGun != null);
 
-        // 상태에 따라 조준점 업데이트
+// (3) 조준점 업데이트
         if (isAiming)
         {
+            crosshairImage.sprite = aimingSprite;
             if (isMoving)
                 UpdateCrosshair(movingSize, aimingColor);
             else
@@ -55,28 +85,30 @@ public class Raticle : MonoBehaviour
         }
         else
         {
+            crosshairImage.sprite = farmingSprite;
             UpdateCrosshair(farmingSize, farmingColor);
         }
-    }
-
-    public void EquipItem(global::Item item)
-    {
-        HeldItem = item; // 현재 장착된 아이템 설정
     }
 
     private void UpdateCrosshair(float targetSize, Color targetColor)
     {
         // 크기와 색상을 부드럽게 전환
-        crosshairImage.rectTransform.sizeDelta = Vector2.Lerp(crosshairImage.rectTransform.sizeDelta, new Vector2(targetSize, targetSize), Time.deltaTime * transitionSpeed);
-        crosshairImage.color = Color.Lerp(crosshairImage.color, targetColor, Time.deltaTime * transitionSpeed);
+        crosshairImage.rectTransform.sizeDelta = Vector2.Lerp(
+            crosshairImage.rectTransform.sizeDelta,
+            new Vector2(targetSize, targetSize),
+            Time.deltaTime * transitionSpeed
+        );
+        crosshairImage.color = Color.Lerp(
+            crosshairImage.color,
+            targetColor,
+            Time.deltaTime * transitionSpeed
+        );
     }
 
     private void SetCrosshairState(Sprite sprite, Color color, float size)
     {
-        // 초기 상태 설정
         crosshairImage.sprite = sprite;
         crosshairImage.color = color;
         crosshairImage.rectTransform.sizeDelta = new Vector2(size, size);
     }
-
 }

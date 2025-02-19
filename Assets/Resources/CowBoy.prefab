@@ -27,16 +27,15 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1332784042215467423
-Transform:
+--- !u!224 &1332784042215467423
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561389139830730110}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.99950194, z: 0, w: 0.031559147}
-  m_LocalPosition: {x: 0.32, y: -0.00000011920929, z: -0.9762237}
+  m_LocalPosition: {x: 0, y: 0, z: -0.9762237}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -45,6 +44,11 @@ Transform:
   - {fileID: 4238469746385283008}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -176.383, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.32, y: -0.00000011920929}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!54 &3653097524903397229
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -192,6 +196,7 @@ MonoBehaviour:
   itemObject: {fileID: 0}
   slotIndex: 0
   equipItem: {fileID: 0}
+  HeldGun: {fileID: 0}
 --- !u!114 &8103383532906522961
 MonoBehaviour:
   m_ObjectHideFlags: 0

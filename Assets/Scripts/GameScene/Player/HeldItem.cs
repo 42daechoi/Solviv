@@ -1,3 +1,4 @@
+using GameScene.Item;
 using Photon.Pun;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class HeldItem : MonoBehaviourPunCallbacks
     [SerializeField] private int slotIndex;
     [SerializeField] private EquipItem equipItem;
     private float dropOffset = 1f;
-
+    public CheckHeldGun HeldGun;
 
 
     public override void OnEnable()
@@ -57,6 +58,22 @@ public class HeldItem : MonoBehaviourPunCallbacks
                 slotIndex = keyCode - 2;
                 item = inventory.GetItem(slotIndex);
                 itemObject = equipItem.Equip(item);
+                
+                // '총'인지 판별
+                if (itemObject != null)
+                {
+                    // "CheckHeldGun" 스크립트가 붙어 있다면 '총'으로 간주
+                    CheckHeldGun gunCheck = itemObject.GetComponent<CheckHeldGun>();
+                    if (gunCheck != null)
+                    {
+                        HeldGun = gunCheck;
+                        Debug.Log("총 장착 완료");
+                    }
+                    else
+                    {
+                        HeldGun = null; // 총 아님
+                    }
+                }
             }
         }
     }
@@ -66,6 +83,8 @@ public class HeldItem : MonoBehaviourPunCallbacks
         item = null;
         itemObject = null;
         slotIndex = -10;
+        
+        HeldGun = null;
     }
 
     public void ReplaceItem(Vector3 replacePosition, bool needCollider)
