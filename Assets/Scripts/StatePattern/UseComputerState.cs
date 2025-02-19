@@ -12,13 +12,9 @@ public class UseComputerState : IState
     {
         
     }
+    
 
-    public void UpdateState(Vector3 inputDirection)
-    {
-        
-    }
-
-    public void FixedUpdateState(PlayerController player)
+    public void FixedUpdateState(PlayerController player, Vector3 inputDirection, float offset)
     {
         
     }

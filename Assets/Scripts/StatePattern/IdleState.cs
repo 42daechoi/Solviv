@@ -16,7 +16,7 @@ public class IdleState : IState
         }
     }
     
-    public void FixedUpdateState(PlayerController player)
+    public void FixedUpdateState(PlayerController player, Vector3 inputDirection, float offset)
     {
         // 필요하지 않음
     }

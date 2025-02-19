@@ -5,26 +5,22 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController LocalPlayerInstance { get; private set; }
-    private string _currentAnimationState = "Default";
-    public Animator _animator { get; private set; }
     private IState IdleState { get; set; }
     private IState JumpState { get; set; }
     private IState UseComputerState { get; set; }
-    
     private IState _previousState;
+    private IState _currentState;
 
+    private PlayerMovement _playerMovement;
+    private PlayerAnimator _playerAnimator;
+    
     [Header("Speed Settings")]
     [SerializeField] private MovementSettings _speedSettings;
     
     private Rigidbody _rigidbody;
     private PhotonView _photonView;
-    private IState _currentState;
     private Interaction _interaction;
     
-    private Vector3 _inputDirection;
-    public Vector3 InputDirection => _inputDirection;
-    private bool _isSprinting;
-    private float _offset;
     private float _currentSpeed;
     private Vector3 _computerInteractionPoint;
     private Quaternion _computerInteractionRotation;
@@ -58,14 +54,18 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _photonView = GetComponent<PhotonView>();
         _interaction = GetComponent<Interaction>();
-        _animator  = GetComponent<Animator>();
+        _playerAnimator = GetComponent<PlayerAnimator>();
         _currentSpeed = _speedSettings.walkSpeed;
+        _playerMovement = GetComponent<PlayerMovement>();
+        
+        _playerMovement = gameObject.AddComponent<PlayerMovement>();
+        _playerAnimator = gameObject.AddComponent<PlayerAnimator>();
+        
 
         IdleState = new IdleState();
         JumpState = new JumpState();
         
         _defaultInputManager = FindObjectOfType<InputManager_Game>();
-        
         _computerInputManager = gameObject.AddComponent<InputManager_Computer>();
         _computerInputManager.enabled = false;
         
@@ -81,31 +81,25 @@ public class PlayerController : MonoBehaviour
     
     private void OnEnable()
     {
-        EventManager_Game.Instance.OnPlayerMove += UpdateMoveInput;
-        EventManager_Game.Instance.OnPlayerSprint += UpdateSprintInput;
         EventManager_Game.Instance.OnPlayerJump += HandlePlayerJump;
         EventManager_Game.Instance.OnInteraction += HandleInteraction;
         EventManager_Game.Instance.OnUseComputer += HandleUseComputer;
         EventManager_Game.Instance.OnMoveToComputer += HandleMoveToComputer;
-        EventManager_Game.Instance.OnAnimationStateChanged += HandleAnimationStateChanged;
     }
 
     private void OnDisable()
     {
-        EventManager_Game.Instance.OnPlayerMove -= UpdateMoveInput;
-        EventManager_Game.Instance.OnPlayerSprint -= UpdateSprintInput;
         EventManager_Game.Instance.OnPlayerJump -= HandlePlayerJump;
         EventManager_Game.Instance.OnInteraction -= HandleInteraction;
         EventManager_Game.Instance.OnUseComputer -= HandleUseComputer;
         EventManager_Game.Instance.OnMoveToComputer -= HandleMoveToComputer;
-        EventManager_Game.Instance.OnAnimationStateChanged -= HandleAnimationStateChanged;
     }
     
     private void Update()
     {
         if (_photonView.IsMine)
         {
-            _currentState.UpdateState(this, _inputDirection, _offset);
+            _currentState.UpdateState(this, _playerMovement.InputDirection, _playerMovement.Offset);
         }
     }
 
@@ -113,7 +107,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_photonView.IsMine)
         {
-            _currentState.FixedUpdateState(this);
+            _currentState.FixedUpdateState(this, _playerMovement.InputDirection, _playerMovement.Offset);
         }
     }
 
@@ -135,17 +129,6 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    private void UpdateMoveInput(float horizontal, float vertical)
-    {
-        _inputDirection = new Vector3(horizontal, 0, vertical);
-        _offset = 0.5f + (_isSprinting ? 0.5f : 0f);
-    }
-
-    private void UpdateSprintInput(bool isSprinting)
-    {
-        _isSprinting = isSprinting;
-    }
-    
     private void HandleInteraction()
     {
         if (_currentState.CanInteraction())
@@ -159,6 +142,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region UseComputer Methods
     private void HandleUseComputer(bool isActComputer)
     {
         if (!_photonView.IsMine) return;
@@ -215,10 +199,9 @@ public class PlayerController : MonoBehaviour
         Vector3 startPosition = transform.position;
         Vector3 direction = (targetPosition - startPosition).normalized;
         
-        if (_animator != null)
+        if (_playerAnimator != null)
         {
-            _animator.SetFloat("Horizontal", direction.x);
-            _animator.SetFloat("Vertical", direction.z);
+            _playerAnimator.SetMoveAnim(direction.x, direction.z, 1f);
         }
 
         while (Vector3.Distance(transform.position, targetPosition) > distanceThreshold)
@@ -233,16 +216,12 @@ public class PlayerController : MonoBehaviour
         transform.position = targetPosition;
         transform.rotation = targetRotation;
         
-        if (_animator != null)
+        if (_playerAnimator != null)
         {
-            _animator.SetFloat("Horizontal", 0);
-            _animator.SetFloat("Vertical", 0);
+            _playerAnimator.SetMoveAnim(0, 0, 1f);
         }
-        
-        _animator?.SetTrigger("Typing");
     }
     
-
     private void SetInputManager(MonoBehaviour newInputManager)
     {
         if (!_photonView.IsMine) return;
@@ -253,19 +232,14 @@ public class PlayerController : MonoBehaviour
         newInputManager.enabled = true;
     }
     
-    private void HandleAnimationStateChanged(string animationState)
-    {
-        _currentAnimationState = animationState;
-
-        // 애니메이션 상태 변경
-    }
-    
+    #endregion
     public void UpdateAnimator()
     {
-        _animator.SetFloat("Horizontal", _inputDirection.x * _offset);
-        _animator.SetFloat("Vertical", _inputDirection.z * _offset);
+        if (_playerAnimator != null)
+        {
+            _playerAnimator.SetMoveAnim(_playerMovement.InputDirection.x, _playerMovement.InputDirection.z, _playerMovement.Offset);
+        }
     }
-    
     
     private void HandlePlayerJump()
     {
