@@ -15,7 +15,7 @@ public class EquipItem : MonoBehaviourPunCallbacks
         GameObject equipItem = ObjectPool.instance.GetObject(item.itemName, Vector3.zero, Quaternion.identity);
         if (equipItem == null)
         {
-            Debug.Log("EquipItem : ¿ÀºêÁ§Æ® Ç®¿¡¼­ ÀåÂøÇÒ ¾ÆÀÌÅÛÀ» ¹Ş¾Æ¿ÀÁö ¸øÇß½À´Ï´Ù.");
+            Debug.Log("EquipItem : ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ ì¥ì°©í•  ì•„ì´í…œì„ ë°›ì•„ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
             return null;
         }
         int viewID = equipItem.GetPhotonView().ViewID;
