@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         if (activeGeneratorCount >= maxGeneratorCount)
         {
             EventManager_Game.Instance.InvokeAllGeneratorsActivated();
-            Debug.Log("¸ğµç ¹ßÀü±â °¡µ¿ ¿Ï·á.");
+            Debug.Log("ëª¨ë“  ë°œì „ê¸° ê°€ë™ ì™„ë£Œ.");
         }
     }
 }
