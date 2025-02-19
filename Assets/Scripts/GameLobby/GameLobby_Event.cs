@@ -186,7 +186,7 @@ public class GameLobbyManager : MonoBehaviourPunCallbacks
         }
 
         Debug.Log("게임 시작");
-        PhotonNetwork.LoadLevel("GameScene");
+        PhotonNetwork.LoadLevel("LoadingScene");
     }
     
     public override void OnJoinedRoom()

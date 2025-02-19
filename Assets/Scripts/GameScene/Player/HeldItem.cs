@@ -11,14 +11,14 @@ public class HeldItem : MonoBehaviourPunCallbacks
 
 
 
-    private void OnEnable()
+    public override void OnEnable()
     {
         EventManager_Game.Instance.OnHeldItem += SelectItem;
         EventManager_Game.Instance.OnDropItem += DropItem;
         EventManager_Game.Instance.OnUseItem += UseItem;
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
         EventManager_Game.Instance.OnHeldItem -= SelectItem;
         EventManager_Game.Instance.OnDropItem -= DropItem;
