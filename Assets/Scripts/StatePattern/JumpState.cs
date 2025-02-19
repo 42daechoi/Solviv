@@ -16,7 +16,7 @@ public class JumpState : IState
         
     }
 
-    public void FixedUpdateState(PlayerController player)
+    public void FixedUpdateState(PlayerController player, Vector3 inputDirection, float offset)
     {
         if (player.IsGrounded() && player.Rigidbody.velocity.y <= 0.1f)
         {

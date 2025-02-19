@@ -22,9 +22,9 @@ public class MoveState : IState
         }
     }
 
-    public void FixedUpdateState(PlayerController player)
+    public void FixedUpdateState(PlayerController player, Vector3 inputDirection, float offset)
     {
-        Vector3 movement = new Vector3(player.InputDirection.x, 0, player.InputDirection.z).normalized * player.SpeedSettings.walkSpeed;
+        Vector3 movement = new Vector3(inputDirection.x, 0, inputDirection.z).normalized * player.SpeedSettings.walkSpeed;
         
         movement = player.transform.TransformDirection(movement);
         
