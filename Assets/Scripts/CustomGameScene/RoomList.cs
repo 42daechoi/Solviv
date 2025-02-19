@@ -90,7 +90,7 @@ public class RoomList : MonoBehaviourPunCallbacks
             // }
 
             // 플레이어 수 / 최대 플레이어 수 표시
-            roomItem.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = room.PlayerCount + "/" + room.MaxPlayers;
+            roomItem.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = room.PlayerCount + "/" + room.MaxPlayers;
 
             Button button = roomItem.GetComponent<Button>();
 
