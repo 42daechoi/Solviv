@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager : MonoBehaviourPun
 {
 	public Transform[] playerSpawnPoints;
 	public Transform[] itemSpawnPoints;
@@ -13,7 +13,10 @@ public class SpawnManager : MonoBehaviour
 	{
 		isSpawned = new bool[playerSpawnPoints.Length];
 		SpawnPlayers();
-		SpawnItems();
+		if (PhotonNetwork.IsMasterClient)
+		{
+            SpawnItems();
+        }
 	}
 
 	void SpawnPlayers()
@@ -25,7 +28,8 @@ public class SpawnManager : MonoBehaviour
 		Vector3 spawnPosition = playerSpawnPoints[spawnIdx].position;
 		Quaternion spawnRotation = playerSpawnPoints[spawnIdx].rotation;
 		GameObject player = PhotonNetwork.Instantiate("CowBoy", spawnPosition, spawnRotation);
-		isSpawned[spawnIdx] = true;
+        Debug.Log("Player spawned: " + player.name + " for player: " + PhotonNetwork.LocalPlayer.NickName);
+        photonView.RPC("UsedSpawnPointSync", RpcTarget.All, spawnIdx);
 		
 		// 아이템 임시 스폰 - 삭제 필요
 		PhotonNetwork.Instantiate("Item/Gun", spawnPosition - new Vector3(2, 2, 0), spawnRotation);
@@ -33,25 +37,33 @@ public class SpawnManager : MonoBehaviour
 		PhotonNetwork.Instantiate("Item/Battery", spawnPosition - new Vector3(4, 2, 0), spawnRotation);
 	}
 	
-	int GetAvailableSpawnIndex(int playerIndex)
+	private int GetAvailableSpawnIndex(int playerIdx)
 	{
-		int availableIndex = -1;
+        if (playerIdx >= 0 && playerIdx < playerSpawnPoints.Length && !isSpawned[playerIdx])
+        {
+            return playerIdx;
+        }
 
-		for (int i = 0; i < playerSpawnPoints.Length; i++)
-		{
-			if (!isSpawned[i])
-			{
-				availableIndex = i;
-				break;
-			}
-		}
+        for (int i = 0; i < playerSpawnPoints.Length; i++)
+        {
+            if (!isSpawned[i])
+            {
+                return i;
+            }
+        }
 
-		return availableIndex;
-	}
+        return -1;
+    }
+
+	[PunRPC]
+	private void UsedSpawnPointSync(int spawnIdx)
+	{
+        isSpawned[spawnIdx] = true;
+    }
 
 	void SpawnItems()
 	{
-		SpawnPasswordPapers();
+		//SpawnPasswordPapers();
 	}
 
 	private void SpawnPasswordPapers()
