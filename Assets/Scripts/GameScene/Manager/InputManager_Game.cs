@@ -1,6 +1,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using System.Collections;
 
 public class InputManager_Game : MonoBehaviour
 {
@@ -8,23 +9,34 @@ public class InputManager_Game : MonoBehaviour
 
     void Start()
     {
-        _playerController = PlayerController.LocalPlayerInstance;
-
-        if (_playerController == null)
-        {
-            Debug.LogError("플레이어컨트롤러 싱글톤 null떳다잉");
-            return;
-        }
+        StartCoroutine(WaitForPlayerController());
     }
 
+    private IEnumerator WaitForPlayerController()
+    {
+        while (_playerController == null)
+        {
+            _playerController = PlayerController.Instance;
+            if (_playerController == null)
+            {
+                Debug.Log("PlayerController가 아직 초기화되지 않았습니다. 대기 중...");
+                yield return new WaitForSeconds(0.1f); 
+            }
+        }
+        Debug.Log("PlayerController 초기화 완료!");
+    }
     void Update()
     {
-        IState currentState = _playerController.GetCurrentState();
-        
-        if (currentState is UseComputerState)
+        if (_playerController != null)
         {
-            return;
+            IState currentState = _playerController.GetCurrentState();
+
+            if (currentState is UseComputerState)
+            {
+                return;
+            }
         }
+
         
         // 이동 입력
         float horizontal = Input.GetAxis("Horizontal");

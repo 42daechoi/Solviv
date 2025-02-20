@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public static PlayerController LocalPlayerInstance { get; private set; }
+    public static PlayerController Instance { get; private set; }
     private IState IdleState { get; set; }
     private IState JumpState { get; set; }
     private IState UseComputerState { get; set; }
@@ -37,9 +37,9 @@ public class PlayerController : MonoBehaviour
         _photonView = GetComponent<PhotonView>();
         if (_photonView.IsMine)
         {
-            if (LocalPlayerInstance == null)
+            if (Instance == null)
             {
-                LocalPlayerInstance = this;
+                Instance = this;
             }
             else
             {

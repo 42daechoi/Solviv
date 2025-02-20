@@ -8,13 +8,21 @@ public class InputManager_Computer : MonoBehaviour
 
     void Start()
     {
-        _playerController = PlayerController.LocalPlayerInstance;
+        StartCoroutine(WaitForPlayerController());
+    }
 
-        if (_playerController == null)
+    private IEnumerator WaitForPlayerController()
+    {
+        while (_playerController == null)
         {
-            Debug.LogError("PlayerController 인스턴스를 찾을 수 없습니다.");
-            return;
+            _playerController = PlayerController.Instance;
+            if (_playerController == null)
+            {
+                Debug.Log("PlayerController가 아직 초기화되지 않았습니다. 대기 중...");
+                yield return new WaitForSeconds(0.1f);
+            }
         }
+        Debug.Log("PlayerController 초기화 완료!");
     }
 
     void Update()

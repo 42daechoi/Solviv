@@ -47,9 +47,16 @@ public class LoadingScreen : MonoBehaviourPunCallbacks
         }
 
         isSceneLoaded = true;
-
+        Debug.Log("3");
         Hashtable props = new Hashtable() { { "IsLoaded", true } };
+        Debug.Log($"1");
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        Debug.Log($"2");
+        yield return new WaitForSeconds(3f);
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("IsLoaded", out object isLoaded);
+
+        Debug.Log($"hello : {(bool)isLoaded}");
+
     }
 
     private IEnumerator CheckAllPlayersLoadedCoroutine()
