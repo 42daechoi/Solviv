@@ -2,7 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPun
 {
     public static PlayerController LocalPlayerInstance { get; private set; }
     private IState IdleState { get; set; }
@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("IdleState가 초기화되지 않았습니다!");
         }
+        
     }
     
     private void OnEnable()
@@ -235,6 +236,8 @@ public class PlayerController : MonoBehaviour
     #endregion
     public void UpdateAnimator()
     {
+        if (!_photonView.IsMine) return;
+        
         if (_playerAnimator != null)
         {
             _playerAnimator.SetMoveAnim(_playerMovement.InputDirection.x, _playerMovement.InputDirection.z, _playerMovement.Offset);
